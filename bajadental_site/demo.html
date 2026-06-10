@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>Demo en Vivo — Baja Dental AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -398,7 +399,7 @@
                 }
                 setUI('connecting');
                 await navigator.mediaDevices.getUserMedia({ audio: true });
-                await vapiInstance.start(VAPI_ASSISTANT_ID);
+                await vapiInstance.start(VAPI_ASSISTANT_ID, { metadata: { source: 'walkin_demo' } });
             } catch (err) {
                 console.error('[Mic/Setup]', err);
                 setUI('idle');

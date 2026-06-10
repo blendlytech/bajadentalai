@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>Baja Dental AI — Recepcionista de Voz para Clínicas Premium</title>
     <meta name="description" content="Recepcionista de voz con IA para clínicas dentales de alto volumen. Recepción de pacientes bilingüe 24/7, latencia menor a 800ms, entrega instantánea de leads al CRM.">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -170,15 +171,6 @@
                     </span>
                     <span id="hero-btn-label">Habla con la Recepcionista</span>
                 </button>
-
-                <!-- SECONDARY: walk-in staging demo route -->
-                <a href="demo.html"
-                   class="hero-text text-[#FAFAFA] opacity-50 hover:opacity-100 text-xs font-bold uppercase tracking-widest transition-opacity flex items-center gap-2 border-b border-transparent hover:border-[#00B0FF] pb-1">
-                    <span data-i18n="hero_demo_link">Demo para recepción en clínica</span>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="square" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
             </div>
 
             <p id="hero-status" class="hero-text mt-6 text-[#FAFAFA] opacity-40 text-[11px] uppercase tracking-[0.25em]">
@@ -418,13 +410,6 @@
                    class="bg-[#00B0FF] text-[#0F0F0F] font-black text-sm uppercase tracking-widest px-10 py-5 hover:bg-[#FAFAFA] transition-colors">
                     Empieza — Piloto de $500
                 </a>
-                <a href="demo.html"
-                   class="text-[#FAFAFA] opacity-40 hover:opacity-100 text-xs font-bold uppercase tracking-widest transition-opacity flex items-center gap-2 border-b border-transparent hover:border-[#00B0FF] pb-1">
-                    <span data-i18n="pilot_demo_link">O prueba primero el demo</span>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="square" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
@@ -434,9 +419,14 @@
         <span class="text-[#FAFAFA] opacity-15 text-[10px] uppercase tracking-widest">
             Baja Dental AI · bajadentalai.com
         </span>
-        <span data-i18n="footer_compliance" class="text-[#FAFAFA] opacity-15 text-[10px] uppercase tracking-widest">
-            Conforme a la LFPDPPP · Mexicali, B.C.
-        </span>
+        <div class="flex items-center gap-3">
+            <span data-i18n="footer_compliance" class="text-[#FAFAFA] opacity-15 text-[10px] uppercase tracking-widest">
+                Conforme a la LFPDPPP · Mexicali, B.C.
+            </span>
+            <!-- Staff-only walk-in demo (discreet — customers won't notice this) -->
+            <a href="demo.html" aria-label="Staff demo" title="Walk-in demo (staff only)" translate="no"
+               class="text-[#FAFAFA] opacity-10 hover:opacity-70 text-[10px] leading-none transition-opacity">◆</a>
+        </div>
     </footer>
 
     <!-- ============================================================= -->
@@ -670,7 +660,7 @@
                 }
                 setState('connecting');
                 await navigator.mediaDevices.getUserMedia({ audio: true });
-                await vapiInstance.start(VAPI_ASSISTANT_ID);
+                await vapiInstance.start(VAPI_ASSISTANT_ID, { metadata: { source: 'homepage_hero' } });
             } catch (err) {
                 console.error('[Mic/Setup]', err);
                 setState('idle');

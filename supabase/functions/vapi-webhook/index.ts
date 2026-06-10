@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
     const payload = await req.json();
     const msg = payload?.message;
 
-    // Only process call.analysis.completed events
+    // Only process end-of-call-report events
     if (msg?.type !== "end-of-call-report") {
       return new Response(JSON.stringify({ skipped: true, type: msg?.type }), {
         status: 200,
@@ -30,6 +30,16 @@ Deno.serve(async (req) => {
     const artifact   = msg?.artifact ?? {};
     const call       = msg?.call ?? {};
 
+    // Entry point that originated the call, set via the Vapi Web SDK call metadata
+    // ( vapi.start(id, { metadata: { source: "..." } }) ). Check the likely
+    // locations so it works regardless of where Vapi nests it in the payload.
+    const source =
+      call.metadata?.source ??
+      call.assistantOverrides?.metadata?.source ??
+      msg?.metadata?.source ??
+      structured.source ??
+      null;
+
     const lead = {
       call_id:            call.id ?? null,
       patient_name:       structured.patient_name ?? null,
@@ -39,6 +49,7 @@ Deno.serve(async (req) => {
       summary:            structured.call_summary ?? null,
       transcript:         artifact.transcript ?? null,
       recording_url:      artifact.recordingUrl ?? null,
+      source:             source,
       status:             "new",
     };
 
@@ -51,7 +62,7 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify({ ok: true }), {
+    return new Response(JSON.stringify({ ok: true, source }), {
       status: 200,
       headers: { ...CORS, "Content-Type": "application/json" },
     });
