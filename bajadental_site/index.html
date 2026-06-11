@@ -71,7 +71,7 @@
         /* ---- Hero logo showcase (full, unobstructed) ---- */
         .logo-stage {
             position: relative;
-            width: min(84vw, 68vh, 600px);
+            width: min(94vw, 88vh);   /* as large as fits fully in the viewport */
             aspect-ratio: 1 / 1;
             overflow: hidden;          /* keep the light streak on the logo */
             isolation: isolate;        /* blend the streak with the logo, not the page */
@@ -167,7 +167,7 @@
     <!-- ============================================================= -->
     <!-- 1. HERO — full logo showcase (parallax + cinematic sweep)     -->
     <!-- ============================================================= -->
-    <section class="relative overflow-hidden bg-[#0F0F0F] min-h-screen flex flex-col items-center justify-center">
+    <section class="relative overflow-hidden bg-[#0F0F0F] min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center">
 
         <!-- ambient radial glow behind the orb -->
         <div class="hero-orb-glow absolute inset-0 pointer-events-none"
