@@ -41,6 +41,32 @@ const toBool = (v: unknown): boolean => v === true || v === "true";
 const toNum = (v: unknown): number | null =>
   typeof v === "number" && Number.isFinite(v) ? v : null;
 
+// ---------------------------------------------------------------------------
+// Outbound staff alerts via Telnyx SMS, fired natively from this function (no
+// n8n). Configure as Supabase Edge Function secrets:
+//   TELNYX_API_KEY, TELNYX_PHONE_NUMBER (the "from"), CLINIC_ALERT_PHONE (the
+//   staff "to"), and optionally TELNYX_MESSAGING_PROFILE_ID.
+// If they are not set the alert is skipped (and logged) — never fatal.
+// ---------------------------------------------------------------------------
+async function sendTelnyxSms(to: string, text: string): Promise<void> {
+  const apiKey = Deno.env.get("TELNYX_API_KEY");
+  const from = Deno.env.get("TELNYX_PHONE_NUMBER");
+  if (!apiKey || !from) {
+    console.warn("Telnyx SMS skipped: TELNYX_API_KEY / TELNYX_PHONE_NUMBER not set");
+    return;
+  }
+  const body: Record<string, unknown> = { from, to, text };
+  const profileId = Deno.env.get("TELNYX_MESSAGING_PROFILE_ID");
+  if (profileId) body.messaging_profile_id = profileId;
+
+  const res = await fetch("https://api.telnyx.com/v2/messages", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`Telnyx ${res.status}: ${await res.text()}`);
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: CORS });
@@ -146,6 +172,27 @@ Deno.serve(async (req) => {
       if (entErr) errors.push(`enterprise_leads: ${entErr.message}`);
     } else {
       errors.push("enterprise_leads: missing call_id, skipped");
+    }
+
+    // --- 3) Outbound staff alert via Telnyx SMS (fired from this function) ---
+    // Emergency (acute symptoms) takes priority and routes to CARE, never sales.
+    // Otherwise a border-anxiety lead gets a factual "address their concern"
+    // nudge. SMS failure is recorded but never breaks the 200 response.
+    const alertTo = Deno.env.get("CLINIC_ALERT_PHONE");
+    const anxious = toBool(structured.border_crossing_anxiety);
+    if (alertTo && (emergency || anxious)) {
+      const name = structured.patient_name ?? "Unknown caller";
+      const proc = structured.procedure_interest ?? "an unknown procedure";
+      const text = emergency
+        ? `MEDICAL PRIORITY: ${name} (${phone ?? "no number"}) reported acute symptoms on the AI call. Have a clinician call back for care now — this is NOT a sales follow-up.`
+        : `Hot lead: ${name} wants ${proc} (${structured.financial_status ?? "budget unknown"}, ${structured.urgency_timeline ?? "timeline unknown"}). They're anxious about the border — call ${phone ?? "them"} and walk them through the VIP shuttle and clinic safety.`;
+      try {
+        await sendTelnyxSms(alertTo, text);
+      } catch (smsErr) {
+        errors.push(`telnyx_sms: ${smsErr instanceof Error ? smsErr.message : String(smsErr)}`);
+      }
+    } else if (emergency || anxious) {
+      console.warn("Alert condition met but CLINIC_ALERT_PHONE not set — Telnyx SMS skipped");
     }
 
     if (errors.length) console.error("vapi-webhook partial failure:", errors.join(" | "));
