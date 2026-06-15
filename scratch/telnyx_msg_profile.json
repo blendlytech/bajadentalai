@@ -1,0 +1,5 @@
+{
+  "name": "Meta SMS Catch",
+  "webhook_url": "https://webhook.site/a2b0b59b-3cb2-4155-a501-8ca7cbd89678",
+  "whitelisted_destinations": ["US", "MX"]
+}
