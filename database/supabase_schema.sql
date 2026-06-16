@@ -1,23 +1,26 @@
 -- Supabase Schema for Baja Dental AI CRM
 
--- Create the leads table to store structured data from Vapi calls
-CREATE TABLE public.leads (
+-- Base leads table (receives standard inbound calls)
+CREATE TABLE IF NOT EXISTS public.leads (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-    patient_name TEXT NOT NULL,
-    phone_number TEXT NOT NULL,
-    procedure_interest TEXT CHECK (procedure_interest IN ('implants', 'veneers', 'whitening', 'other', 'unknown')),
-    language_spoken TEXT CHECK (language_spoken IN ('es', 'en', 'bilingual', 'unknown')),
-    call_summary TEXT,
-    vapi_call_id TEXT UNIQUE
+    call_id TEXT UNIQUE NOT NULL,
+    clinic_id UUID REFERENCES public.clinics(id) ON DELETE CASCADE,
+    patient_name TEXT,
+    phone_number TEXT,
+    procedure_interest TEXT CHECK (procedure_interest IN ('veneers', 'implants', 'whitening', 'all_on_4', 'crowns', 'other')),
+    language_spoken TEXT CHECK (language_spoken IN ('english', 'spanish', 'bilingual')),
+    summary TEXT,
+    transcript TEXT,
+    recording_url TEXT,
+    source TEXT,
+    status TEXT DEFAULT 'new'
 );
 
--- Enable Row Level Security (optional, for front-end access)
+-- Enable Row Level Security
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 
--- Create policy for authenticated users (assuming clinic staff logs in)
-CREATE POLICY "Allow authenticated access" ON public.leads
+-- Policy for tenant isolation (relies on clinic_staff mapping)
+CREATE POLICY "Staff access own clinic leads" ON public.leads
     FOR ALL
-    TO authenticated
-    USING (true)
-    WITH CHECK (true);
+    USING (clinic_id IN (SELECT clinic_id FROM public.clinic_staff WHERE user_id = auth.uid()));

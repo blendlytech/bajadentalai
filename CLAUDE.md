@@ -2,7 +2,7 @@
 
 ## Overview
 
-You are operating as an autonomous AI software engineer. Your task is to build BajaDentalAI, a localized WhatsApp booking agent for dental clinics in Mexicali, Mexico. You must read and adhere to fable5_bajadentalai_prd.md for the overarching architectural roadmap.
+You are operating as an autonomous AI software engineer. Your task is to build Baja Dental AI, a localized AI booking agent for dental clinics in Mexicali, Mexico. You must adhere to the multi-tenant architecture and strictly follow the guardrails.
 
 ## Current Architecture (AUTHORITATIVE — read before proposing changes)
 
