@@ -71,8 +71,7 @@ function setLanguage(lang) {
 /* ==========================================================================
    Pricing Toggles Logic
    ========================================================================== */
-const EXCHANGE_RATE = 17.25; // 1 USD = 17.25 MXN
-const ANNUAL_DISCOUNT = 0.8; // 20% discount
+const ANNUAL_DISCOUNT = 0.8; // 20% discount on monthly when billed annually
 let currentPromoMultiplier = 1.0; // 1.0 means no discount
 
 function initPricingToggles() {
@@ -101,31 +100,32 @@ function initPricingToggles() {
 }
 
 function updatePrices(billing, currency) {
-  document.querySelectorAll('[data-base-price]').forEach(el => {
-    const basePriceMxn = parseFloat(el.dataset.basePrice);
+  document.querySelectorAll('[data-price-mxn]').forEach(el => {
     const isOneTime = el.hasAttribute('data-one-time');
-    
-    let price = basePriceMxn;
+    const noPromo = el.hasAttribute('data-no-promo'); // e.g. standalone AI plan — never discounted
+
+    // Each price carries its own clean MXN and USD value — we never convert one
+    // currency into the other, so both stay round numbers (e.g. $900 MXN ↔ $49 USD).
+    let price = currency === 'usd'
+      ? parseFloat(el.dataset.priceUsd)
+      : parseFloat(el.dataset.priceMxn);
 
     // Apply Annual Discount only to recurring prices
     if (billing === 'annual' && !isOneTime) {
       price = price * ANNUAL_DISCOUNT;
-      // If displaying annual total, you might multiply by 12 here
-      // price = price * 12;
     }
 
-    // Apply Promo Code Discount
-    price = price * currentPromoMultiplier;
-
-    // Apply Currency Conversion
-    if (currency === 'usd') {
-      price = price / EXCHANGE_RATE;
+    // Apply Promo Code Discount (skipped for plans flagged data-no-promo)
+    if (!noPromo) {
+      price = price * currentPromoMultiplier;
     }
 
-    // Formatting
+    // Formatting — narrowSymbol renders both MXN and USD as "$"; the suffix
+    // label (MXN / USD) disambiguates which currency it is.
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currency.toUpperCase(),
+      currencyDisplay: 'narrowSymbol',
       maximumFractionDigits: 0
     });
 
@@ -167,12 +167,13 @@ function initPromoCode() {
       msg.style.color = '#ef4444';
     }
 
+    // Pages may have only a currency toggle (e.g. AI plans) and no billing toggle,
+    // so fall back to sensible defaults instead of skipping the price refresh.
     const activeBillingEl = document.querySelector('[data-toggle-type="billing"].active');
     const activeCurrencyEl = document.querySelector('[data-toggle-type="currency"].active');
-    
-    if (activeBillingEl && activeCurrencyEl) {
-      updatePrices(activeBillingEl.dataset.toggleVal, activeCurrencyEl.dataset.toggleVal);
-    }
+    const billing = activeBillingEl ? activeBillingEl.dataset.toggleVal : 'monthly';
+    const currency = activeCurrencyEl ? activeCurrencyEl.dataset.toggleVal : 'mxn';
+    updatePrices(billing, currency);
   }
 
   btn.addEventListener('click', applyPromoCode);

@@ -12,6 +12,12 @@
 
 
 
+  <!-- Founder Offer Banner -->
+  <div class="promo-banner">
+    <a href="contacto.html" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras de Mexicali: 80% de descuento. Pide tu código →</a>
+    <button class="close-banner" aria-label="Cerrar">&times;</button>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar">
     <div class="container nav-container">
@@ -107,11 +113,11 @@
   <!-- Pricing Tiers (AI Specific) -->
   <section class="section" id="ai-pricing">
     <div class="container fade-in-up">
-      <h2 data-i18n="ai_pricing_title" class="text-center mb-8">Planes de Recepcionista IA</h2>
-      <p data-i18n="ai_pricing_sub" class="text-center mb-8" style="max-width: 600px; margin: 0 auto 40px;">Todos los planes incluyen una prueba piloto sin riesgo. Los precios están en USD.</p>
+      <h2 data-i18n="ai_standalone_title" class="text-center mb-8">Recepcionista IA — plan independiente</h2>
+      <p data-i18n="ai_standalone_sub" class="text-center" style="max-width: 620px; margin: 0 auto 32px; color: var(--text-muted);">Solo la recepcionista de voz IA. Sin sitio web, SEO ni redes — ideal si ya tienes presencia digital.</p>
 
       <!-- Currency Toggle -->
-      <div class="pricing-toggle-container fade-in-up" style="animation-delay: 0.1s; margin-bottom: 40px;">
+      <div class="pricing-toggle-container fade-in-up" style="margin-bottom: 40px;">
         <div style="display: flex; justify-content: center;">
           <div class="toggle-group">
             <button class="toggle-btn active" data-toggle-type="currency" data-toggle-val="mxn">MXN</button>
@@ -120,57 +126,30 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-3">
-        <!-- Essential -->
-        <div class="glass-panel" style="display: flex; flex-direction: column;">
-          <h3 data-i18n="ai_tier1_title">Essential</h3>
-          <div style="margin: 24px 0; display: flex; align-items: baseline; gap: 8px;">
-            <span style="font-weight: 800; font-size: 3rem; color: var(--text-primary);" data-base-price="4295.25">$4,295</span>
-            <span class="currency-suffix" style="color: var(--text-muted);">MXN /mes</span>
-          </div>
-          <ul style="list-style: none; margin: 0 0 32px; padding: 0; display: flex; flex-direction: column; gap: 12px; flex-grow: 1;">
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_mins">800 Minutos de Voz IA</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_bilingual">IA Bilingüe 24/7</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_sms">Alerta SMS instantánea al cerrador</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-hairline);">
-              <span class="text-cyan">+</span><span data-i18n="ai_f1_promo" style="font-size: 14px; font-weight: 600;">Promo: Protección de Asistencia y SMS de Recuperación gratis de por vida.</span>
-            </li>
-          </ul>
-          <a href="https://calendly.com/baja-dental-ai/pilot" class="btn btn-outline" style="width: 100%; text-align: center;" data-i18n="btn_choose_plan">Elige tu Plan</a>
+      <!-- Standalone AI Plan Card -->
+      <div class="glass-panel relative" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; border-color: var(--primary-cyan); box-shadow: 0 0 20px rgba(43,212,232,0.15);">
+        <h3 data-i18n="ai_plan_name" style="color: var(--primary-cyan); text-align: center;">Recepcionista IA</h3>
+        <div style="margin: 24px 0; display: flex; align-items: baseline; gap: 8px; justify-content: center;">
+          <span style="font-weight: 800; font-size: 3rem; color: var(--text-primary);" data-price-mxn="6500" data-price-usd="349" data-no-promo>$6,500</span>
+          <span class="currency-suffix" style="color: var(--text-muted);">MXN /mes</span>
         </div>
-
-        <!-- Accelerator -->
-        <div class="glass-panel relative" style="display: flex; flex-direction: column; border-color: var(--primary-cyan); box-shadow: 0 0 20px rgba(43,212,232,0.15); transform: translateY(-8px);">
-          <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary-cyan); color: var(--bg-deep); padding: 4px 16px; border-radius: 20px; font-weight: 800; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">⭐ <span data-i18n="badge_popular">Más popular</span></div>
-          <h3 data-i18n="ai_tier2_title" style="color: var(--primary-cyan);">Accelerator</h3>
-          <div style="margin: 24px 0; display: flex; align-items: baseline; gap: 8px;">
-            <span style="font-weight: 800; font-size: 3rem; color: var(--primary-cyan);" data-base-price="6020.25">$6,020</span>
-            <span class="currency-suffix" style="color: var(--text-muted);">MXN /mes</span>
-          </div>
-          <ul style="list-style: none; margin: 0 0 32px; padding: 0; display: flex; flex-direction: column; gap: 12px; flex-grow: 1;">
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f2_mins">1,200 Minutos de Voz IA</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f2_protect">Protección de Asistencia (SMS 24h y 1h antes)</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f2_recovery">Campañas de Recuperación</span></li>
-          </ul>
-          <a href="https://calendly.com/baja-dental-ai/pilot" class="btn btn-primary" style="width: 100%; text-align: center;" data-i18n="btn_choose_plan">Elige tu Plan</a>
-        </div>
-
-        <!-- Enterprise -->
-        <div class="glass-panel" style="display: flex; flex-direction: column;">
-          <h3 data-i18n="ai_tier3_title">Enterprise</h3>
-          <div style="margin: 24px 0; display: flex; align-items: baseline; gap: 8px;">
-            <span style="font-weight: 800; font-size: 3rem; color: var(--text-primary);" data-base-price="8607.75">$8,608</span>
-            <span class="currency-suffix" style="color: var(--text-muted);">MXN /mes</span>
-          </div>
-          <ul style="list-style: none; margin: 0 0 32px; padding: 0; display: flex; flex-direction: column; gap: 12px; flex-grow: 1;">
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f3_mins">2,000 Minutos de Voz IA</span></li>
-            <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f3_sync">Sincronización nativa CRM/EHR (GoHighLevel, OpenDental, etc.)</span></li>
-          </ul>
-          <a href="https://calendly.com/baja-dental-ai/pilot" class="btn btn-outline" style="width: 100%; text-align: center;" data-i18n="btn_choose_plan">Elige tu Plan</a>
-        </div>
+        <ul style="list-style: none; margin: 0 0 32px; padding: 0; display: flex; flex-direction: column; gap: 12px; flex-grow: 1;">
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_mins">800 Minutos de Voz IA</span></li>
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_bilingual">IA Bilingüe 24/7</span></li>
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f1_sms">Alerta SMS instantánea al cerrador</span></li>
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f2_protect">Protección de Asistencia (SMS 24h y 1h antes)</span></li>
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">✓</span><span data-i18n="ai_f2_recovery">Campañas de Recuperación</span></li>
+          <li style="display: flex; gap: 12px; align-items: flex-start;"><span class="text-cyan">+</span><span data-i18n="ai_overage" style="font-size: 13px; color: var(--text-muted);">Luego $0.22 USD por minuto adicional</span></li>
+        </ul>
+        <a href="https://calendly.com/baja-dental-ai/pilot" class="btn btn-primary" style="width: 100%; text-align: center;" data-i18n="btn_start_pilot">Iniciar Piloto</a>
       </div>
+
+      <!-- Cross-link to bundle -->
+      <p class="text-center" style="margin-top: 32px; color: var(--text-muted); font-size: 14px;">
+        <span data-i18n="ai_also_bundled">¿También quieres sitio web? La IA viene incluida en el paquete Clínica Inteligente.</span>
+        <a href="paquetes.html" data-i18n="ai_incl_cta">Ver paquetes</a>
+      </p>
       
-      <p data-i18n="ai_pricing_footer" style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 14px;">Haz un piloto en vivo en tu línea real de entrada. Si no se paga solo con las consultas recuperadas, te retiras. Sin hardware, sin contratos, sin riesgo. En vivo en 48 horas.</p>
     </div>
   </section>
 
@@ -184,7 +163,7 @@
     // I18N Extension
     window.I18N = window.I18N || {};
     window.I18N.es = Object.assign(window.I18N.es || {}, {
-      promo_banner: 'Promo de Junio: Ahorra $199 USD (Setup Gratis) en todos los planes.',
+      promo_banner: 'Clínicas fundadoras de Mexicali: 80% de descuento en tu paquete. Pide tu código →',
       ai_eyebrow: 'Recepción con IA de Voz · Clínicas Fronterizas de Mexicali',
       ai_h1: 'Cada llamada perdida es un implante de <span style="color: var(--primary-cyan);">$6,000</span> que se va.',
       ai_sub: 'Contestamos cada lead entrante en menos de un segundo, en español e inglés, calificamos al paciente, registramos el lead en tu CRM y avisamos a tu equipo al instante. Cero ingresos perdidos. Cero carga para recepción.',
@@ -205,7 +184,19 @@
       omni_crm_title: 'Integración nativa con tu CRM',
       omni_crm_desc: 'Exporta a GoHighLevel, HubSpot o Pipedrive. Sin modificar tus procesos actuales.',
       ai_pricing_title: 'Planes de Recepcionista IA',
-      ai_pricing_sub: 'Todos los planes incluyen una prueba piloto sin riesgo. Los precios están en USD.',
+      ai_incl_title: 'La Recepcionista de Voz IA viene incluida en el paquete Clínica Inteligente.',
+      ai_incl_sub: 'Sin planes separados ni configuración extra: 800 minutos de IA al mes, IA bilingüe 24/7, alertas SMS al cerrador, protección de asistencia y campañas de recuperación. Luego $0.22 USD por minuto adicional.',
+      ai_incl_cta: 'Ver paquetes',
+      ai_standalone_title: 'Recepcionista IA — plan independiente',
+      ai_standalone_sub: 'Solo la recepcionista de voz IA. Sin sitio web, SEO ni redes — ideal si ya tienes presencia digital.',
+      ai_plan_name: 'Recepcionista IA',
+      ai_overage: 'Luego $0.22 USD por minuto adicional',
+      ai_also_bundled: '¿También quieres sitio web? La IA viene incluida en el paquete Clínica Inteligente.',
+      ai_pricing_sub: 'Todos los planes incluyen una prueba piloto sin riesgo. Cambia entre pesos (MXN) y dólares (USD).',
+      promo_box_title: '¿Tienes un código de fundador? Ingrésalo para ver tu precio con 80% de descuento.',
+      btn_apply_promo: 'Aplicar',
+      promo_applied: '¡Descuento del 80% aplicado en todos los planes!',
+      promo_invalid: 'Código no válido.',
       ai_tier1_title: 'Essential',
       ai_f1_mins: '800 Minutos de Voz IA',
       ai_f1_bilingual: 'IA Bilingüe 24/7',
@@ -229,7 +220,7 @@
     });
     
     window.I18N.en = Object.assign(window.I18N.en || {}, {
-      promo_banner: 'June Promo: Save $199 USD (Free Setup) on all plans.',
+      promo_banner: 'Mexicali founding clinics: 80% off your package. Request your code →',
       ai_eyebrow: 'AI Voice Reception · Mexicali Border Clinics',
       ai_h1: 'Every missed call is a <span style="color: var(--primary-cyan);">$6,000</span> implant walking out the door.',
       ai_sub: 'We answer every incoming lead in under a second, in fluent English and Spanish, qualify the patient, log the lead in your CRM, and notify your team instantly. Zero lost revenue. Zero front-desk burden.',
@@ -250,7 +241,19 @@
       omni_crm_title: 'Native CRM Integration',
       omni_crm_desc: 'Export to GoHighLevel, HubSpot, or Pipedrive. Without changing your current workflows.',
       ai_pricing_title: 'AI Receptionist Plans',
-      ai_pricing_sub: 'All plans include a risk-free pilot. Prices are in USD.',
+      ai_incl_title: 'The AI Voice Receptionist is included in the Clínica Inteligente package.',
+      ai_incl_sub: 'No separate plans or extra setup: 800 AI minutes per month, 24/7 bilingual AI, SMS alerts to the closer, attendance protection, and recovery campaigns. Then $0.22 USD per additional minute.',
+      ai_incl_cta: 'See packages',
+      ai_standalone_title: 'AI Receptionist — standalone plan',
+      ai_standalone_sub: 'Just the AI voice receptionist. No website, SEO, or social — ideal if you already have an online presence.',
+      ai_plan_name: 'AI Receptionist',
+      ai_overage: 'Then $0.22 USD per additional minute',
+      ai_also_bundled: 'Want a website too? The AI is included in the Clínica Inteligente package.',
+      ai_pricing_sub: 'All plans include a risk-free pilot. Toggle between Pesos (MXN) and Dollars (USD).',
+      promo_box_title: 'Have a founder code? Enter it to see your price with 80% off.',
+      btn_apply_promo: 'Apply',
+      promo_applied: '80% discount applied to all plans!',
+      promo_invalid: 'Invalid code.',
       ai_tier1_title: 'Essential',
       ai_f1_mins: '800 AI Voice Minutes',
       ai_f1_bilingual: '24/7 Bilingual AI',
