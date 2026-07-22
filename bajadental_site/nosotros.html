@@ -14,7 +14,7 @@
 
   <!-- Founder Offer Banner -->
   <div class="promo-banner">
-    <a href="contacto.html" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras de Mexicali: 80% de descuento. Pide tu código →</a>
+    <a href="index.html#pricing" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →</a>
     <button class="close-banner" aria-label="Cerrar">&times;</button>
   </div>
 
@@ -25,21 +25,21 @@
         <img src="images/bajadentalai_favicon.png" alt="Baja Dental AI Logo">
         <span class="logo-text">Baja Dental AI</span>
       </a>
-      
+
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
 
       <div class="nav-links">
-        <a href="index.html#solution" class="nav-link" data-i18n="nav_solution">Solución</a>
-        <a href="recepcionista-ia.html" class="nav-link" data-i18n="nav_ai">Recepcionista IA</a>
-        <a href="paquetes.html" class="nav-link" data-i18n="nav_pricing">Paquetes</a>
+        <a href="index.html#included" class="nav-link" data-i18n="nav_included">Qué incluye</a>
+        <a href="demo.html" class="nav-link" data-i18n="nav_demo_link">Demo en vivo</a>
+        <a href="index.html#pricing" class="nav-link" data-i18n="nav_pricing">Precio</a>
         <a href="nosotros.html" class="nav-link" data-i18n="nav_about" style="color: var(--primary-cyan);">Nosotros</a>
-        
+
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang="es">ES</button>
           <button class="lang-btn" data-lang="en">EN</button>
         </div>
 
-        <a href="contacto.html" class="btn btn-primary" data-i18n="nav_demo">Agenda una demo</a>
+        <a href="index.html#pricing" class="btn btn-primary" data-i18n="nav_cta">Ver el plan</a>
       </div>
     </div>
   </nav>
@@ -88,16 +88,46 @@
   </main>
 
   <footer class="section section-deep" style="border-top: 1px solid var(--border-hairline); padding-bottom: 40px;">
-    <!-- Same footer structure... -->
-    <div class="container" style="text-align: center; font-size: 12px; color: var(--text-muted);">
-      &copy; 2026 Baja Dental AI. Todos los derechos reservados.
+    <div class="container grid grid-cols-4">
+      <div>
+        <a href="index.html" class="logo mb-4">
+          <span class="logo-text">Baja Dental AI</span>
+        </a>
+        <p style="font-size: 14px;" data-i18n="ft_tagline">Llevamos la odontología de Mexicali al futuro digital.</p>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_product">Producto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="index.html#included" data-i18n="nav_included">Qué incluye</a>
+          <a href="index.html#pricing" data-i18n="nav_pricing">Precio</a>
+          <a href="demo.html" data-i18n="nav_demo_link">Demo en vivo</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_legal">Legal</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="aviso-de-privacidad.html" data-i18n="ft_privacy">Aviso de Privacidad</a>
+          <a href="terminos.html" data-i18n="ft_terms">Términos y Condiciones</a>
+          <a href="reembolsos.html" data-i18n="ft_refunds">Reembolsos</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_contact">Contacto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="mailto:hola@bajadentalai.com">hola@bajadentalai.com</a>
+          <a href="https://wa.me/524425772524" target="_blank">+52 442 577 2524</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-hairline); padding-top: 24px;">
+      &copy; 2026 Baja Dental AI. <span data-i18n="ft_rights">Todos los derechos reservados.</span>
     </div>
   </footer>
 
   <script>
     window.I18N = window.I18N || {};
     window.I18N.es = Object.assign(window.I18N.es || {}, {
-      promo_banner: 'Clínicas fundadoras de Mexicali: 80% de descuento en tu paquete. Pide tu código →',
+      promo_banner: 'Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →',
       about_title: 'Llevamos la odontología de Mexicali al futuro digital.',
       about_sub: 'Baja Dental AI nació con una misión simple: darle a las clínicas fronterizas las herramientas tecnológicas de nivel empresarial que necesitan para competir, sin el costo o la complejidad de las agencias tradicionales.',
       why_local_title: '¿Por qué Local?',
@@ -107,14 +137,22 @@
       why_ai_title: '¿Por qué Inteligencia Artificial?',
       why_ai_desc: 'Porque el volumen de mensajes y llamadas en clínicas exitosas ahoga a cualquier recepcionista humano. La IA no se cansa, no pone en espera y nunca se equivoca al agendar. Te devolvemos el tiempo para que te enfoques en tus pacientes.',
       founder_bio: '"He visto demasiadas clínicas increíbles en Mexicali perder pacientes simplemente porque su recepcionista estaba atendiendo a alguien más o porque su página de Facebook no inspiraba confianza. Estamos aquí para cambiar eso."',
-      nav_solution: 'Solución',
-      nav_ai: 'Recepcionista IA',
-      nav_pricing: 'Paquetes',
+      nav_included: 'Qué incluye',
+      nav_demo_link: 'Demo en vivo',
+      nav_pricing: 'Precio',
       nav_about: 'Nosotros',
-      nav_demo: 'Agenda una demo'
+      nav_cta: 'Ver el plan',
+      ft_tagline: 'Llevamos la odontología de Mexicali al futuro digital.',
+      ft_product: 'Producto',
+      ft_legal: 'Legal',
+      ft_contact: 'Contacto',
+      ft_privacy: 'Aviso de Privacidad',
+      ft_terms: 'Términos y Condiciones',
+      ft_refunds: 'Reembolsos',
+      ft_rights: 'Todos los derechos reservados.'
     });
     window.I18N.en = Object.assign(window.I18N.en || {}, {
-      promo_banner: 'Mexicali founding clinics: 80% off your package. Request your code →',
+      promo_banner: 'Founding clinics: setup FREE (worth $499 USD). Request your code →',
       about_title: 'Bringing Mexicali dentistry to the digital future.',
       about_sub: 'Baja Dental AI was born with a simple mission: to give border clinics the enterprise-grade technological tools they need to compete, without the cost or complexity of traditional agencies.',
       why_local_title: 'Why Local?',
@@ -124,11 +162,19 @@
       why_ai_title: 'Why Artificial Intelligence?',
       why_ai_desc: 'Because the volume of messages and calls in successful clinics overwhelms any human receptionist. AI doesn\'t get tired, doesn\'t put people on hold, and never makes scheduling mistakes. We give you back time to focus on your patients.',
       founder_bio: '"I\'ve seen too many incredible clinics in Mexicali lose patients simply because their receptionist was busy with someone else or because their Facebook page didn\'t inspire trust. We are here to change that."',
-      nav_solution: 'Solution',
-      nav_ai: 'AI Receptionist',
+      nav_included: "What's included",
+      nav_demo_link: 'Live demo',
       nav_pricing: 'Pricing',
       nav_about: 'About',
-      nav_demo: 'Book a demo'
+      nav_cta: 'See the plan',
+      ft_tagline: 'Bringing Mexicali dentistry into the digital future.',
+      ft_product: 'Product',
+      ft_legal: 'Legal',
+      ft_contact: 'Contact',
+      ft_privacy: 'Privacy Policy',
+      ft_terms: 'Terms & Conditions',
+      ft_refunds: 'Refunds',
+      ft_rights: 'All rights reserved.'
     });
   </script>
 </body>

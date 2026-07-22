@@ -21,17 +21,17 @@
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
 
       <div class="nav-links">
-        <a href="index.html#solution" class="nav-link" data-i18n="nav_solution">Solución</a>
-        <a href="recepcionista-ia.html" class="nav-link" data-i18n="nav_ai">Recepcionista IA</a>
-        <a href="paquetes.html" class="nav-link" data-i18n="nav_pricing">Paquetes</a>
+        <a href="index.html#included" class="nav-link" data-i18n="nav_included">Qué incluye</a>
+        <a href="demo.html" class="nav-link" data-i18n="nav_demo_link">Demo en vivo</a>
+        <a href="index.html#pricing" class="nav-link" data-i18n="nav_pricing">Precio</a>
         <a href="nosotros.html" class="nav-link" data-i18n="nav_about">Nosotros</a>
-        
+
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang="es">ES</button>
           <button class="lang-btn" data-lang="en">EN</button>
         </div>
 
-        <a href="contacto.html" class="btn btn-primary" data-i18n="nav_demo">Agenda una demo</a>
+        <a href="index.html#pricing" class="btn btn-primary" data-i18n="nav_cta">Ver el plan</a>
       </div>
     </div>
   </nav>
@@ -44,7 +44,7 @@
         <div style="color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
           <p><strong>Fecha de última actualización: Junio 2026</strong></p>
           
-          <p>En cumplimiento con lo establecido por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), <strong>Baja Dental AI</strong> con domicilio en Mexicali, Baja California, es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección.</p>
+          <p>En cumplimiento con lo establecido por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), <strong>Baja Dental AI</strong> — nombre comercial bajo el cual opera <strong>Ronald Clay Mills</strong>, persona física con actividad empresarial (negocio individual / DBA) — con domicilio en Mexicali, Baja California, es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección.</p>
           
           <h3 style="margin-top: 24px; font-size: 18px; color: var(--primary-cyan);">I. Datos personales que recabamos</h3>
           <p>Para llevar a cabo las finalidades descritas en el presente aviso de privacidad, utilizaremos los siguientes datos personales:</p>
@@ -75,29 +75,75 @@
   </main>
 
   <footer class="section section-deep" style="border-top: 1px solid var(--border-hairline); padding-bottom: 40px;">
-    <!-- Same footer structure... -->
-    <div class="container" style="text-align: center; font-size: 12px; color: var(--text-muted);">
-      &copy; 2026 Baja Dental AI. Todos los derechos reservados.
+    <div class="container grid grid-cols-4">
+      <div>
+        <a href="index.html" class="logo mb-4">
+          <span class="logo-text">Baja Dental AI</span>
+        </a>
+        <p style="font-size: 14px;" data-i18n="ft_tagline">Llevamos la odontología de Mexicali al futuro digital.</p>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_product">Producto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="index.html#included" data-i18n="nav_included">Qué incluye</a>
+          <a href="index.html#pricing" data-i18n="nav_pricing">Precio</a>
+          <a href="demo.html" data-i18n="nav_demo_link">Demo en vivo</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_legal">Legal</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="aviso-de-privacidad.html" data-i18n="ft_privacy">Aviso de Privacidad</a>
+          <a href="terminos.html" data-i18n="ft_terms">Términos y Condiciones</a>
+          <a href="reembolsos.html" data-i18n="ft_refunds">Reembolsos</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_contact">Contacto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="mailto:hola@bajadentalai.com">hola@bajadentalai.com</a>
+          <a href="https://wa.me/524425772524" target="_blank">+52 442 577 2524</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-hairline); padding-top: 24px;">
+      &copy; 2026 Baja Dental AI. <span data-i18n="ft_rights">Todos los derechos reservados.</span>
     </div>
   </footer>
 
   <script>
     window.I18N = window.I18N || {};
     window.I18N.es = Object.assign(window.I18N.es || {}, {
-      nav_solution: 'Solución',
-      nav_ai: 'Recepcionista IA',
-      nav_pricing: 'Paquetes',
+      nav_included: 'Qué incluye',
+      nav_demo_link: 'Demo en vivo',
+      nav_pricing: 'Precio',
       nav_about: 'Nosotros',
-      nav_demo: 'Agenda una demo',
-      privacy_title: 'Aviso de Privacidad'
+      nav_cta: 'Ver el plan',
+      privacy_title: 'Aviso de Privacidad',
+      ft_tagline: 'Llevamos la odontología de Mexicali al futuro digital.',
+      ft_product: 'Producto',
+      ft_legal: 'Legal',
+      ft_contact: 'Contacto',
+      ft_privacy: 'Aviso de Privacidad',
+      ft_terms: 'Términos y Condiciones',
+      ft_refunds: 'Reembolsos',
+      ft_rights: 'Todos los derechos reservados.'
     });
     window.I18N.en = Object.assign(window.I18N.en || {}, {
-      nav_solution: 'Solution',
-      nav_ai: 'AI Receptionist',
+      nav_included: "What's included",
+      nav_demo_link: 'Live demo',
       nav_pricing: 'Pricing',
       nav_about: 'About',
-      nav_demo: 'Book a demo',
-      privacy_title: 'Privacy Policy'
+      nav_cta: 'See the plan',
+      privacy_title: 'Privacy Policy',
+      ft_tagline: 'Bringing Mexicali dentistry into the digital future.',
+      ft_product: 'Product',
+      ft_legal: 'Legal',
+      ft_contact: 'Contact',
+      ft_privacy: 'Privacy Policy',
+      ft_terms: 'Terms & Conditions',
+      ft_refunds: 'Refunds',
+      ft_rights: 'All rights reserved.'
     });
   </script>
 </body>

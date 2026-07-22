@@ -511,3 +511,142 @@ img {
 .mt-8 { margin-top: 2rem; }
 .relative { position: relative; }
 .z-10 { z-index: 10; }
+.hidden { display: none !important; }
+.struck { text-decoration: line-through; color: var(--text-muted); font-weight: 500; }
+
+/* Section eyebrow label */
+.eyebrow {
+  color: var(--primary-cyan);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* Hero price chip */
+.hero-price-chip {
+  display: inline-block;
+  background: rgba(43, 212, 232, 0.08);
+  border: 1px solid rgba(43, 212, 232, 0.3);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  margin: 0 auto 28px;
+}
+
+/* Numbered pillars / steps */
+.pillar-num {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--primary-cyan);
+  opacity: 0.25;
+  margin-bottom: 8px;
+}
+.step-num {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 2px solid var(--primary-cyan);
+  color: var(--primary-cyan);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Single Plan Card */
+.plan-card {
+  max-width: 960px;
+  margin: 0 auto;
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 30px rgba(43, 212, 232, 0.12);
+  padding: 40px;
+}
+.plan-card:hover { transform: none; }
+
+.plan-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-cyan);
+  color: var(--bg-deep);
+  padding: 5px 18px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.plan-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+@media (min-width: 860px) {
+  .plan-card-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+  .plan-features-col {
+    border-left: 1px solid var(--border-hairline);
+    padding-left: 48px;
+  }
+}
+
+.plan-annual-note {
+  font-size: 14px;
+  color: var(--primary-cyan);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.plan-setup {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.plan-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.plan-features li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
+}
+.plan-features .plan-feature-note {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-hairline);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* FAQ */
+.faq-item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-item h4 {
+  color: var(--text-primary);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.faq-item p {
+  color: var(--text-muted);
+  margin: 0;
+}

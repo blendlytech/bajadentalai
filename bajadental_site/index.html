@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baja Dental AI — Saca tu consultorio de Facebook</title>
-  <meta name="description" content="Diseño web premium y recepcionista con inteligencia artificial bilingüe para consultorios dentales en Mexicali.">
+  <title>Baja Dental AI — Sitio web + recepcionista con IA, un solo plan</title>
+  <meta name="description" content="Un solo plan para tu consultorio dental en Mexicali: sitio web profesional, recepcionista con IA bilingüe 24/7, recordatorios por WhatsApp y recuperación de citas perdidas.">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
 </head>
 <body>
 
-
-
   <!-- Founder Offer Banner -->
   <div class="promo-banner">
-    <a href="contacto.html" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras de Mexicali: 80% de descuento. Pide tu código →</a>
+    <a href="#pricing" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →</a>
     <button class="close-banner" aria-label="Cerrar">&times;</button>
   </div>
 
@@ -23,129 +22,297 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="index.html" class="logo">
-        <!-- Using the original image from the previous site directory -->
         <img src="images/bajadentalai_favicon.png" alt="Baja Dental AI Logo">
         <span class="logo-text">Baja Dental AI</span>
       </a>
-      
+
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
 
       <div class="nav-links">
-        <a href="index.html#solution" class="nav-link" data-i18n="nav_solution">Solución</a>
-        <a href="recepcionista-ia.html" class="nav-link" data-i18n="nav_ai">Recepcionista IA</a>
-        <a href="paquetes.html" class="nav-link" data-i18n="nav_pricing">Paquetes</a>
+        <a href="#included" class="nav-link" data-i18n="nav_included">Qué incluye</a>
+        <a href="#demo" class="nav-link" data-i18n="nav_demo_link">Demo en vivo</a>
+        <a href="#pricing" class="nav-link" data-i18n="nav_pricing">Precio</a>
         <a href="nosotros.html" class="nav-link" data-i18n="nav_about">Nosotros</a>
-        
+
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang="es">ES</button>
           <button class="lang-btn" data-lang="en">EN</button>
         </div>
 
-        <a href="contacto.html" class="btn btn-primary" data-i18n="nav_demo">Agenda una demo</a>
+        <a href="#pricing" class="btn btn-primary" data-i18n="nav_cta">Ver el plan</a>
       </div>
     </div>
   </nav>
 
-  <!-- 5.1 Hero -->
-  <header class="section section-deep relative" style="min-height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: calc(var(--nav-height) + 40px); overflow: hidden;">
+  <!-- Hero -->
+  <header class="section section-deep relative" style="min-height: 88vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: calc(var(--nav-height) + 40px); overflow: hidden;">
     <div class="accent-glow animate-glow" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px;"></div>
-    
-    <!-- Parallax logo stage -->
+
     <div id="hero-parallax" class="will-change-transform" style="position: absolute; inset: 0;">
-        <div class="logo-stage hero-float">
-            <div class="logo-img"></div>
-            <div class="logo-shine" aria-hidden="true"></div>
-        </div>
-    </div>
-    
-    <div class="container relative z-10 fade-in-up">
-      <h1 data-i18n="hero_h1" style="max-width: 900px; margin: 0 auto 24px;">Saca tu consultorio de Facebook y ponlo a trabajar 24/7.</h1>
-      <p data-i18n="hero_sub" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 40px; color: var(--text-secondary);">Sitio web profesional + recepcionista con IA que agenda pacientes mientras duermes. Hecho para dentistas de Mexicali.</p>
-      
-      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-        <a href="paquetes.html" class="btn btn-primary" data-i18n="hero_cta2">Ver paquetes</a>
+      <div class="logo-stage hero-float">
+        <div class="logo-img"></div>
+        <div class="logo-shine" aria-hidden="true"></div>
       </div>
+    </div>
+
+    <div class="container relative z-10 fade-in-up">
+      <p class="eyebrow" data-i18n="hero_eyebrow">Para consultorios dentales de Mexicali</p>
+      <h1 data-i18n="hero_h1" style="max-width: 940px; margin: 0 auto 24px;">Todo lo que tu consultorio necesita para llenar la agenda. Un solo precio.</h1>
+      <p data-i18n="hero_sub" style="font-size: 1.25rem; max-width: 660px; margin: 0 auto 20px; color: var(--text-secondary);">Sitio web profesional + recepcionista con IA bilingüe 24/7 + recordatorios por WhatsApp + recuperación de citas perdidas. Todo incluido, todo en un plan.</p>
+
+      <p class="hero-price-chip" data-i18n="hero_price_chip">Desde $499 USD/mes · instalación gratis para clínicas fundadoras</p>
+
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 8px;">
+        <button id="vapi-demo-trigger" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;">
+          <svg style="width: 20px; height: 20px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V21h2v-2.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          <span id="vapi-btn-label" data-i18n="btn_talk_ai">Habla con la recepcionista IA</span>
+        </button>
+        <a href="#pricing" class="btn btn-outline" data-i18n="hero_cta2">Ver el plan</a>
+      </div>
+      <p style="margin-top: 16px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;" data-i18n="hero_demo_note">En vivo en tu navegador · Permite el micrófono para empezar</p>
     </div>
   </header>
 
-  <!-- 5.2 Trust Bar -->
+  <!-- Trust Bar -->
   <div style="border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline); background: var(--bg-base); padding: 16px 0;">
     <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; text-transform: uppercase; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-muted); text-align: center; gap: 16px;">
       <span data-i18n="trust_1">Hecho para Mexicali</span>
       <span style="color: var(--primary-cyan);">·</span>
       <span data-i18n="trust_2">Bilingüe Español/Inglés</span>
       <span style="color: var(--primary-cyan);">·</span>
-      <span data-i18n="trust_3">Listo para pacientes de EE.UU.</span>
+      <span data-i18n="trust_3">En vivo en 7 días</span>
       <span style="color: var(--primary-cyan);">·</span>
-      <span data-i18n="trust_4">Sin dominio propio requerido</span>
+      <span data-i18n="trust_4">Sin contratos ocultos</span>
     </div>
   </div>
 
-  <!-- 5.3 Problem / Agitation -->
+  <!-- Problem -->
   <section class="section">
     <div class="container">
-      <h2 class="text-center mb-8 fade-in-up" data-i18n="problem_h2" style="max-width: 700px; margin-left: auto; margin-right: auto;">¿Tu consultorio vive en una página de Facebook?</h2>
-      
+      <h2 class="text-center mb-8 fade-in-up" data-i18n="problem_h2" style="max-width: 720px; margin-left: auto; margin-right: auto;">Cada llamada sin contestar es un paciente que se va con la competencia.</h2>
+
       <div class="grid grid-cols-2 mt-8 fade-in-up" style="animation-delay: 0.2s;">
         <div class="glass-panel" style="display: flex; align-items: flex-start; gap: 16px;">
           <div style="color: var(--primary-cyan); font-size: 24px;">✕</div>
-          <p data-i18n="pain_1" style="margin: 0;">Los pacientes te buscan en Google y no te encuentran.</p>
+          <p data-i18n="pain_1" style="margin: 0;">Los pacientes te buscan en Google y solo encuentran una página de Facebook.</p>
         </div>
         <div class="glass-panel" style="display: flex; align-items: flex-start; gap: 16px;">
           <div style="color: var(--primary-cyan); font-size: 24px;">✕</div>
-          <p data-i18n="pain_2" style="margin: 0;">Los mensajes se quedan sin responder y pierdes citas.</p>
+          <p data-i18n="pain_2" style="margin: 0;">El teléfono suena mientras atiendes a un paciente, y nadie contesta.</p>
         </div>
         <div class="glass-panel" style="display: flex; align-items: flex-start; gap: 16px;">
           <div style="color: var(--primary-cyan); font-size: 24px;">✕</div>
-          <p data-i18n="pain_3" style="margin: 0;">Una página social no proyecta el profesionalismo de tu trabajo.</p>
+          <p data-i18n="pain_3" style="margin: 0;">Los pacientes olvidan su cita y se pierde el espacio del día.</p>
         </div>
         <div class="glass-panel" style="display: flex; align-items: flex-start; gap: 16px;">
           <div style="color: var(--primary-cyan); font-size: 24px;">✕</div>
-          <p data-i18n="pain_4" style="margin: 0;">Tu competencia ya tiene sitio propio.</p>
+          <p data-i18n="pain_4" style="margin: 0;">Los que no llegaron nunca reciben seguimiento y no regresan.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5.4 Solution / How it works -->
-  <section id="solution" class="section section-deep relative">
+  <!-- What's Included -->
+  <section id="included" class="section section-deep relative">
     <div class="accent-glow" style="top: 0; right: 0;"></div>
-    <div class="container relative z-10 fade-in-up">
-      <h2 class="text-center mb-8" data-i18n="solution_h2">Tu presencia digital, lista en días — no en meses.</h2>
-      
-      <div class="grid grid-cols-3 mt-8">
-        <div class="glass-panel text-center">
-          <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 800; color: var(--primary-cyan); opacity: 0.2; position: absolute; top: 16px; right: 24px;">01</div>
-          <h3 data-i18n="step1_title" style="margin-top: 24px;">Construimos tu sitio</h3>
-          <p data-i18n="step1_desc">Diseño premium, responsivo, listo para pacientes.</p>
+    <div class="container relative z-10">
+      <div class="text-center mb-8 fade-in-up">
+        <p class="eyebrow" data-i18n="included_eyebrow">Todo en un solo plan</p>
+        <h2 data-i18n="included_h2">Cuatro herramientas. Una sola cuota.</h2>
+        <p data-i18n="included_sub" style="max-width: 620px; margin: 0 auto; color: var(--text-muted);">Sin paquetes confusos ni complementos. Esto es exactamente lo que recibe tu consultorio.</p>
+      </div>
+
+      <div class="grid grid-cols-4 mt-8 fade-in-up">
+        <div class="glass-panel">
+          <div class="pillar-num">01</div>
+          <h3 data-i18n="inc1_title">Sitio web profesional</h3>
+          <p data-i18n="inc1_desc" style="font-size: 15px;">Diseño premium responsivo, dominio, hosting, SSL y tu perfil de Google Business. Listo para que los pacientes te encuentren y agenden.</p>
         </div>
-        <div class="glass-panel text-center">
-          <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 800; color: var(--primary-cyan); opacity: 0.2; position: absolute; top: 16px; right: 24px;">02</div>
-          <h3 data-i18n="step2_title" style="margin-top: 24px;">Activamos tu recepcionista</h3>
-          <p data-i18n="step2_desc">Responde, agenda y filtra 24/7, en español e inglés.</p>
+        <div class="glass-panel">
+          <div class="pillar-num">02</div>
+          <h3 data-i18n="inc2_title">Recepcionista con IA 24/7</h3>
+          <p data-i18n="inc2_desc" style="font-size: 15px;">Contesta cada llamada en español e inglés, califica al paciente, agenda y avisa a tu equipo por SMS al instante. Nunca en espera.</p>
         </div>
-        <div class="glass-panel text-center">
-          <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 800; color: var(--primary-cyan); opacity: 0.2; position: absolute; top: 16px; right: 24px;">03</div>
-          <h3 data-i18n="step3_title" style="margin-top: 24px;">Atraemos pacientes</h3>
-          <p data-i18n="step3_desc">SEO local, WhatsApp y redes que llenan tu agenda.</p>
+        <div class="glass-panel">
+          <div class="pillar-num">03</div>
+          <h3 data-i18n="inc3_title">Recordatorios por WhatsApp</h3>
+          <p data-i18n="inc3_desc" style="font-size: 15px;">Aviso automático 24 horas y 1 hora antes de cada cita. Menos ausencias, agenda más llena, sin trabajo para recepción.</p>
+        </div>
+        <div class="glass-panel">
+          <div class="pillar-num">04</div>
+          <h3 data-i18n="inc4_title">Recuperación de citas perdidas</h3>
+          <p data-i18n="inc4_desc" style="font-size: 15px;">Campañas automáticas de seguimiento que reactivan al paciente que no llegó o no agendó, y lo traen de vuelta a tu silla.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5.6 AI Receptionist Spotlight -->
-  <section class="section relative" style="border-top: 1px solid var(--primary-cyan); background: linear-gradient(180deg, rgba(43,212,232,0.05) 0%, var(--bg-base) 100%);">
-    <div class="container fade-in-up text-center">
-      <h2 data-i18n="ai_spotlight_h2" class="text-cyan mb-4">Nunca pierdas otra llamada.</h2>
-      <p data-i18n="ai_spotlight_desc" style="max-width: 800px; margin: 0 auto 32px; font-size: 1.125rem;">Tu recepcionista con IA contesta 24/7 en español e inglés, agenda citas, responde preguntas frecuentes y captura pacientes de EE.UU. fuera de horario — para que tú te dediques a la odontología.</p>
-      
+  <!-- How it works -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-8 fade-in-up" data-i18n="how_h2">Listo para trabajar en 7 días.</h2>
+      <div class="grid grid-cols-3 mt-8 fade-in-up">
+        <div class="glass-panel text-center">
+          <div class="step-num">1</div>
+          <h3 data-i18n="step1_title" style="margin-top: 24px;">Nos cuentas de tu clínica</h3>
+          <p data-i18n="step1_desc">Una llamada corta. Recopilamos tus servicios, horarios y estilo.</p>
+        </div>
+        <div class="glass-panel text-center">
+          <div class="step-num">2</div>
+          <h3 data-i18n="step2_title" style="margin-top: 24px;">Construimos y configuramos todo</h3>
+          <p data-i18n="step2_desc">Tu sitio, tu recepcionista IA y los recordatorios, listos y probados.</p>
+        </div>
+        <div class="glass-panel text-center">
+          <div class="step-num">3</div>
+          <h3 data-i18n="step3_title" style="margin-top: 24px;">Empiezas a recibir pacientes</h3>
+          <p data-i18n="step3_desc">Conectamos tu número y tu agenda empieza a llenarse sola.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <a href="recepcionista-ia.html" class="btn btn-primary" data-i18n="ai_spotlight_cta">Conoce la Recepcionista IA</a>
+  <!-- Live Demo -->
+  <section id="demo" class="section section-deep relative" style="border-top: 1px solid var(--primary-cyan); background: linear-gradient(180deg, rgba(43,212,232,0.05) 0%, var(--bg-deep) 100%);">
+    <div class="container fade-in-up text-center">
+      <p class="eyebrow" data-i18n="demo_eyebrow">Pruébala tú mismo</p>
+      <h2 data-i18n="demo_h2" class="text-cyan mb-4">Escucha a tu futura recepcionista.</h2>
+      <p data-i18n="demo_desc" style="max-width: 720px; margin: 0 auto 32px; font-size: 1.125rem;">Habla con la recepcionista IA justo aquí, en tu navegador. Pregúntale por implantes, horarios o cómo llegar desde la frontera — en español o inglés.</p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <button id="vapi-demo-trigger-2" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;">
+          <svg style="width: 20px; height: 20px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V21h2v-2.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          <span id="vapi-btn-label-2" data-i18n="btn_talk_ai">Habla con la recepcionista IA</span>
+        </button>
+        <a href="demo.html" class="btn btn-outline" data-i18n="demo_fullscreen">Abrir demo en pantalla completa</a>
+      </div>
+      <p style="margin-top: 16px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;" data-i18n="hero_demo_note">En vivo en tu navegador · Permite el micrófono para empezar</p>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <div class="text-center mb-8 fade-in-up">
+        <p class="eyebrow" data-i18n="pricing_eyebrow">Un precio, sin sorpresas</p>
+        <h2 data-i18n="pricing_h2">El plan Consultorio Completo.</h2>
+        <p data-i18n="pricing_sub" style="max-width: 560px; margin: 0 auto; color: var(--text-muted);">Sitio web, recepcionista IA, recordatorios y recuperación de citas. Todo incluido en una sola mensualidad.</p>
+      </div>
+
+      <!-- Toggles -->
+      <div class="pricing-toggle-container fade-in-up" style="animation-delay: 0.1s;">
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+          <div class="toggle-group">
+            <button class="toggle-btn active" data-toggle-type="billing" data-toggle-val="monthly" data-i18n="toggle_monthly">Mensual</button>
+            <button class="toggle-btn" data-toggle-type="billing" data-toggle-val="annual" style="display: flex; gap: 8px; align-items: center;">
+              <span data-i18n="toggle_annual">Anual</span>
+              <span class="discount-badge" data-i18n="toggle_discount">2 meses gratis</span>
+            </button>
+          </div>
+          <div class="toggle-group">
+            <button class="toggle-btn" data-toggle-type="currency" data-toggle-val="mxn">MXN</button>
+            <button class="toggle-btn active" data-toggle-type="currency" data-toggle-val="usd">USD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Single Plan Card -->
+      <div class="glass-panel plan-card relative fade-in-up" style="animation-delay: 0.2s;">
+        <div class="plan-badge" data-i18n="plan_badge">⭐ Todo incluido</div>
+        <div class="plan-card-grid">
+          <!-- Left: price + setup + CTA -->
+          <div class="plan-price-col">
+            <h3 data-i18n="plan_name" style="color: var(--primary-cyan);">Consultorio Completo</h3>
+
+            <div style="margin: 20px 0 8px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+              <span id="plan-amount" style="font-weight: 800; font-size: 3.25rem; color: var(--text-primary);">$499</span>
+              <span id="plan-period" style="color: var(--text-muted); font-weight: 600;">USD /mes</span>
+            </div>
+            <p id="plan-annual-note" class="plan-annual-note" style="display: none;"></p>
+
+            <div class="plan-setup">
+              <p style="font-size: 14px; color: var(--text-muted); margin: 0 0 4px;" data-i18n="setup_label">Instalación (pago único):</p>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="setup-original" style="font-weight: 700; font-size: 1.15rem; color: var(--text-primary);">$499 USD</span>
+                <span id="setup-free" class="hidden" style="font-weight: 800; color: var(--primary-cyan);" data-i18n="setup_free">GRATIS</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 0;" data-i18n="setup_note">Gratis para clínicas fundadoras con código. Sin permanencia forzosa.</p>
+            </div>
+
+            <!-- Promo box -->
+            <div class="promo-box" style="margin-top: 20px; max-width: 340px;">
+              <p data-i18n="promo_box_title" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">¿Eres clínica fundadora? Ingresa tu código para dejar la instalación en cero.</p>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="promo-code-input" placeholder="Código de fundador" style="flex: 1; padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-hairline); background: rgba(255,255,255,0.05); color: var(--text-primary); outline: none;">
+                <button id="promo-code-btn" class="btn btn-outline" style="padding: 12px 20px;" data-i18n="btn_apply_promo">Aplicar</button>
+              </div>
+              <p id="promo-message" style="margin-top: 8px; font-size: 14px; min-height: 20px;"></p>
+            </div>
+
+            <a href="contacto.html" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 20px;" data-i18n="plan_cta">Empezar ahora</a>
+            <p style="text-align: center; font-size: 12px; color: var(--text-muted); margin: 12px 0 0;" data-i18n="plan_cta_note">Agenda una llamada de 15 min. Sin compromiso.</p>
+          </div>
+
+          <!-- Right: features -->
+          <div class="plan-features-col">
+            <p style="font-weight: 700; color: var(--text-primary); margin-bottom: 16px;" data-i18n="plan_incl_title">Tu plan incluye:</p>
+            <ul class="plan-features">
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_web">Sitio web profesional (dominio, hosting, SSL)</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_gmb">Perfil de Google Business optimizado</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_ai">Recepcionista IA bilingüe 24/7 · 800 min/mes</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_sms">Alerta SMS instantánea de cada lead a tu equipo</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_wa">Recordatorios por WhatsApp (24h y 1h antes)</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_winback">Recuperación de citas perdidas (win-backs)</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_reports">Reportes mensuales de desempeño</span></li>
+              <li><span class="text-cyan">✓</span><span data-i18n="pf_support">Soporte prioritario por WhatsApp</span></li>
+              <li class="plan-feature-note"><span class="text-cyan">+</span><span data-i18n="pf_overage">Luego $0.22 USD por minuto adicional de IA</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-deep" style="border-top: 1px solid var(--border-hairline);">
+    <div class="container fade-in-up" style="max-width: 780px;">
+      <h2 class="text-center mb-8" data-i18n="faq_h2">Preguntas frecuentes</h2>
+
+      <div class="faq-item">
+        <h4 data-i18n="faq1_q">¿Necesito tener dominio o página propia?</h4>
+        <p data-i18n="faq1_a">No. Nosotros creamos tu sitio, registramos el dominio y configuramos el hosting. Si ya tienes uno, lo integramos.</p>
+      </div>
+      <div class="faq-item">
+        <h4 data-i18n="faq2_q">¿Hay contrato o permanencia?</h4>
+        <p data-i18n="faq2_a">El plan mensual es sin permanencia: puedes cancelar cuando quieras. El plan anual se paga por adelantado y te da 2 meses gratis.</p>
+      </div>
+      <div class="faq-item">
+        <h4 data-i18n="faq3_q">¿Cómo se elimina la cuota de instalación?</h4>
+        <p data-i18n="faq3_a">Las clínicas fundadoras reciben un código que deja la instalación de $8,900 MXN en cero. Pídelo por WhatsApp o en el formulario de contacto.</p>
+      </div>
+      <div class="faq-item">
+        <h4 data-i18n="faq4_q">¿Qué pasa si supero los 800 minutos de IA?</h4>
+        <p data-i18n="faq4_a">Nada se corta. Los minutos adicionales se cobran a $0.22 USD por minuto, y te avisamos antes de que eso ocurra.</p>
+      </div>
+      <div class="faq-item">
+        <h4 data-i18n="faq5_q">¿La IA da diagnósticos o consejos médicos?</h4>
+        <p data-i18n="faq5_a">Nunca. La recepcionista solo agenda, informa de logística y califica pacientes. Cualquier tema clínico o de urgencia se transfiere de inmediato a tu equipo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section">
+    <div class="container text-center fade-in-up" style="max-width: 720px;">
+      <h2 data-i18n="final_h2">Empieza con la instalación gratis.</h2>
+      <p data-i18n="final_sub" style="font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 32px;">Un plan simple que pone a trabajar tu consultorio 24/7. Agenda una llamada corta y te mostramos todo funcionando con tu clínica.</p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="contacto.html" class="btn btn-primary" data-i18n="final_cta1">Reclamar mi instalación gratis</a>
+        <a href="#demo" class="btn btn-outline" data-i18n="final_cta2">Probar la demo</a>
+      </div>
     </div>
   </section>
 
   <!-- Floating WhatsApp -->
-  <a href="https://wa.me/521234567890" class="floating-wa" aria-label="WhatsApp" target="_blank">
+  <a href="https://wa.me/524425772524" class="floating-wa" aria-label="WhatsApp" target="_blank">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
   </a>
 
@@ -156,28 +323,31 @@
         <a href="index.html" class="logo mb-4">
           <span class="logo-text">Baja Dental AI</span>
         </a>
-        <p style="font-size: 14px;">Llevamos la odontología de Mexicali al futuro digital.</p>
+        <p style="font-size: 14px;" data-i18n="ft_tagline">Llevamos la odontología de Mexicali al futuro digital.</p>
       </div>
       <div>
-        <h4 style="color: var(--text-primary); font-size: 14px;">Producto</h4>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_product">Producto</h4>
         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
-          <a href="paquetes.html" data-i18n="ft_web">Sitios Web</a>
-          <a href="recepcionista-ia.html" data-i18n="ft_ai">Recepcionista IA</a>
+          <a href="#included" data-i18n="nav_included">Qué incluye</a>
+          <a href="#pricing" data-i18n="nav_pricing">Precio</a>
+          <a href="demo.html" data-i18n="nav_demo_link">Demo en vivo</a>
         </div>
       </div>
       <div>
-        <h4 style="color: var(--text-primary); font-size: 14px;">Empresa</h4>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_company">Empresa</h4>
         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
           <a href="nosotros.html" data-i18n="ft_about">Nosotros</a>
           <a href="contacto.html" data-i18n="ft_contact">Contacto</a>
           <a href="aviso-de-privacidad.html" data-i18n="ft_privacy">Aviso de Privacidad</a>
+          <a href="terminos.html" data-i18n="ft_terms">Términos y Condiciones</a>
+          <a href="reembolsos.html" data-i18n="ft_refunds">Reembolsos</a>
         </div>
       </div>
       <div>
-        <h4 style="color: var(--text-primary); font-size: 14px;">Contacto</h4>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_contact">Contacto</h4>
         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
           <a href="mailto:hola@bajadentalai.com">hola@bajadentalai.com</a>
-          <span>+52 (686) 123 4567</span>
+          <a href="https://wa.me/524425772524" target="_blank">+52 442 577 2524</a>
         </div>
       </div>
     </div>
@@ -185,83 +355,270 @@
       &copy; 2026 Baja Dental AI. Todos los derechos reservados.
     </div>
   </footer>
-  
+
   <script>
-    // I18N Dictionary for index.html
+    // I18N Dictionary — index.html (single-offer page)
     const I18N = {
       es: {
-        promo_banner: 'Clínicas fundadoras de Mexicali: 80% de descuento en tu paquete. Pide tu código →',
-        nav_solution: 'Solución',
-        nav_ai: 'Recepcionista IA',
-        nav_pricing: 'Paquetes',
+        promo_banner: 'Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →',
+        nav_included: 'Qué incluye',
+        nav_demo_link: 'Demo en vivo',
+        nav_pricing: 'Precio',
         nav_about: 'Nosotros',
-        nav_demo: 'Agenda una demo',
-        hero_h1: 'Saca tu consultorio de Facebook y ponlo a trabajar 24/7.',
-        hero_sub: 'Sitio web profesional + recepcionista con IA que agenda pacientes mientras duermes. Hecho para dentistas de Mexicali.',
-        hero_cta1: 'Reclama tu código de fundador',
-        hero_cta2: 'Ver paquetes',
+        nav_cta: 'Ver el plan',
+        hero_eyebrow: 'Para consultorios dentales de Mexicali',
+        hero_h1: 'Todo lo que tu consultorio necesita para llenar la agenda. Un solo precio.',
+        hero_sub: 'Sitio web profesional + recepcionista con IA bilingüe 24/7 + recordatorios por WhatsApp + recuperación de citas perdidas. Todo incluido, todo en un plan.',
+        hero_price_chip: 'Desde $499 USD/mes · instalación gratis para clínicas fundadoras',
+        btn_talk_ai: 'Habla con la recepcionista IA',
+        hero_cta2: 'Ver el plan',
+        hero_demo_note: 'En vivo en tu navegador · Permite el micrófono para empezar',
         trust_1: 'Hecho para Mexicali',
         trust_2: 'Bilingüe Español/Inglés',
-        trust_3: 'Listo para pacientes de EE.UU.',
-        trust_4: 'Sin dominio propio requerido',
-        problem_h2: '¿Tu consultorio vive en una página de Facebook?',
-        pain_1: 'Los pacientes te buscan en Google y no te encuentran.',
-        pain_2: 'Los mensajes se quedan sin responder y pierdes citas.',
-        pain_3: 'Una página social no proyecta el profesionalismo de tu trabajo.',
-        pain_4: 'Tu competencia ya tiene sitio propio.',
-        solution_h2: 'Tu presencia digital, lista en días — no en meses.',
-        step1_title: 'Construimos tu sitio',
-        step1_desc: 'Diseño premium, responsivo, listo para pacientes.',
-        step2_title: 'Activamos tu recepcionista',
-        step2_desc: 'Responde, agenda y filtra 24/7, en español e inglés.',
-        step3_title: 'Atraemos pacientes',
-        step3_desc: 'SEO local, WhatsApp y redes que llenan tu agenda.',
-        ai_spotlight_h2: 'Nunca pierdas otra llamada.',
-        ai_spotlight_desc: 'Tu recepcionista con IA contesta 24/7 en español e inglés, agenda citas, responde preguntas frecuentes y captura pacientes de EE.UU. fuera de horario — para que tú te dediques a la odontología.',
-        ai_spotlight_cta: 'Conoce la Recepcionista IA',
-        ft_web: 'Sitios Web',
-        ft_ai: 'Recepcionista IA',
+        trust_3: 'En vivo en 7 días',
+        trust_4: 'Sin contratos ocultos',
+        problem_h2: 'Cada llamada sin contestar es un paciente que se va con la competencia.',
+        pain_1: 'Los pacientes te buscan en Google y solo encuentran una página de Facebook.',
+        pain_2: 'El teléfono suena mientras atiendes a un paciente, y nadie contesta.',
+        pain_3: 'Los pacientes olvidan su cita y se pierde el espacio del día.',
+        pain_4: 'Los que no llegaron nunca reciben seguimiento y no regresan.',
+        included_eyebrow: 'Todo en un solo plan',
+        included_h2: 'Cuatro herramientas. Una sola cuota.',
+        included_sub: 'Sin paquetes confusos ni complementos. Esto es exactamente lo que recibe tu consultorio.',
+        inc1_title: 'Sitio web profesional',
+        inc1_desc: 'Diseño premium responsivo, dominio, hosting, SSL y tu perfil de Google Business. Listo para que los pacientes te encuentren y agenden.',
+        inc2_title: 'Recepcionista con IA 24/7',
+        inc2_desc: 'Contesta cada llamada en español e inglés, califica al paciente, agenda y avisa a tu equipo por SMS al instante. Nunca en espera.',
+        inc3_title: 'Recordatorios por WhatsApp',
+        inc3_desc: 'Aviso automático 24 horas y 1 hora antes de cada cita. Menos ausencias, agenda más llena, sin trabajo para recepción.',
+        inc4_title: 'Recuperación de citas perdidas',
+        inc4_desc: 'Campañas automáticas de seguimiento que reactivan al paciente que no llegó o no agendó, y lo traen de vuelta a tu silla.',
+        how_h2: 'Listo para trabajar en 7 días.',
+        step1_title: 'Nos cuentas de tu clínica',
+        step1_desc: 'Una llamada corta. Recopilamos tus servicios, horarios y estilo.',
+        step2_title: 'Construimos y configuramos todo',
+        step2_desc: 'Tu sitio, tu recepcionista IA y los recordatorios, listos y probados.',
+        step3_title: 'Empiezas a recibir pacientes',
+        step3_desc: 'Conectamos tu número y tu agenda empieza a llenarse sola.',
+        demo_eyebrow: 'Pruébala tú mismo',
+        demo_h2: 'Escucha a tu futura recepcionista.',
+        demo_desc: 'Habla con la recepcionista IA justo aquí, en tu navegador. Pregúntale por implantes, horarios o cómo llegar desde la frontera — en español o inglés.',
+        demo_fullscreen: 'Abrir demo en pantalla completa',
+        pricing_eyebrow: 'Un precio, sin sorpresas',
+        pricing_h2: 'El plan Consultorio Completo.',
+        pricing_sub: 'Sitio web, recepcionista IA, recordatorios y recuperación de citas. Todo incluido en una sola mensualidad.',
+        toggle_monthly: 'Mensual',
+        toggle_annual: 'Anual',
+        toggle_discount: '2 meses gratis',
+        plan_badge: '⭐ Todo incluido',
+        plan_name: 'Consultorio Completo',
+        setup_label: 'Instalación (pago único):',
+        setup_free: 'GRATIS',
+        setup_note: 'Gratis para clínicas fundadoras con código. Sin permanencia forzosa.',
+        promo_box_title: '¿Eres clínica fundadora? Ingresa tu código para dejar la instalación en cero.',
+        btn_apply_promo: 'Aplicar',
+        plan_cta: 'Empezar ahora',
+        plan_cta_note: 'Agenda una llamada de 15 min. Sin compromiso.',
+        plan_incl_title: 'Tu plan incluye:',
+        pf_web: 'Sitio web profesional (dominio, hosting, SSL)',
+        pf_gmb: 'Perfil de Google Business optimizado',
+        pf_ai: 'Recepcionista IA bilingüe 24/7 · 800 min/mes',
+        pf_sms: 'Alerta SMS instantánea de cada lead a tu equipo',
+        pf_wa: 'Recordatorios por WhatsApp (24h y 1h antes)',
+        pf_winback: 'Recuperación de citas perdidas (win-backs)',
+        pf_reports: 'Reportes mensuales de desempeño',
+        pf_support: 'Soporte prioritario por WhatsApp',
+        pf_overage: 'Luego $0.22 USD por minuto adicional de IA',
+        faq_h2: 'Preguntas frecuentes',
+        faq1_q: '¿Necesito tener dominio o página propia?',
+        faq1_a: 'No. Nosotros creamos tu sitio, registramos el dominio y configuramos el hosting. Si ya tienes uno, lo integramos.',
+        faq2_q: '¿Hay contrato o permanencia?',
+        faq2_a: 'El plan mensual es sin permanencia: puedes cancelar cuando quieras. El plan anual se paga por adelantado y te da 2 meses gratis.',
+        faq3_q: '¿Cómo se elimina la cuota de instalación?',
+        faq3_a: 'Las clínicas fundadoras reciben un código que deja la instalación de $8,900 MXN en cero. Pídelo por WhatsApp o en el formulario de contacto.',
+        faq4_q: '¿Qué pasa si supero los 800 minutos de IA?',
+        faq4_a: 'Nada se corta. Los minutos adicionales se cobran a $0.22 USD por minuto, y te avisamos antes de que eso ocurra.',
+        faq5_q: '¿La IA da diagnósticos o consejos médicos?',
+        faq5_a: 'Nunca. La recepcionista solo agenda, informa de logística y califica pacientes. Cualquier tema clínico o de urgencia se transfiere de inmediato a tu equipo.',
+        final_h2: 'Empieza con la instalación gratis.',
+        final_sub: 'Un plan simple que pone a trabajar tu consultorio 24/7. Agenda una llamada corta y te mostramos todo funcionando con tu clínica.',
+        final_cta1: 'Reclamar mi instalación gratis',
+        final_cta2: 'Probar la demo',
+        ft_tagline: 'Llevamos la odontología de Mexicali al futuro digital.',
+        ft_product: 'Producto',
+        ft_company: 'Empresa',
         ft_about: 'Nosotros',
         ft_contact: 'Contacto',
-        ft_privacy: 'Aviso de Privacidad'
+        ft_privacy: 'Aviso de Privacidad',
+        ft_terms: 'Términos y Condiciones',
+        ft_refunds: 'Reembolsos',
+        // pricing engine dynamic strings
+        per_month: '/mes',
+        per_year: '/año',
+        annual_note: '2 meses gratis · equivale a {eff}/mes',
+        promo_applied: '¡Código válido! Instalación gratis aplicada.',
+        promo_invalid: 'Código no válido.'
       },
       en: {
-        promo_banner: 'Mexicali founding clinics: 80% off your package. Request your code →',
-        nav_solution: 'Solution',
-        nav_ai: 'AI Receptionist',
+        promo_banner: 'Founding clinics: setup FREE (worth $499 USD). Request your code →',
+        nav_included: "What's included",
+        nav_demo_link: 'Live demo',
         nav_pricing: 'Pricing',
         nav_about: 'About',
-        nav_demo: 'Book a demo',
-        hero_h1: 'Get your practice off Facebook and working 24/7.',
-        hero_sub: 'Professional website + AI receptionist that books patients while you sleep. Built for Mexicali dentists.',
-        hero_cta1: 'Claim your founder code',
-        hero_cta2: 'See packages',
+        nav_cta: 'See the plan',
+        hero_eyebrow: 'For dental practices in Mexicali',
+        hero_h1: 'Everything your practice needs to fill the schedule. One price.',
+        hero_sub: 'Professional website + 24/7 bilingual AI receptionist + WhatsApp reminders + missed-appointment win-backs. All included, all in one plan.',
+        hero_price_chip: 'From $499 USD/mo · free setup for founding clinics',
+        btn_talk_ai: 'Talk to the AI receptionist',
+        hero_cta2: 'See the plan',
+        hero_demo_note: 'Live in your browser · Allow the microphone to start',
         trust_1: 'Built for Mexicali',
-        trust_2: 'Bilingual ES/EN',
-        trust_3: 'Ready for US patients',
-        trust_4: 'No domain needed',
-        problem_h2: 'Is your practice living on a Facebook page?',
-        pain_1: 'Patients search Google and can\'t find you.',
-        pain_2: 'Messages go unanswered, you lose appointments.',
-        pain_3: 'A social page doesn\'t reflect how professional your work is.',
-        pain_4: 'Your competition already has a real website.',
-        solution_h2: 'Your digital presence, ready in days.',
-        step1_title: 'We build your site',
-        step1_desc: 'Premium design, responsive, patient-ready.',
-        step2_title: 'We turn on your AI receptionist',
-        step2_desc: 'Answers, books, and filters 24/7, in English and Spanish.',
-        step3_title: 'We bring patients',
-        step3_desc: 'Local SEO, WhatsApp, and social media management.',
-        ai_spotlight_h2: 'Never miss another call.',
-        ai_spotlight_desc: 'Your AI receptionist answers 24/7 in English and Spanish, books appointments, answers FAQs, and captures US patients after hours — so you can focus on dentistry.',
-        ai_spotlight_cta: 'Meet the AI Receptionist',
-        ft_web: 'Websites',
-        ft_ai: 'AI Receptionist',
+        trust_2: 'Bilingual Spanish/English',
+        trust_3: 'Live in 7 days',
+        trust_4: 'No hidden contracts',
+        problem_h2: 'Every unanswered call is a patient walking to your competitor.',
+        pain_1: 'Patients search Google and only find a Facebook page.',
+        pain_2: 'The phone rings while you treat a patient, and no one answers.',
+        pain_3: 'Patients forget their appointment and the slot is lost.',
+        pain_4: 'No-shows never get followed up, and they never come back.',
+        included_eyebrow: 'All in one plan',
+        included_h2: 'Four tools. One flat fee.',
+        included_sub: 'No confusing packages or add-ons. This is exactly what your practice gets.',
+        inc1_title: 'Professional website',
+        inc1_desc: 'Premium responsive design, domain, hosting, SSL, and your Google Business Profile. Ready for patients to find you and book.',
+        inc2_title: '24/7 AI receptionist',
+        inc2_desc: 'Answers every call in English and Spanish, qualifies the patient, books, and alerts your team by SMS instantly. Never on hold.',
+        inc3_title: 'WhatsApp reminders',
+        inc3_desc: 'Automatic reminders 24 hours and 1 hour before each appointment. Fewer no-shows, a fuller schedule, zero front-desk work.',
+        inc4_title: 'Missed-appointment win-backs',
+        inc4_desc: 'Automated follow-up campaigns that re-engage the patient who no-showed or never booked, and bring them back to your chair.',
+        how_h2: 'Ready to work in 7 days.',
+        step1_title: 'You tell us about your clinic',
+        step1_desc: 'A short call. We gather your services, hours, and style.',
+        step2_title: 'We build and configure everything',
+        step2_desc: 'Your site, AI receptionist, and reminders, set up and tested.',
+        step3_title: 'You start getting patients',
+        step3_desc: 'We connect your number and your schedule starts filling itself.',
+        demo_eyebrow: 'Try it yourself',
+        demo_h2: 'Hear your future receptionist.',
+        demo_desc: 'Talk to the AI receptionist right here, in your browser. Ask about implants, hours, or how to get here from the border — in English or Spanish.',
+        demo_fullscreen: 'Open full-screen demo',
+        pricing_eyebrow: 'One price, no surprises',
+        pricing_h2: 'The Complete Practice plan.',
+        pricing_sub: 'Website, AI receptionist, reminders, and win-backs. All included in a single monthly fee.',
+        toggle_monthly: 'Monthly',
+        toggle_annual: 'Annual',
+        toggle_discount: '2 months free',
+        plan_badge: '⭐ Everything included',
+        plan_name: 'Complete Practice',
+        setup_label: 'Setup (one-time):',
+        setup_free: 'FREE',
+        setup_note: 'Free for founding clinics with a code. No forced lock-in.',
+        promo_box_title: 'Are you a founding clinic? Enter your code to bring setup to zero.',
+        btn_apply_promo: 'Apply',
+        plan_cta: 'Get started',
+        plan_cta_note: 'Book a 15-min call. No commitment.',
+        plan_incl_title: 'Your plan includes:',
+        pf_web: 'Professional website (domain, hosting, SSL)',
+        pf_gmb: 'Optimized Google Business Profile',
+        pf_ai: '24/7 bilingual AI receptionist · 800 min/mo',
+        pf_sms: 'Instant SMS alert of every lead to your team',
+        pf_wa: 'WhatsApp reminders (24h & 1h prior)',
+        pf_winback: 'Missed-appointment win-backs',
+        pf_reports: 'Monthly performance reports',
+        pf_support: 'Priority support via WhatsApp',
+        pf_overage: 'Then $0.22 USD per additional AI minute',
+        faq_h2: 'Frequently asked questions',
+        faq1_q: 'Do I need my own domain or website?',
+        faq1_a: 'No. We build your site, register the domain, and set up hosting. If you already have one, we integrate it.',
+        faq2_q: 'Is there a contract or lock-in?',
+        faq2_a: 'The monthly plan has no lock-in: cancel anytime. The annual plan is paid up front and gives you 2 months free.',
+        faq3_q: 'How is the setup fee removed?',
+        faq3_a: 'Founding clinics get a code that brings the $499 USD setup to zero. Request it via WhatsApp or the contact form.',
+        faq4_q: 'What if I go over the 800 AI minutes?',
+        faq4_a: 'Nothing gets cut off. Extra minutes are billed at $0.22 USD per minute, and we warn you before that happens.',
+        faq5_q: 'Does the AI give diagnoses or medical advice?',
+        faq5_a: 'Never. The receptionist only books, shares logistics, and qualifies patients. Anything clinical or urgent is transferred to your team immediately.',
+        final_h2: 'Start with free setup.',
+        final_sub: 'A simple plan that puts your practice to work 24/7. Book a short call and we show you everything running with your clinic.',
+        final_cta1: 'Claim my free setup',
+        final_cta2: 'Try the demo',
+        ft_tagline: 'Bringing Mexicali dentistry to the digital future.',
+        ft_product: 'Product',
+        ft_company: 'Company',
         ft_about: 'About',
         ft_contact: 'Contact',
-        ft_privacy: 'Privacy Policy'
+        ft_privacy: 'Privacy Policy',
+        ft_terms: 'Terms & Conditions',
+        ft_refunds: 'Refunds',
+        per_month: '/mo',
+        per_year: '/yr',
+        annual_note: '2 months free · equals {eff}/mo',
+        promo_applied: 'Valid code! Free setup applied.',
+        promo_invalid: 'Invalid code.'
       }
     };
+    window.I18N = I18N;
+  </script>
+
+  <!-- Vapi live demo -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
+
+    const vapi = new Vapi("43d6c707-ebbc-4760-a931-6501689b573d");
+    const ASSISTANT_ID = "01ff55d9-1977-4987-abcc-8ee8d4c2690f";
+
+    // Both hero and demo section share one call; wire up every trigger button.
+    const triggers = [
+      { btn: document.getElementById('vapi-demo-trigger'), label: document.getElementById('vapi-btn-label') },
+      { btn: document.getElementById('vapi-demo-trigger-2'), label: document.getElementById('vapi-btn-label-2') }
+    ].filter(t => t.btn);
+
+    let isCallActive = false;
+
+    const idleText = () => {
+      const lang = localStorage.getItem('baja_lang') || 'es';
+      return (window.I18N && window.I18N[lang] && window.I18N[lang].btn_talk_ai) || 'Habla con la recepcionista IA';
+    };
+    const connectingText = () => (localStorage.getItem('baja_lang') === 'en') ? 'Connecting...' : 'Conectando...';
+    const hangupText = () => (localStorage.getItem('baja_lang') === 'en') ? 'End call' : 'Colgar llamada';
+
+    triggers.forEach(({ btn, label }) => {
+      btn.addEventListener('click', async () => {
+        if (isCallActive) { vapi.stop(); return; }
+        label.textContent = connectingText();
+        try {
+          await vapi.start(ASSISTANT_ID);
+        } catch (e) {
+          console.error(e);
+          label.textContent = (localStorage.getItem('baja_lang') === 'en') ? 'Connection error' : 'Error al conectar';
+          setTimeout(() => label.textContent = idleText(), 2000);
+        }
+      });
+    });
+
+    vapi.on("call-start", () => {
+      isCallActive = true;
+      triggers.forEach(({ btn, label }) => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline');
+        btn.style.color = "#ef4444";
+        btn.style.borderColor = "#ef4444";
+        label.textContent = hangupText();
+      });
+    });
+
+    vapi.on("call-end", () => {
+      isCallActive = false;
+      triggers.forEach(({ btn, label }) => {
+        btn.classList.remove('btn-outline');
+        btn.classList.add('btn-primary');
+        btn.style.color = "";
+        btn.style.borderColor = "";
+        label.textContent = idleText();
+      });
+    });
   </script>
 </body>
 </html>

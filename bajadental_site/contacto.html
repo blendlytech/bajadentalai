@@ -14,7 +14,7 @@
 
   <!-- Founder Offer Banner -->
   <div class="promo-banner">
-    <a href="contacto.html" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras de Mexicali: 80% de descuento. Pide tu código →</a>
+    <a href="#contactForm" data-i18n="promo_banner" style="color: var(--text-primary); font-weight: 600;">Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →</a>
     <button class="close-banner" aria-label="Cerrar">&times;</button>
   </div>
 
@@ -25,21 +25,21 @@
         <img src="images/bajadentalai_favicon.png" alt="Baja Dental AI Logo">
         <span class="logo-text">Baja Dental AI</span>
       </a>
-      
+
       <button class="menu-toggle" aria-label="Menu">&#9776;</button>
 
       <div class="nav-links">
-        <a href="index.html#solution" class="nav-link" data-i18n="nav_solution">Solución</a>
-        <a href="recepcionista-ia.html" class="nav-link" data-i18n="nav_ai">Recepcionista IA</a>
-        <a href="paquetes.html" class="nav-link" data-i18n="nav_pricing">Paquetes</a>
+        <a href="index.html#included" class="nav-link" data-i18n="nav_included">Qué incluye</a>
+        <a href="demo.html" class="nav-link" data-i18n="nav_demo_link">Demo en vivo</a>
+        <a href="index.html#pricing" class="nav-link" data-i18n="nav_pricing">Precio</a>
         <a href="nosotros.html" class="nav-link" data-i18n="nav_about">Nosotros</a>
-        
+
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang="es">ES</button>
           <button class="lang-btn" data-lang="en">EN</button>
         </div>
 
-        <a href="contacto.html" class="btn btn-primary" data-i18n="nav_demo" style="box-shadow: 0 0 15px rgba(43,212,232,0.5);">Agenda una demo</a>
+        <a href="index.html#pricing" class="btn btn-primary" data-i18n="nav_cta" style="box-shadow: 0 0 15px rgba(43,212,232,0.5);">Ver el plan</a>
       </div>
     </div>
   </nav>
@@ -56,7 +56,7 @@
             <div style="color: var(--primary-cyan); font-size: 32px;">📱</div>
             <div>
               <h4 style="margin-bottom: 4px;" data-i18n="c_whatsapp">WhatsApp Directo</h4>
-              <a href="https://wa.me/521234567890" target="_blank" style="font-weight: 600; font-size: 18px;">+52 (686) 123 4567</a>
+              <a href="https://wa.me/524425772524" target="_blank" style="font-weight: 600; font-size: 18px;">+52 442 577 2524</a>
             </div>
           </div>
           
@@ -97,9 +97,9 @@
             <label class="form-label" data-i18n="lbl_plan">Plan de Interés</label>
             <select class="form-control">
               <option value="none" data-i18n="opt_none">Selecciona una opción...</option>
-              <option value="web" data-i18n="opt_web">Paquetes de Sitio Web</option>
-              <option value="ai" data-i18n="opt_ai">Recepcionista IA</option>
-              <option value="both" data-i18n="opt_both">Ambos / Clínica Inteligente</option>
+              <option value="plan" data-i18n="opt_plan">Plan Consultorio Completo</option>
+              <option value="founder" data-i18n="opt_founder">Quiero mi código de fundador (instalación gratis)</option>
+              <option value="info" data-i18n="opt_info">Solo tengo dudas / quiero la demo</option>
             </select>
           </div>
 
@@ -124,9 +124,39 @@
   </main>
 
   <footer class="section section-deep" style="border-top: 1px solid var(--border-hairline); padding-bottom: 40px;">
-    <!-- Same footer structure... -->
-    <div class="container" style="text-align: center; font-size: 12px; color: var(--text-muted);">
-      &copy; 2026 Baja Dental AI. Todos los derechos reservados.
+    <div class="container grid grid-cols-4">
+      <div>
+        <a href="index.html" class="logo mb-4">
+          <span class="logo-text">Baja Dental AI</span>
+        </a>
+        <p style="font-size: 14px;" data-i18n="ft_tagline">Llevamos la odontología de Mexicali al futuro digital.</p>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_product">Producto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="index.html#included" data-i18n="nav_included">Qué incluye</a>
+          <a href="index.html#pricing" data-i18n="nav_pricing">Precio</a>
+          <a href="demo.html" data-i18n="nav_demo_link">Demo en vivo</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_legal">Legal</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="aviso-de-privacidad.html" data-i18n="ft_privacy">Aviso de Privacidad</a>
+          <a href="terminos.html" data-i18n="ft_terms">Términos y Condiciones</a>
+          <a href="reembolsos.html" data-i18n="ft_refunds">Reembolsos</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color: var(--text-primary); font-size: 14px;" data-i18n="ft_contact">Contacto</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="mailto:hola@bajadentalai.com">hola@bajadentalai.com</a>
+          <a href="https://wa.me/524425772524" target="_blank">+52 442 577 2524</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-hairline); padding-top: 24px;">
+      &copy; 2026 Baja Dental AI. <span data-i18n="ft_rights">Todos los derechos reservados.</span>
     </div>
   </footer>
 
@@ -149,9 +179,9 @@
 
     window.I18N = window.I18N || {};
     window.I18N.es = Object.assign(window.I18N.es || {}, {
-      promo_banner: 'Clínicas fundadoras de Mexicali: 80% de descuento en tu paquete. Pide tu código →',
+      promo_banner: 'Clínicas fundadoras: instalación GRATIS (valor $8,900 MXN). Pide tu código →',
       contact_title: 'Transforma tu consultorio hoy.',
-      contact_sub: 'Agenda una demo en vivo, conoce nuestros paquetes o reclama tu código de fundador para obtener descuentos exclusivos en tu build.',
+      contact_sub: 'Agenda una demo en vivo o reclama tu código de fundador para recibir el plan Consultorio Completo con la instalación gratis.',
       c_whatsapp: 'WhatsApp Directo',
       c_email: 'Correo Electrónico',
       form_title: 'Solicita Información',
@@ -159,27 +189,33 @@
       lbl_clinic: 'Nombre de Consultorio',
       lbl_wa: 'WhatsApp',
       lbl_email: 'Email',
-      lbl_plan: 'Plan de Interés',
+      lbl_plan: '¿Qué te interesa?',
       opt_none: 'Selecciona una opción...',
-      opt_web: 'Paquetes de Sitio Web',
-      opt_ai: 'Recepcionista IA',
-      opt_both: 'Ambos / Clínica Inteligente',
-      lbl_promo: 'Código de Promoción',
-      msg_promo_valid: '¡Código válido! 80% de descuento aplicado en tu paquete.',
+      opt_plan: 'Plan Consultorio Completo',
+      opt_founder: 'Quiero mi código de fundador (instalación gratis)',
+      opt_info: 'Solo tengo dudas / quiero la demo',
       lbl_privacy: 'He leído y acepto el <a href="aviso-de-privacidad.html" style="text-decoration: underline;">Aviso de Privacidad</a> (conforme a la LFPDPPP).',
       btn_submit: 'Enviar Solicitud',
       msg_success_title: '¡Mensaje enviado!',
       msg_success_desc: 'Nos pondremos en contacto contigo por WhatsApp en breve para agendar tu demo.',
-      nav_solution: 'Solución',
-      nav_ai: 'Recepcionista IA',
-      nav_pricing: 'Paquetes',
+      nav_included: 'Qué incluye',
+      nav_demo_link: 'Demo en vivo',
+      nav_pricing: 'Precio',
       nav_about: 'Nosotros',
-      nav_demo: 'Agenda una demo'
+      nav_cta: 'Ver el plan',
+      ft_tagline: 'Llevamos la odontología de Mexicali al futuro digital.',
+      ft_product: 'Producto',
+      ft_legal: 'Legal',
+      ft_contact: 'Contacto',
+      ft_privacy: 'Aviso de Privacidad',
+      ft_terms: 'Términos y Condiciones',
+      ft_refunds: 'Reembolsos',
+      ft_rights: 'Todos los derechos reservados.'
     });
     window.I18N.en = Object.assign(window.I18N.en || {}, {
-      promo_banner: 'Mexicali founding clinics: 80% off your package. Request your code →',
+      promo_banner: 'Founding clinics: setup FREE (worth $499 USD). Request your code →',
       contact_title: 'Transform your practice today.',
-      contact_sub: 'Book a live demo, explore our packages, or claim your founder code for exclusive discounts on your build.',
+      contact_sub: 'Book a live demo or claim your founder code to get the Complete Practice plan with free setup.',
       c_whatsapp: 'Direct WhatsApp',
       c_email: 'Email Address',
       form_title: 'Request Information',
@@ -187,22 +223,28 @@
       lbl_clinic: 'Clinic Name',
       lbl_wa: 'WhatsApp',
       lbl_email: 'Email',
-      lbl_plan: 'Plan of Interest',
+      lbl_plan: 'What are you interested in?',
       opt_none: 'Select an option...',
-      opt_web: 'Website Packages',
-      opt_ai: 'AI Receptionist',
-      opt_both: 'Both / Smart Clinic',
-      lbl_promo: 'Promo Code',
-      msg_promo_valid: 'Valid code! 80% discount applied to your package.',
+      opt_plan: 'Complete Practice plan',
+      opt_founder: 'I want my founder code (free setup)',
+      opt_info: 'Just questions / I want the demo',
       lbl_privacy: 'I have read and accept the <a href="aviso-de-privacidad.html" style="text-decoration: underline;">Privacy Policy</a> (LFPDPPP compliant).',
       btn_submit: 'Send Request',
       msg_success_title: 'Message sent!',
       msg_success_desc: 'We will contact you via WhatsApp shortly to schedule your demo.',
-      nav_solution: 'Solution',
-      nav_ai: 'AI Receptionist',
+      nav_included: "What's included",
+      nav_demo_link: 'Live demo',
       nav_pricing: 'Pricing',
       nav_about: 'About',
-      nav_demo: 'Book a demo'
+      nav_cta: 'See the plan',
+      ft_tagline: 'Bringing Mexicali dentistry into the digital future.',
+      ft_product: 'Product',
+      ft_legal: 'Legal',
+      ft_contact: 'Contact',
+      ft_privacy: 'Privacy Policy',
+      ft_terms: 'Terms & Conditions',
+      ft_refunds: 'Refunds',
+      ft_rights: 'All rights reserved.'
     });
   </script>
 </body>
