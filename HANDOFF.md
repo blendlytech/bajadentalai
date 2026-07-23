@@ -38,15 +38,19 @@ Done this session:
   `reminder_call_prompt.txt`, structuredData = `reminder_structured_data_schema.json`,
   `server.url` → vapi-webhook). See Claude memory `supabase-live-state.md`.
 
-Remaining to fully finish (all owner-gated — see the closing summary for exact commands):
+**Site DEPLOYED this session:** committed + pushed to `main` (commit `5deb1a3`) →
+Cloudflare Pages, so the doc/invoice fixes + the founder-slot **company logo** are live.
+(Founder name/bio were already filled; the remaining founder-photo placeholder — the
+favicon — was swapped to `images/bajadentalai_logo.webp` shown as a contained badge.)
+
+Remaining — DEFERRED to launch (owner-gated; user confirmed no action needed until then):
 1. **Register the outbound Vapi phone number** — the Vapi account has NO phone number
    registered, so `VAPI_OUTBOUND_PHONE_NUMBER_ID` doesn't exist. Run
    `vapi_config/telnyx_sip_setup.sh` (POST) + the manual Telnyx-portal SIP steps in it.
 2. **Set Edge Function secrets** (`VAPI_API_KEY`, `VAPI_REMINDER_ASSISTANT_ID` above,
    `VAPI_OUTBOUND_PHONE_NUMBER_ID` from step 1, `CRON_SECRET` from memory, + optional
    Telnyx SMS) — dashboard or `supabase secrets set`. Secrets are NOT in this file.
-3. **Deploy the site** (git push → Cloudflare Pages) so the doc/invoice fixes go live.
-4. **Rotate the exposed keys** (Vapi/Telnyx/Supabase/ElevenLabs) — still open from Tier 1.
+3. **Rotate the exposed keys** (Vapi/Telnyx/Supabase/ElevenLabs) — still open from Tier 1.
 
 ### 2026-07-22 — Contact form now captures real leads (was a dead form losing every web lead)
 
