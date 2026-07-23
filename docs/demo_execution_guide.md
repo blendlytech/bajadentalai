@@ -1,5 +1,7 @@
 # Execution Protocol: Mexicali Dental AI Receptionist Demo
 
+> ⚠️ **Historical / superseded** — predates the current AI-voice architecture (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp). Kept for history. See `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)".
+
 This document outlines the step-by-step execution plan to build, configure, and pitch the AI Receptionist demo using a strict zero-phone bootstrap approach.
 
 ## 1. Environment & Skill Setup

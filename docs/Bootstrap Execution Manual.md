@@ -1,5 +1,7 @@
 # **Zero-Phone Bootstrap Execution Manual: Mexicali Dental AI**
 
+> ⚠️ **Historical / superseded** — predates the current AI-voice architecture (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp). Kept for history. See `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)".
+
 This protocol outlines the exact steps to build, deploy, and pitch an AI Receptionist using only your current desktop software stack and a strict \<$25 budget.
 
 ## **The Tool Stack Allocation**

@@ -2,6 +2,33 @@
 
 Owner of this doc: handed off from Claude. Read the **Orientation** and **Don't redo / don't break** sections before writing any code. Then pick up the **TODO** list.
 
+**§0 is the running checkpoint (newest status first) — read it before the older backlog in §3.**
+
+---
+
+## 0. Latest checkpoint — running log (newest first)
+
+### 2026-07-22 — Supabase side of the AI-voice reminder loop is wired & verified
+
+The full **pg_cron → pg_net → `reminder-dispatch`** path is live and verified end-to-end (returns 200). It is gated only on Vapi secrets — until they're set the dispatcher safely no-ops (`{"ok":true,"skipped":"vapi_not_configured"}`).
+
+Done this session:
+
+- **Restored the project** — it free-tier-pauses when idle (`restore_project`, ~2–3 min to `ACTIVE_HEALTHY`). Do this first in any new session before migrating/deploying.
+- **Discovered the multi-tenant schema had never been applied to the live DB.** Only `leads`/`enterprise_leads`/`agency_leads` existed, with **no `clinic_id`** (the Tier-2 "Tenant isolation" item was done in the repo `.sql` files but never run against the DB). Applied it as three migrations: `tenant_isolation` (`clinics`, `clinic_staff`, `clinic_id` on both leads tables + RLS), `appointments` (table + RLS), `appointments_reminders` (`reminder_status`, `reminder_call_id`, `reminder_attempted_at`, `confirmed_at` + partial index `idx_appointments_reminder_due`). This also removed a latent regression: deploying the current webhook (which writes `clinic_id`) against the old DB would have broken lead inserts.
+- **Deployed edge functions:** `vapi-webhook` **v7** and `reminder-dispatch` **v1**, both `verify_jwt=false`.
+- **Enabled `pg_cron` + `pg_net`**; scheduled cron job `reminder-dispatch-20min` (`*/20 * * * *`, jobid 1).
+
+Next — to make reminders actually fire, set Edge Function secrets (Dashboard → Edge Functions → Manage secrets, or `supabase secrets set … --project-ref gldxvazsoqxyfuxeursn`):
+
+- `VAPI_API_KEY`, `VAPI_REMINDER_ASSISTANT_ID`, `VAPI_OUTBOUND_PHONE_NUMBER_ID` (+ optional `DEFAULT_CLINIC_NAME`).
+- `CRON_SECRET` — the value is **not in this git-tracked file on purpose**; it's stored in Claude memory (`supabase-live-state.md`) and in the DB: `select command from cron.job where jobname='reminder-dispatch-20min';`. Set the function secret to that exact value to lock the endpoint (until set, the gate is open — low risk, dispatcher no-ops without Vapi).
+- Vapi-side: the "Sofía – Recordatorios" reminder assistant and the outbound phone-number id must exist in Vapi.
+
+Follow-ups (not blocking): `clinic_staff` has RLS enabled but **no policy** — a future client-side staff dashboard will read nothing until you add `... FOR SELECT USING (user_id = auth.uid())`; service-role edge functions bypass RLS so ingestion/dispatch are unaffected. Pre-existing advisor warnings (not from this work): `agency_leads` permissive `USING(true)` policy; `public.rls_auto_enable()` is `SECURITY DEFINER` callable by anon/authenticated.
+
+> The repo's `supabase/migrations` history is **not** updated to match these ad-hoc live migrations (they were applied straight to the DB from the `database/*.sql` files). Reconcile if/when you adopt the `supabase db` migration workflow.
+
 ---
 
 ## 1. Orientation — the actual deployed architecture
@@ -11,6 +38,10 @@ Caller → Telnyx number (+1 760…) ──SIP──► Vapi assistant "Sofía"
        → Vapi POSTs end-of-call-report ──► Supabase Edge Function `vapi-webhook` (Deno)
        → writes Postgres: `leads` (base) + `enterprise_leads` (enterprise profile)
        → fires Telnyx SMS staff alert (emergency = care callback; border-anxiety = hot-lead nudge)
+
+  ┄ outbound reminders (AI voice, NOT WhatsApp) ┄
+pg_cron → `reminder-dispatch` (Deno) → reads `appointments` → places Vapi outbound AI call (via Telnyx) ~24h before
+       → reminder call result → `vapi-webhook` → updates `appointments.reminder_status`   (win-back calls = Phase 2)
 ```
 
 - **We do NOT use n8n. We do NOT use Twilio.** Telephony = **Telnyx**; automation/ingestion = the **Edge Function** only. (Both were fully removed from the repo — don't reintroduce them.)
@@ -19,8 +50,12 @@ Caller → Telnyx number (+1 760…) ──SIP──► Vapi assistant "Sofía"
 ### Key facts / where things live
 | Thing | Value |
 | :-- | :-- |
-| Supabase project ref | `gldxvazsoqxyfuxeursn` |
-| Edge Function | `supabase/functions/vapi-webhook/index.ts` — **deployed v5**, `verify_jwt=false` |
+| Supabase project ref | `gldxvazsoqxyfuxeursn` (free-tier pauses when idle — `restore_project` first) |
+| Edge Function (inbound) | `supabase/functions/vapi-webhook/index.ts` — **deployed v7**, `verify_jwt=false` |
+| Edge Function (outbound reminders) | `supabase/functions/reminder-dispatch/index.ts` — **deployed v1**, `verify_jwt=false` |
+| Scheduler | `pg_cron` job `reminder-dispatch-20min` (`*/20 * * * *`) → `pg_net` POST to reminder-dispatch |
+| Live DB schema | `clinics`, `clinic_staff`, `appointments` (+reminder cols), `leads`/`enterprise_leads` (now with `clinic_id`), `agency_leads` — all applied 2026-07-22 |
+| Secrets location | `.env` + Supabase Edge Function secrets. `CRON_SECRET` value: Claude memory `supabase-live-state.md` + the `cron.job` row (NOT in this file) |
 | Vapi assistant | "Dental_Demo" / "Sofía", id in `.env` `VAPI_ASSISTANT_ID`; model `gpt-4o-mini`; voice ElevenLabs; knowledge base attached; `analysisPlan.structuredDataPlan` = enterprise schema; `server.url` → the Edge Function |
 | Persona prompt | `vapi_config/system_prompt.txt` (this IS what's live on the assistant) |
 | Enterprise capture schema | `vapi_config/enterprise_structured_data_schema.json` |
@@ -38,12 +73,15 @@ Caller → Telnyx number (+1 760…) ──SIP──► Vapi assistant "Sofía"
 
 ### Collision rules (two agents edit this repo)
 - **`supabase/functions/vapi-webhook/index.ts` and `vapi_config/system_prompt.txt` are shared edit points.** EXTEND them; do not regenerate from scratch. `git pull` first. Repo HEAD == what's deployed.
-- When you redeploy the Edge Function you MUST keep **`verify_jwt=false`** (Vapi posts unauthenticated). `supabase/config.toml` says `verify_jwt=true` — if you deploy via CLI use `--no-verify-jwt`, or it will 401 every webhook and break ingestion.
+- When you redeploy **either** edge function you MUST keep **`verify_jwt=false`** — `vapi-webhook` is posted to unauthenticated by Vapi, and `reminder-dispatch` is called by pg_cron (it authenticates via its own `CRON_SECRET`). `supabase/config.toml` says `verify_jwt=true` — if you deploy via CLI use `--no-verify-jwt`, or it will 401 every call and break ingestion/reminders.
+- Deploy gotcha (MCP): `vapi-webhook` carries a stale absolute `import_map_path` from an old CLI deploy; when redeploying via the Supabase MCP pass an explicit relative `import_map_path: "deno.json"` or the deploy fails with "import map path does not exist".
 - When you PATCH the Vapi assistant, send the full `model` object back (preserve `knowledgeBase`, tools, etc.); set `firstMessage` separately.
 
 ---
 
 ## 3. TODO (prioritized)
+
+> Current status lives in **§0** (running checkpoint). This is the older backlog; items here that §0 covers are superseded by it.
 
 ### Tier 1 — before pitching another clinic
 - [x] **Per-clinic KB.** `docs/dental_tourism_knowledge_base.txt` states hard claims as fact (board-certified, OSHA-level, lifetime warranties, specific prices). These must be TRUE for the specific clinic or they're liability. Make KB customization part of onboarding.
@@ -60,7 +98,7 @@ Caller → Telnyx number (+1 760…) ──SIP──► Vapi assistant "Sofía"
       (`CLINIC_ALERT_PHONE` = the clinic closer's number. The `from` number must be SMS-enabled on Telnyx.)
 - [x] **Live booking (the big differentiator).** This is your plan from `implementation_plan.md`:
       add Vapi tools `checkCalendarAvailability` + `bookAppointment`, a `appointments` table, route `tool-calls` in the Edge Function, and **restore the booking close** in `system_prompt.txt` (it was reverted to qualify+capture because the tools didn't exist yet — Sofía was told to confirm bookings that couldn't happen). Re-add it once the tools are real, and make the confirmation contingent on the tool's actual result.
-- [ ] **WhatsApp follow-up** — only if you want it back; if so, build it (fires from the Edge Function via a provider) and re-add the marketing claim. Otherwise leave it as the SMS alert.
+- [x] **Reminders/win-backs channel DECIDED → AI voice calls (Vapi outbound + Telnyx), NOT WhatsApp.** The WhatsApp Business API route was dropped: Meta Business Verification needs business docs/a business address the founder (US sole proprietor, website only) can't yet provide, and it gates scale behind manual review. Build: a scheduled `reminder-dispatch` Edge Function + `pg_cron` places outbound Vapi reminder calls off the `appointments` table (~24h prior, remind & confirm); the reminder result returns to `vapi-webhook` → `appointments.reminder_status`. **Win-back calls = Phase 2** (needs no-show capture). See CLAUDE.md "Current Architecture".
 - [ ] **Model eval:** assistant runs `gpt-4o-mini`. Confirm it handles Spanglish + objection-handling well enough for a premium product, or upgrade.
 - [x] **Fix stale docs:** `database/supabase_schema.sql` no longer matches the live `leads` table; `CLAUDE.md` references `fable5_bajadentalai_prd.md` which does not exist.
 - [x] **Conversion mechanics:** landing CTA is a `mailto:` only — add a booking link (Calendly) and/or Stripe payment link.

@@ -1,3 +1,5 @@
+> ⚠️ **Historical / superseded** — this bootstrap "no-phone demo" context predates the current AI-voice architecture. The root `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)" is the source of truth (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp).
+
 PROJECT CONTEXT: MEXICALI DENTAL AI (BOOTSTRAP DEMO)
 
 1. Role and Objective

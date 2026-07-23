@@ -80,3 +80,13 @@ curl --request POST \
 2. Ask a question specific to the customized Knowledge Base (e.g., "How much is an All-on-4?"). Verify it answers with the *clinic's* specific pricing.
 3. Hang up.
 4. Check the Supabase `leads` and `enterprise_leads` tables. Verify a new row appears and the `clinic_id` matches the UUID you generated in Step 1.
+
+---
+
+### Step 6: Enable AI voice appointment reminders (outbound)
+Reminders and confirmations are delivered by **outbound AI voice call (Vapi + Telnyx) — NOT WhatsApp.**
+1. **Appointments flow:** confirm bookings land in `public.appointments` with this `clinic_id` (the `bookAppointment` tool writes them; `reminder_status` defaults to `pending`).
+2. **Outbound number:** ensure the clinic's Telnyx number is registered in Vapi as an **outbound** phone number; note its `phoneNumberId`.
+3. **Reminder assistant:** confirm the shared reminder assistant ("Sofía – Recordatorios", `vapi_config/reminder_call_prompt.txt`) exists and its Server URL points to the central `vapi-webhook`.
+4. **Secrets:** verify the `reminder-dispatch` function has `VAPI_API_KEY`, `VAPI_REMINDER_ASSISTANT_ID`, `VAPI_OUTBOUND_PHONE_NUMBER_ID`. The `pg_cron` job (~every 20 min) triggers it.
+5. **Test:** insert a test `appointments` row for this `clinic_id` ~24h out with your own number; run `reminder-dispatch`; answer the call and confirm the reminder script + LFPDPPP recording notice; verify `appointments.reminder_status` flips `pending` → `called` → `confirmed`.

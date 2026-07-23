@@ -12,6 +12,7 @@ This project provides the system prompts, data schemas, webhook logic, and strat
 - **Border-Region Dental Vocabulary**: Accurately utilizes regional terminology (e.g., *carillas* for veneers, *coronas* for crowns, *presupuesto* for quote/estimate, and All-on-4 implants).
 - **Aggressive Conversion**: Designed to remove friction for American tourists, aggressively but politely pushing for booked consultations and upfront deposits.
 - **Logistics & Border Context**: Pre-programmed to answer questions about border crossing, medical lane passes (FastPass), clinic parking, and walking distances from the port of entry.
+- **AI Voice Reminders & Confirmations**: Outbound Vapi calls (over Telnyx) ring the patient ~24h before the appointment to remind and confirm, updating `appointments.reminder_status`. Missed-appointment win-back calls are on the roadmap. Reminders/win-backs are delivered by **voice call, not WhatsApp** — the Meta/WhatsApp Business route was dropped (verification friction). WhatsApp stays only as the clinic contact channel.
 - **LFPDPPP Compliance**: Includes standard Mexican data privacy clauses ("Para fines de calidad, esta llamada es grabada").
 
 ## 🛠️ Technology Stack (Bootstrapped)

@@ -186,6 +186,68 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
+    // --- Reminder-call result branch ----------------------------------------
+    // Outbound AI reminder/confirmation calls (from `reminder-dispatch`) carry
+    // metadata.kind === "reminder". Record the outcome on the appointment
+    // instead of treating the call as an inbound patient lead.
+    const callKind =
+      call.assistantOverrides?.metadata?.kind ??
+      call.metadata?.kind ??
+      msg?.metadata?.kind ??
+      null;
+
+    if (callKind === "reminder") {
+      const appointmentId =
+        call.assistantOverrides?.metadata?.appointment_id ??
+        call.metadata?.appointment_id ??
+        null;
+
+      const outcome =
+        typeof structured.reminder_outcome === "string" ? structured.reminder_outcome : "unknown";
+      // Map the call outcome onto the appointment's reminder_status.
+      const reminderStatus =
+        outcome === "confirmed" ? "confirmed"
+        : outcome === "reschedule" ? "reschedule"
+        : outcome === "cancel" ? "cancelled"     // maps to appointments.status below
+        : "called";                               // reached but no clear outcome (no_answer/unknown)
+
+      if (appointmentId) {
+        const patch: Record<string, unknown> = { reminder_status: reminderStatus };
+        if (outcome === "confirmed") patch.confirmed_at = new Date().toISOString();
+        if (outcome === "cancel") {
+          patch.status = "cancelled";
+          patch.reminder_status = "called"; // keep reminder lifecycle valid; cancellation lives on status
+        }
+        const { error: rErr } = await supabase.from("appointments").update(patch).eq("id", appointmentId);
+        if (rErr) errors.push(`appointments reminder update: ${rErr.message}`);
+      } else {
+        errors.push("reminder call missing appointment_id metadata");
+      }
+
+      // A reschedule request needs a human — nudge staff by SMS (reuse Telnyx).
+      const remindAlertTo =
+        call.assistantOverrides?.metadata?.clinic_alert_phone ??
+        call.metadata?.clinic_alert_phone ??
+        Deno.env.get("CLINIC_ALERT_PHONE");
+      if (remindAlertTo && outcome === "reschedule") {
+        const who = structured.patient_name ?? "A patient";
+        try {
+          await sendTelnyxSms(
+            remindAlertTo,
+            `Reschedule request: ${who} (${phone ?? "no number"}) asked to move their appointment during the reminder call. Please call them to set a new time.`,
+          );
+        } catch (smsErr) {
+          errors.push(`telnyx_sms_reschedule: ${smsErr instanceof Error ? smsErr.message : String(smsErr)}`);
+        }
+      }
+
+      if (errors.length) console.error("vapi-webhook reminder partial failure:", errors.join(" | "));
+      return new Response(
+        JSON.stringify({ ok: errors.length === 0, kind: "reminder", outcome, errors }),
+        { status: 200, headers: { ...CORS, "Content-Type": "application/json" } },
+      );
+    }
+
     // --- 0) B2B Agency Lead Branch ------------------------------------------
     if (campaignType === "b2b_agency") {
       const b2bLead = {

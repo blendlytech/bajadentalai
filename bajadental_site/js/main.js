@@ -76,7 +76,7 @@ function setLanguage(lang) {
 /* ==========================================================================
    Single-Plan Pricing Engine — "Consultorio Completo"
    --------------------------------------------------------------------------
-   One offer: website + AI receptionist + WhatsApp reminders + win-backs.
+   One offer: website + AI receptionist + AI-call reminders/confirmations + win-backs (roadmap).
    - Monthly and annual (annual = pay for 10 months, i.e. 2 months free).
    - MXN and USD carry their own clean values; we never convert one to the other.
    - The founder code waives the one-time setup fee only (not the monthly).

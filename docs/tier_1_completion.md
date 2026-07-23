@@ -1,5 +1,7 @@
 # Tier 1 Completion Report: Pre-Pitch Essentials
 
+> ⚠️ **Historical / superseded** — predates the current AI-voice architecture (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp). Kept for history. See `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)".
+
 **Objective:** Stabilize the baseline architecture and mitigate immediate legal/security liabilities before scaling the AI Receptionist to additional clinics.
 
 ### 1. Refactored Knowledge Base into a Strict Template

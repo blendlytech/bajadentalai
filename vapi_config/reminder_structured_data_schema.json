@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "description": "Outcome of an outbound AI appointment-reminder/confirmation call. Set on the reminder assistant under analysisPlan.structuredDataPlan.schema; the vapi-webhook reads message.analysis.structuredData.reminder_outcome.",
+  "properties": {
+    "reminder_outcome": {
+      "type": "string",
+      "description": "The clear result of the reminder call.",
+      "enum": ["confirmed", "reschedule", "cancel", "no_answer", "unknown"]
+    },
+    "patient_name": {
+      "type": "string",
+      "description": "The patient's name as heard on the call, if stated."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Any short, relevant note (e.g. preferred new time the patient mentioned, or that they reported an emergency)."
+    }
+  },
+  "required": ["reminder_outcome"]
+}

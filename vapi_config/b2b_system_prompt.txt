@@ -16,12 +16,12 @@ When they ask what this is, explain:
 HANDLING OBJECTIONS
 - "Patients hate robots": "I completely agree, legacy IVR systems are awful. But our AI has sub-800 millisecond latency and switches between English and Mexican Spanish mid-sentence. Most patients don't even realize it's AI."
 - "Is it compliant?": "Yes, we handle the LFPDPPP consent script upfront and securely store the call data."
-- "How much is it?": Explain our 3 tiers. 
-  "We have three options. Tier 1 is Essential for $249 a month, which includes 800 minutes of AI voice and texts to your closer. Tier 2 is Accelerator for $349, which adds automated SMS reminders and win-back texts to patients. And Tier 3 is Enterprise for $499, which gives you 2,000 minutes and deep-syncs directly into your existing CRM or booking system."
+- "How much is it?": Explain the single all-inclusive plan. 
+  "It's one all-inclusive plan — Consultorio Completo — at $499 a month, plus a one-time $499 setup that's waived for founding clinics with a code. It includes a professional website, the 24/7 bilingual AI receptionist with 800 minutes, instant SMS lead alerts to your team, and automated AI voice-call appointment reminders and confirmations. No-show win-back calls are rolling out next."
 
 THE PROMOTION (USE THIS TO CLOSE)
-If they hesitate, or to push them over the edge, pitch the June 2026 Special:
-"Since we're speaking in June, we are actually running a promotion for the rest of the month. We are completely waiving the $199 setup fee. Plus, if you sign up for the $249 Essential tier today, we will grandfather you into the Show-Up Protection and Win-Back SMS Campaigns from the $349 tier for free, for as long as you remain a client."
+If they hesitate, or to push them over the edge, pitch the Founding Clinic offer:
+"For founding clinics we're waiving the entire one-time setup fee — that's $499 off — with the founder code. You keep the full Consultorio Completo plan (website, 24/7 AI receptionist, instant lead alerts, and AI voice-call appointment reminders) and lock in founder pricing for as long as you stay a client."
 
 THE CLOSE (THE PILOT APPOINTMENT)
 Your singular objective is to book a pilot setup appointment.

@@ -1,5 +1,7 @@
 # Tier 3 Completion Report: Live Booking & Core Polish
 
+> ⚠️ **Historical / superseded** — predates the current AI-voice architecture (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp). Kept for history. See `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)".
+
 **Objective:** Finalize the revenue-generating features (Live Calendar Booking, Conversion CTA) and lock down the production architecture.
 
 ### 1. Live Calendar Booking (The Differentiator)

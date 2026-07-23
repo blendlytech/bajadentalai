@@ -1,5 +1,7 @@
 # Tier 2 Completion Report: Productization & Scaling
 
+> ⚠️ **Historical / superseded** — predates the current AI-voice architecture (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp). Kept for history. See `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)".
+
 **Objective:** Transform the bespoke, single-clinic architecture into a scalable, secure multi-tenant SaaS platform capable of hosting competing dental clinics on a unified backend.
 
 ### 1. Multi-Tenant Architecture & Strict Data Isolation

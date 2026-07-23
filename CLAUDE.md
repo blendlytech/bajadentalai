@@ -10,15 +10,17 @@ You are operating as an autonomous AI software engineer. Your task is to build B
 
 - **Telephony:** Inbound calls arrive on a **Telnyx** number (`TELNYX_PHONE_NUMBER` in `.env`) routed to the Vapi assistant via a BYO SIP trunk (see `vapi_config/telnyx_sip_setup.sh`).
 - **Voice front end:** A Vapi.ai assistant ("Sofía", `VAPI_ASSISTANT_ID` in `.env`) answers inbound calls. Persona lives in `vapi_config/system_prompt.txt`. The structured-data extraction schema lives in `vapi_config/*structured_data_schema*.json` and is set on the assistant under `analysisPlan.structuredDataPlan`.
-- **Ingestion:** Vapi POSTs the `end-of-call-report` to the Supabase Edge Function **`vapi-webhook`** (`supabase/functions/vapi-webhook/index.ts`, Deno). It reads `message.analysis.structuredData` and writes to Postgres with the service-role key. This is the **only** integration/ingestion layer.
+- **Ingestion:** Vapi POSTs the `end-of-call-report` to the Supabase Edge Function **`vapi-webhook`** (`supabase/functions/vapi-webhook/index.ts`, Deno). It reads `message.analysis.structuredData` and writes to Postgres with the service-role key. This is the primary **inbound** ingestion layer (see the outbound reminder layer below).
 - **Storage (Supabase Postgres):** `leads` (base tier) + `enterprise_leads` (enterprise tier — full qualification profile). Both have RLS enabled. The base table uses Postgres enum types (`procedure_interest_enum`, `language_enum`); the Edge Function coerces out-of-range values so an insert never throws.
-- **No separate automation layer.** Ingestion runs solely through the Edge Function. Outbound alerts (e.g. Telnyx SMS), if added, fire directly from it.
+- **Outbound AI voice reminders (in progress):** a scheduled Edge Function **`reminder-dispatch`** (`supabase/functions/reminder-dispatch/`, Deno), triggered by Supabase `pg_cron`, reads the `appointments` table and places **outbound AI voice calls via the Vapi call API** (over the Telnyx number) ~24h before each appointment to remind & confirm. The reminder call's `end-of-call-report` returns to `vapi-webhook`, which updates `appointments.reminder_status`. Missed-appointment **win-back calls** are the Phase-2 extension of this layer.
+- **Channel note (important):** reminders/win-backs are delivered by **outbound voice call (Vapi + Telnyx)** — deliberately **not** WhatsApp. The WhatsApp Business Platform route was dropped (Meta Business Verification requires business documents/address the founder can't yet provide, and gates scale behind manual review). WhatsApp remains ONLY the clinic-facing *contact* channel on the marketing site.
+- **Automation:** inbound ingestion runs solely through `vapi-webhook`; the outbound reminder layer runs through `reminder-dispatch` + `pg_cron`. Outbound alerts (e.g. Telnyx SMS staff notifications) fire directly from the Edge Functions.
 
 ## 1. Project Context
 
 Domain: Medical Tourism in Mexicali / Los Algodones.
 
-Core Loop: WhatsApp Webhook -> LLM Router (Intent Classification) -> API Integration (Dentalink/Apify) -> WhatsApp Response.
+Core Loop (LEGACY — superseded by the "Current Architecture (AUTHORITATIVE)" section above; the live system is inbound **Telnyx → Vapi voice**, not WhatsApp text): WhatsApp Webhook -> LLM Router (Intent Classification) -> API Integration (Dentalink/Apify) -> WhatsApp Response.
 
 Target Users: English-speaking Americans/Canadians and Spanish-speaking locals seeking dental appointments.
 
