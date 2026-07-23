@@ -7,6 +7,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
 ## 1. Environment & Skill Setup
 
 1. **Configure Antigravity IDE**: Set the model to Gemini 3.1 Pro by creating `.agents/settings.json`:
+
    ```json
    {  
      "antigravity.ai.model": "gemini-3.1-pro",  
@@ -14,6 +15,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
      "antigravity.agent.model": "gemini-3.1-pro"  
    }
    ```
+
 2. **Symlink Agent Skills**: Ensure all `.claude/skills` are correctly symlinked to `.agents/skills` to guarantee access to the 2 core skills: `vapi-spanglish-persona` and `build-vapi-web-demo`.
 
 ## 2. Infrastructure & Telephony Bootstrapping
@@ -28,6 +30,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
 1. **Invoke `vapi-spanglish-persona` Skill**: Generate the Vapi assistant configuration.
    - **Target Endpoint**: `POST https://api.vapi.ai/assistant`
    - **JSON Payload Structure**:
+
      ```json
      {
        "name": "Mexicali Dental Receptionist",
@@ -57,6 +60,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
 1. **Bind the Telnyx number to Vapi**: Route the Telnyx number to Vapi via a BYO SIP trunk (see `vapi_config/telnyx_sip_setup.sh`).
    - **Target Endpoint**: `POST https://api.vapi.ai/phone-number`
    - **JSON Payload Structure**:
+
      ```json
      {
        "provider": "sip",
@@ -65,6 +69,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
        "name": "Telnyx Primary MX Routing"
      }
      ```
+
 2. **Telnyx SIP Routing**: In the Telnyx portal, create a SIP Connection and point the number's inbound routing to `sip:<number>@sip.vapi.ai`.
 
 ## 5. Webhook Extraction (Supabase Edge Function)
@@ -73,6 +78,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
    - **Server URL (set on the Vapi assistant)**: `https://<project>.supabase.co/functions/v1/vapi-webhook`
    - **Payload Logic**: Read Vapi's structured outputs from `message.analysis.structuredData`.
    - **Schema**:
+
      ```json
      {
        "type": "object",
@@ -87,6 +93,7 @@ This document outlines the step-by-step execution plan to build, configure, and 
        "required": ["patient_name", "procedure_interest", "language_spoken"]
      }
      ```
+
    - **Constraint**: Process only `end-of-call-report`; return 200 for all other event types.
 
 ## 6. The Web SDK Demo Interface (Offline Walk-In)

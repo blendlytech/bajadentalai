@@ -74,28 +74,28 @@
       <div class="glass-panel fade-in-up" style="animation-delay: 0.2s;">
         <h3 data-i18n="form_title" style="margin-bottom: 24px; text-align: center; color: var(--primary-cyan);">Solicita Información</h3>
         
-        <form id="contactForm" onsubmit="event.preventDefault(); showConfirmation();">
+        <form id="contactForm" onsubmit="event.preventDefault(); submitContactForm();">
           <div class="form-group">
-            <label class="form-label" data-i18n="lbl_name">Nombre Completo</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label" for="cf_name" data-i18n="lbl_name">Nombre Completo</label>
+            <input id="cf_name" type="text" class="form-control" autocomplete="name" required>
           </div>
           <div class="form-group">
-            <label class="form-label" data-i18n="lbl_clinic">Nombre de Consultorio</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label" for="cf_clinic" data-i18n="lbl_clinic">Nombre de Consultorio</label>
+            <input id="cf_clinic" type="text" class="form-control" autocomplete="organization" required>
           </div>
           <div class="grid grid-cols-2" style="gap: 16px;">
             <div class="form-group">
-              <label class="form-label" data-i18n="lbl_wa">WhatsApp</label>
-              <input type="tel" class="form-control" required>
+              <label class="form-label" for="cf_whatsapp" data-i18n="lbl_wa">WhatsApp</label>
+              <input id="cf_whatsapp" type="tel" class="form-control" autocomplete="tel" required>
             </div>
             <div class="form-group">
-              <label class="form-label" data-i18n="lbl_email">Email</label>
-              <input type="email" class="form-control" required>
+              <label class="form-label" for="cf_email" data-i18n="lbl_email">Email</label>
+              <input id="cf_email" type="email" class="form-control" autocomplete="email" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label" data-i18n="lbl_plan">Plan de Interés</label>
-            <select class="form-control">
+            <label class="form-label" for="cf_plan" data-i18n="lbl_plan">Plan de Interés</label>
+            <select id="cf_plan" class="form-control">
               <option value="none" data-i18n="opt_none">Selecciona una opción...</option>
               <option value="plan" data-i18n="opt_plan">Plan Consultorio Completo</option>
               <option value="founder" data-i18n="opt_founder">Quiero mi código de fundador (instalación gratis)</option>
@@ -103,7 +103,11 @@
             </select>
           </div>
 
-          
+          <!-- Honeypot: hidden from humans, tempting to bots. Real users leave it empty. -->
+          <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+            <label>No llenar / Do not fill<input id="cf_website" type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
           <div style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px;">
             <input type="checkbox" id="privacyCheck" required style="margin-top: 4px;">
             <label for="privacyCheck" style="font-size: 12px; color: var(--text-muted);" data-i18n-html="lbl_privacy">
@@ -111,7 +115,12 @@
             </label>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_submit">Enviar Solicitud</button>
+          <button id="cf_submit" type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_submit">Enviar Solicitud</button>
+
+          <div id="errorMsg" style="display: none; margin-top: 16px; padding: 14px 16px; border-radius: 10px; background: rgba(232,72,72,0.12); border: 1px solid rgba(232,72,72,0.4); font-size: 14px; color: var(--text-primary);">
+            <span data-i18n="msg_error">No pudimos enviar tu solicitud. Escríbenos directo por WhatsApp:</span>
+            <a href="https://wa.me/524425772524" target="_blank" style="text-decoration: underline; font-weight: 600; white-space: nowrap;">+52 442 577 2524</a>
+          </div>
         </form>
 
         <div id="confirmationMsg" style="display: none; text-align: center; padding: 40px 20px;">
@@ -172,9 +181,55 @@
       }
     }
 
+    // Supabase Edge Function that persists the lead (verify_jwt=false, called
+    // directly from the browser). See supabase/functions/web-lead/index.ts.
+    const WEB_LEAD_ENDPOINT = 'https://gldxvazsoqxyfuxeursn.supabase.co/functions/v1/web-lead';
+
     function showConfirmation() {
       document.getElementById('contactForm').style.display = 'none';
       document.getElementById('confirmationMsg').style.display = 'block';
+    }
+
+    async function submitContactForm() {
+      const lang = localStorage.getItem('baja_lang') || 'es';
+      const t = (window.I18N && window.I18N[lang]) || {};
+      const btn = document.getElementById('cf_submit');
+      const errBox = document.getElementById('errorMsg');
+      const original = btn.textContent;
+
+      errBox.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = t.btn_sending || 'Enviando…';
+
+      const payload = {
+        name: document.getElementById('cf_name').value,
+        clinic_name: document.getElementById('cf_clinic').value,
+        whatsapp: document.getElementById('cf_whatsapp').value,
+        email: document.getElementById('cf_email').value,
+        plan_interest: document.getElementById('cf_plan').value,
+        website: document.getElementById('cf_website').value, // honeypot
+      };
+
+      try {
+        const res = await fetch(WEB_LEAD_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          showConfirmation();
+          return;
+        }
+        throw new Error(data.error || ('HTTP ' + res.status));
+      } catch (err) {
+        // Never lose the lead silently: restore the form and show the WhatsApp
+        // fallback so the visitor still has a live way to reach us.
+        console.error('web-lead submit failed:', err);
+        btn.disabled = false;
+        btn.textContent = original;
+        errBox.style.display = 'block';
+      }
     }
 
     window.I18N = window.I18N || {};
@@ -196,6 +251,8 @@
       opt_info: 'Solo tengo dudas / quiero la demo',
       lbl_privacy: 'He leído y acepto el <a href="aviso-de-privacidad.html" style="text-decoration: underline;">Aviso de Privacidad</a> (conforme a la LFPDPPP).',
       btn_submit: 'Enviar Solicitud',
+      btn_sending: 'Enviando…',
+      msg_error: 'No pudimos enviar tu solicitud. Escríbenos directo por WhatsApp:',
       msg_success_title: '¡Mensaje enviado!',
       msg_success_desc: 'Nos pondremos en contacto contigo por WhatsApp en breve para agendar tu demo.',
       nav_included: 'Qué incluye',
@@ -230,6 +287,8 @@
       opt_info: 'Just questions / I want the demo',
       lbl_privacy: 'I have read and accept the <a href="aviso-de-privacidad.html" style="text-decoration: underline;">Privacy Policy</a> (LFPDPPP compliant).',
       btn_submit: 'Send Request',
+      btn_sending: 'Sending…',
+      msg_error: 'We couldn\'t send your request. Message us directly on WhatsApp:',
       msg_success_title: 'Message sent!',
       msg_success_desc: 'We will contact you via WhatsApp shortly to schedule your demo.',
       nav_included: "What's included",

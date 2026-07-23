@@ -31,10 +31,12 @@ Sani Dental Group publishes a detailed, English-language price list with line it
 For scraping, their PlacidWay/clinic price list page is a clean table with columns: procedure, details, price (USD), which maps nicely into your `PricePoint` model.[^12][^5]
 
 **Key pages to target**
+
 - Price list (PlacidWay mirror): tabular data for implants, All-on-4, crowns, bone grafts.[^12][^5]
 - Main site (sanidentalgroup.com): services pages for implants, All-on-4, and potentially an “Our Doctors” / team section (structure suitable for staff scraping, though names are not in the cited excerpts).
 
 **Scraping notes**
+
 - Price tables are semantically structured (`<table>`), with procedure names like **"All on Four" System with Acrylic Hybrid Fixed Denture (Upper or lower arch)**, and clear numeric prices in USD.[^5]
 - You can pattern-match procedure names containing `All on 4`, `All-on-4`, `All on Four`, as well as implant-related keywords (`Implant`, `Overdenture`, `Zygomatic`, `Pterygoid`).
 
@@ -45,9 +47,11 @@ For scraping, their PlacidWay/clinic price list page is a clean table with colum
 Algodones Dental Center advertises strong price anchors on its homepage, such as **All-on-4 Implant 8,110 USD**, **zirconia crown 490 USD**, and **porcelain veneer 450 USD**, framed explicitly as U.S. vs local savings.  The site positions itself on savings of up to **80%** compared with U.S. pricing and highlights full dentures and other prosthetic work.[^13]
 
 **Key pages to target**
+
 - Homepage / pricing section highlighting All-on-4, crowns, veneers, dentures with side-by-side U.S. vs Algodones prices.[^13]
 
 **Scraping notes**
+
 - Pricing is often in marketing blocks rather than a formal `<table>`, but still uses consistent numeric formatting (e.g., `$8,110`).[^13]
 - Include logic to capture U.S. “reference price” as an optional field on `PricePoint` for perceived savings.
 
@@ -58,9 +62,11 @@ Algodones Dental Center advertises strong price anchors on its homepage, such as
 Dental Del Rio publishes a comprehensive 2026 price list with multiple implant SKUs: standard titanium dental implant **750 USD**, Straumann **950 USD**, Nobel Biocare **1,000 USD**, zirconia **1,200 USD**, and zygomatic implants **2,500 USD**.  The same page lists prices for crown types, dentures, extractions, and other common restorative procedures.[^3]
 
 **Key pages to target**
+
 - `/price-list/` – tabular price list covering implants, crowns, grafts, dentures, and extra services.[^3]
 
 **Scraping notes**
+
 - The price list is a long, structured table, so you can iterate over rows and classify procedures by matching terms like `Implant`, `Crown`, `All-on-4`, `Bone graft`, and `Sinus lift` in the first column.[^3]
 - Currency is specified as U.S. dollars; ensure your parser captures that for normalization.[^3]
 
@@ -71,9 +77,11 @@ Dental Del Rio publishes a comprehensive 2026 price list with multiple implant S
 Novadent advertises a price comparison table between typical U.S. prices and its own Los Algodones pricing, including a line for **Standard Titanium Dental Implant (implant only)** showing U.S. pricing around **2,100 USD** vs significantly lower local pricing.  The page positions many procedures (implants, crowns, bone graft) as base or “starting at” prices.[^14]
 
 **Key pages to target**
+
 - `los-algodones-dental-price-list` – comparison table U.S. vs Novadent for implants and restorative procedures.[^14]
 
 **Scraping notes**
+
 - Table layout is again straightforward; include a boolean field like `is_starting_price` since the site labels prices as “starting at.”[^14]
 - Map U.S. comparative pricing into a secondary price field if you want to model perceived savings.
 
@@ -84,10 +92,12 @@ Novadent advertises a price comparison table between typical U.S. prices and its
 Marietta Dental Care operates in Los Algodones and Tijuana and lists a broad suite of treatments including **All-on-4**, All-on-6, bone grafting, standard implants, and full-mouth reconstruction.  Their All-on-4 pricing sheet states **All-on-4 per arch between 8,500 and 13,900 USD** and All-on-6 in the **9,500–14,500 USD** range, compared against U.S. benchmarks of 25,000–55,000 USD per arch.  Another page quotes implant-supported crowns from **1,550 USD** and All-on-6 implants starting at **9,999 USD**, plus IV sedation priced roughly **600–700 USD** depending on duration.[^15][^16][^4]
 
 **Key pages to target**
+
 - `/services/all-on-4-dental-implants/` – All-on-4 and All-on-6 overview with summarized pricing bands and comparison table vs U.S. prices.[^4]
 - `/services/dental-implants/cost/` – more detailed implant/crown cost breakdown and sedation pricing.[^16]
 
 **Scraping notes**
+
 - Prices are mostly in textual paragraphs and simple comparison tables, so include both regex-based extraction and table parsing.[^16][^4]
 - Capture ranges (min, max) when present, not just a single value.
 
@@ -98,12 +108,15 @@ Marietta Dental Care operates in Los Algodones and Tijuana and lists a broad sui
 LOVAL Dental markets **All-on-4 arch restoration** with advertised bundles beginning at **10,000 USD per arch**, emphasizing that this is “significantly less” than typical U.S. pricing.  They outline what is included (placement of four implants, temporary fixed teeth in about five days, follow-ups) and highlight their team’s training and affiliations (e.g., ADA, Harvard School of Dental Medicine, AAID).[^17]
 
 **Key pages to target**
+
 - `/services/all-on-4-dental-implants/` – package overview, pricing anchor, and list of included services.[^17]
 
 **Scraping notes**
+
 - Pricing is given as a clear “bundles begin at” value; store this as a starting price and record inclusions in a JSON field on the procedure (e.g., includes scans, temp prosthesis, follow-ups).[^17]
 
 **Staff examples**
+
 - LOVAL’s All-on-4 page mentions specific clinicians: **Dr. Rafael Lopez** (implantologist), **Dr. Jesus Mayoral** (prosthodontist), and **Dr. Vanessa Mendoza** (general dentist).  These names are extractable via patterns like `Dr.` followed by two or three tokens and can seed your `Staff` table.[^17]
 
 ***
@@ -113,9 +126,11 @@ LOVAL Dental markets **All-on-4 arch restoration** with advertised bundles begin
 Dental Solutions Algodones showcases an “Our Team” page featuring a multi-role staff list with names, roles, and brief bios.  Named staff include **Eng. Mitzi Bojorquez (General Manager)**, **DDS Karen Caballero (Prosthodontics Specialist)**, **DDS Maximo Torres (Oral Surgery & Implants Expert)**, **DDS Emmanuel Castañedo (Senior Dentist)**, **DDS Daniel Sierra (Senior Dentist)**, **DDS Hector Duran (Oral Surgery & Implants Expert)**, **DDS Hector Palma (Orthodontic Specialist)**, **DDS Daniela Fernandez (Orthodontic Specialist)**, and diagnostic staff such as **Abril Reyes**.[^18]
 
 **Key pages to target**
+
 - `/our-team/` – dense staff listing with role labels and section headers; ideal as a model for staff-name extraction.[^18]
 
 **Scraping notes**
+
 - This page uses name headings followed by role descriptions; a robust pattern is to capture `<h3>` / `<h4>` elements containing `DDS`, `Dr.`, or `Eng.` and then the subsequent paragraph as a role/bio.[^18]
 
 ***
@@ -125,10 +140,12 @@ Dental Solutions Algodones showcases an “Our Team” page featuring a multi-ro
 Supreme Dental Clinic positions itself as a premium, accreditation-heavy provider with an emphasis on full-arch implant cases, including **All-on-4**, All-on-6, pterygoid, and zygomatic implants.  The site stresses international training, in-house lab capabilities, and use of advanced technology such as PIC Dental scanners for precise full-arch prosthesis fabrication.[^19]
 
 **Key pages to target**
+
 - Homepage and services sections for implants, All-on-4, and full mouth reconstruction.[^19]
 - “Meet the team” section and AI-based app / smile preview flows that may expose named clinicians.[^19]
 
 **Scraping notes**
+
 - While explicit numeric prices are not in the cited snippet, the services taxonomy is rich; you can still scrape procedure names and map them to your canonical procedures.
 
 ***
@@ -138,9 +155,11 @@ Supreme Dental Clinic positions itself as a premium, accreditation-heavy provide
 Castle Dental provides **itemized All-on-4 pricing** by treatment phase: first visit (implant placement) is **8,000 USD** for non-immediate loading or **9,000 USD** for immediate loading, and the second stage adds **6,000–6,500 USD** to complete the total per-arch cost.  Sedation is listed around **700 USD** as an additional line item.[^20]
 
 **Key pages to target**
+
 - `/services/all-on-4-dental-implants/` – includes definition of All-on-4 vs All-on-6, staged cost breakdown, and procedural steps.[^20]
 
 **Scraping notes**
+
 - Text is in paragraph form rather than a formal table; use regex to capture currency amounts near keywords like `All-on-4`, `first visit`, `second stage`, `sedation`.[^20]
 
 ***
@@ -152,10 +171,12 @@ Castle Dental provides **itemized All-on-4 pricing** by treatment phase: first v
 DG Dental, located in Mexicali’s medical district, publishes a very detailed price list via DentaVacation, covering implants, All-on-4/6/8, grafting, dentures, root canals, and orthodontics.  The list shows **titanium implants at 700 USD**, **abutments 150 USD**, **crowns on implants 300 USD**, and a combined implant+abutment+crown option at **1,000 USD** per tooth.  All-on-4 packages including a fixed hybrid acrylic bridge per jaw are listed at **4,800 USD**, with **All-on-6 at 6,200 USD** and **All-on-8 at 7,600 USD** per jaw.[^9][^21]
 
 **Key pages to target**
+
 - DentaVacation listing price tables: multiple sections categorized by procedure type (implants, dentures, root canals, cosmetic, orthodontics).[^9]
 - DG Dental’s own site (`dgdentalmexicali.com`) All-on-4 page describing their full fixed arch implant program and experience.[^22]
 
 **Scraping notes**
+
 - DentaVacation uses clean `<table>` elements; each row includes a procedure name, details, price, and sometimes days.
 - Use a clinic_id mapping that links aggregator records back to the DG Dental brand, and mark `source_type` as `aggregator` to distinguish from first-party clinic pages.
 
@@ -166,11 +187,13 @@ DG Dental, located in Mexicali’s medical district, publishes a very detailed p
 The Skydent group promotes “Top Dentists in Mexicali” with a clinic location at **Calle B #199 between Reforma and Madero**, explicitly in **Zona Médica Mexicali**.  Their implant-specific pages advertise **implants from around 649 USD**, emphasizing affordability and 10+ years of experience.  Another Skydent-branded page markets “Mexicali dental implants prices start at 499 USD,” offering free estimates and promoting their competitive pricing for implant treatments.[^23][^24][^25]
 
 **Key pages to target**
+
 - `dentistasenmexicali.com` – general clinic/brand page describing the Zona Médica location and office hours.[^25]
 - `implantes-dentales-mexicali-precios-2-2` – implants pricing page with starting-from prices and messaging around Zona Médica.[^24]
 - `mexicali-dental-implants-prices` – additional pricing-focused landing page for Skydent with phone contact and price anchors.[^23]
 
 **Scraping notes**
+
 - Pricing is mostly “from” amounts, so capture `price_min` and set `is_starting_price` true.
 - These pages are likely Spanish-first; include Spanish keywords like `implantes dentales`, `precios`, `Zona Médica` when pattern matching.
 
@@ -181,9 +204,11 @@ The Skydent group promotes “Top Dentists in Mexicali” with a clinic location
 Ovperiodontist, a periodontist in Mexicali near Los Algodones, provides an extensive price comparison table across periodontal surgery, implants, crowns, and dentures.  Their implant section lists **Straumann or Nobel Biocare implants at 899 USD** (implant and surgery), a lower-cost Neodent standard implant at **799 USD**, **standard implant crowns including abutment at 750 USD**, and **All-on-4 dental implants per arch at 8,250 USD** compared to a 24,000 USD U.S. price.[^7]
 
 **Key pages to target**
+
 - `/prices` – multi-section table including periodontal surgeries, implants, grafts, extractions, crowns, veneers, and dentures, each with U.S. vs local prices and savings percentages.[^7]
 
 **Scraping notes**
+
 - Because the page repeats `Dental Treatments` header rows across sections, you will need to segment tables or skip header repeats during parsing.
 - It is a strong template for modeling savings vs U.S. prices and for differentiating premium brands (Straumann, Nobel) vs standard implants (Neodent).
 
@@ -194,9 +219,11 @@ Ovperiodontist, a periodontist in Mexicali near Los Algodones, provides an exten
 Hospital de la Familia operates as a multi-specialty hospital with dental implant services marketed heavily to international patients via Bookimed.  Bookimed cites standard implant prices around **950 USD** and All-on-4 packages in Mexicali close to **9,850 USD**, including implant surgery, short hospital stay, and shuttle transfers.[^10][^6]
 
 **Key pages to target**
+
 - Bookimed clinic pages for Hospital de la Familia – contain summarized implant pricing, doctor experience, and package inclusions.[^6][^10]
 
 **Scraping notes**
+
 - As with DG Dental, Bookimed is an aggregator; treat it as a secondary source if your main product is focused on first-party clinic sites.
 
 ***
@@ -231,6 +258,7 @@ Staff names matter for authority signals, outreach, and credibility. In these ma
 - **Clinic descriptions** listing lead dentists and key staff, like LOVAL Dental’s implantologist and prosthodontist team or DG Dental’s emphasis on its implant dentistry experience.[^22][^17]
 
 **Pattern examples**
+
 - Prefix-based: match tokens starting with `Dr.`, `DDS`, `DMD`, `Eng.` followed by 2–3 words, optionally including middle initials.
 - Role proximity: after a matched name, capture nearby text containing words like `implantologist`, `prosthodontist`, `general dentist`, `oral surgery`, `periodontist`, `general manager` to populate the `role` and `specialty` fields.
 - Section heuristics: on dedicated team pages, each staff block often uses an `<h3>` or `<h4>` with the name and a following `<p>` or `<span>` for the role.[^18]
@@ -350,4 +378,3 @@ Start with a curated seed list (like the clinics above), then discover:
 29. [All-on-4 Dental Implants in Los Algodones: Best Clinics and Costs ...](https://us-uk.bookimed.com/clinics/country=mexico/city=los-algodones/procedure=all-on-4-dental-implants/) - Ivan Gerardo Puente has specialized in implantology for 11 years of experience, performing 900+ All-...
 
 30. [How Much Money Can I Save If I Get Dental Implants in Los ...](https://www.algodonesdentalimplants.com/how-much-money-can-i-save-if-i-get-dental-implants-in-los-algodones/) - Patients can receive dental implants at our Los Algodones practice starting at $1,400. That's about ...
-
