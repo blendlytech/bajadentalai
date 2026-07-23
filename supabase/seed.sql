@@ -1,0 +1,21 @@
+-- Seed data, applied by `supabase db reset` after migrations.
+-- Referenced by config.toml -> [db.seed] sql_paths = ["./seed.sql"].
+--
+-- Intentionally empty of real data. It exists so `db reset` has the file its
+-- config points at, and so onboarding a new clinic has one obvious place to start.
+--
+-- Onboarding a clinic (see HANDOFF.md for the full runbook):
+--
+--   1. Create the tenant row. Every lead/appointment row carries this clinic_id,
+--      and the Edge Functions write it:
+--
+--        insert into public.clinics (name) values ('Clinica Ejemplo');
+--
+--   2. Map a staff auth user to that clinic. This is what the per-clinic RLS
+--      policies read -- without a clinic_staff row, a signed-in user sees nothing:
+--
+--        insert into public.clinic_staff (user_id, clinic_id)
+--        values ('<auth.users.id>', '<clinics.id>');
+--
+-- Left commented out deliberately: seeding a placeholder clinic would attach real
+-- inbound leads to a fake tenant if it ever ran against a live project.

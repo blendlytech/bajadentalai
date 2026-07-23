@@ -1,45 +1,24 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  ENT_FINANCIAL,
+  ENT_LANGUAGE,
+  ENT_PROCEDURE,
+  ENT_URGENCY,
+  baseLanguage,
+  baseProcedure,
+  inSet,
+  parseAppointmentTime,
+  parseToolArgs,
+  reminderStatusFor,
+  resolveClinicId,
+  toBool,
+  toNum,
+} from "./logic.ts";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
-
-// ---------------------------------------------------------------------------
-// Enum guards. The live `leads` table and the `enterprise_leads` table use
-// different, fixed value sets. Vapi's extracted structuredData can contain
-// values that are valid for the enterprise schema but NOT for the base `leads`
-// enums (e.g. full_mouth_restoration / unknown / spanglish). Coerce defensively
-// so a single out-of-range value can never make the insert throw and lose a lead.
-// ---------------------------------------------------------------------------
-const LEADS_PROCEDURE = new Set(["veneers", "implants", "whitening", "all_on_4", "crowns", "other"]);
-const LEADS_LANGUAGE = new Set(["english", "spanish", "bilingual"]);
-
-const ENT_PROCEDURE = new Set(["all_on_4", "veneers", "implants", "full_mouth_restoration", "whitening", "unknown"]);
-const ENT_URGENCY = new Set(["asap", "within_30_days", "within_6_months", "just_browsing"]);
-const ENT_FINANCIAL = new Set(["cash_ready", "needs_financing", "price_shopping", "unknown"]);
-const ENT_LANGUAGE = new Set(["english", "spanish", "spanglish"]);
-
-const inSet = (set: Set<string>, v: unknown): string | null =>
-  typeof v === "string" && set.has(v) ? v : null;
-
-// Map an enterprise procedure/language value onto the closest base `leads` enum.
-function baseProcedure(v: unknown): string | null {
-  if (typeof v !== "string") return null;
-  if (LEADS_PROCEDURE.has(v)) return v;
-  if (v === "full_mouth_restoration") return "other";
-  return null; // e.g. "unknown"
-}
-function baseLanguage(v: unknown): string | null {
-  if (typeof v !== "string") return null;
-  if (LEADS_LANGUAGE.has(v)) return v;
-  if (v === "spanglish") return "bilingual";
-  return null;
-}
-
-const toBool = (v: unknown): boolean => v === true || v === "true";
-const toNum = (v: unknown): number | null =>
-  typeof v === "number" && Number.isFinite(v) ? v : null;
 
 // ---------------------------------------------------------------------------
 // Outbound staff alerts via Telnyx SMS, fired natively from this function (no
@@ -89,33 +68,54 @@ Deno.serve(async (req) => {
       const results: any[] = [];
       const toolCalls = msg?.toolCalls ?? [];
 
+      // Vapi nests everything under `message` (that is why `msg.toolCalls` above
+      // works). Read the call object from there. `payload.call` is kept only as a
+      // defensive fallback in case a future payload shape hoists it.
+      const toolCall = msg?.call ?? payload?.call ?? {};
+      const clinicId = resolveClinicId(toolCall);
+
       for (const tc of toolCalls) {
         const name = tc?.function?.name;
-        const args = tc?.function?.arguments ?? {};
+        const args = parseToolArgs(tc?.function?.arguments);
 
         if (name === "checkCalendarAvailability") {
+          // NOTE: there is no calendar integration yet. This deliberately does NOT
+          // invent slots — quoting fabricated times to patients causes real-world
+          // double-bookings and no-shows. Ask for the patient's preference instead
+          // and let the clinic confirm.
           results.push({
             toolCallId: tc.id,
-            result: "Available slots: Tomorrow at 10:00 AM and 2:00 PM.",
+            result:
+              "AVAILABILITY_UNKNOWN: real-time calendar access is not connected. " +
+              "Do not state or imply specific open slots. Ask the patient which day " +
+              "and rough time they prefer, then record it as a REQUEST that the " +
+              "clinic will confirm.",
           });
         } else if (name === "bookAppointment") {
-          // Extract clinicId from the metadata inside the call object
-          const clinicId = 
-            payload?.call?.assistantOverrides?.metadata?.clinic_id ??
-            payload?.call?.metadata?.clinic_id ?? 
-            null;
-
           const supabase = createClient(
             Deno.env.get("SUPABASE_URL")!,
             Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
           );
 
+          // Never default a missing/!unparseable time to "now" — that silently
+          // creates an appointment at the moment of the call.
+          const when = parseAppointmentTime(args.appointment_date_time);
+          if (!when) {
+            results.push({
+              toolCallId: tc.id,
+              result:
+                "Could not record: no valid date/time was captured. Ask the patient " +
+                "to restate the day and time, then try again.",
+            });
+            continue;
+          }
+
           const { error } = await supabase.from("appointments").insert({
             clinic_id: clinicId,
-            call_id: payload?.call?.id ?? null,
+            call_id: toolCall?.id ?? null,
             patient_name: args.patient_name ?? "Unknown",
             phone_number: args.phone_number ?? "Unknown",
-            appointment_time: args.appointment_date_time ?? new Date().toISOString(),
+            appointment_time: when.toISOString(),
           });
 
           if (error) {
@@ -125,11 +125,22 @@ Deno.serve(async (req) => {
               result: "Error booking appointment. Please tell the user a coordinator will call them to manually schedule.",
             });
           } else {
+            // Wording matches the persona rule: never tell a patient they are
+            // officially booked. It is a request until the clinic confirms.
             results.push({
               toolCallId: tc.id,
-              result: "Appointment successfully booked and confirmed in the system.",
+              result:
+                "Request recorded. Tell the patient the clinic will call to confirm " +
+                "the time — do NOT say it is already confirmed or guaranteed.",
             });
           }
+        } else {
+          // Every toolCallId must get a result or the assistant stalls mid-call.
+          console.warn(`vapi-webhook: unhandled tool call "${name}"`);
+          results.push({
+            toolCallId: tc?.id,
+            result: "That action is not available. Offer to have a coordinator follow up.",
+          });
         }
       }
 
@@ -204,20 +215,13 @@ Deno.serve(async (req) => {
 
       const outcome =
         typeof structured.reminder_outcome === "string" ? structured.reminder_outcome : "unknown";
-      // Map the call outcome onto the appointment's reminder_status.
-      const reminderStatus =
-        outcome === "confirmed" ? "confirmed"
-        : outcome === "reschedule" ? "reschedule"
-        : outcome === "cancel" ? "cancelled"     // maps to appointments.status below
-        : "called";                               // reached but no clear outcome (no_answer/unknown)
+      // Constrained to appointments_reminder_status_check — see logic.ts.
+      const reminderStatus = reminderStatusFor(outcome);
 
       if (appointmentId) {
         const patch: Record<string, unknown> = { reminder_status: reminderStatus };
         if (outcome === "confirmed") patch.confirmed_at = new Date().toISOString();
-        if (outcome === "cancel") {
-          patch.status = "cancelled";
-          patch.reminder_status = "called"; // keep reminder lifecycle valid; cancellation lives on status
-        }
+        if (outcome === "cancel") patch.status = "cancelled";
         const { error: rErr } = await supabase.from("appointments").update(patch).eq("id", appointmentId);
         if (rErr) errors.push(`appointments reminder update: ${rErr.message}`);
       } else {
@@ -260,11 +264,17 @@ Deno.serve(async (req) => {
         summary: summary
       };
 
-      const { error: b2bErr } = await supabase
-        .from("agency_leads")
-        .upsert(b2bLead, { onConflict: "call_id" });
-        
-      if (b2bErr) errors.push(`agency_leads: ${b2bErr.message}`);
+      // agency_leads.call_id is NOT NULL — inserting a null would throw and lose the
+      // lead entirely. Guard so the SMS alert below still reaches a human.
+      if (!callId) {
+        errors.push("agency_leads: missing call_id, row not stored (SMS alert still sent)");
+      } else {
+        const { error: b2bErr } = await supabase
+          .from("agency_leads")
+          .upsert(b2bLead, { onConflict: "call_id" });
+
+        if (b2bErr) errors.push(`agency_leads: ${b2bErr.message}`);
+      }
 
       // Fire B2B SMS Alert to the Agency Owner
       const alertTo = Deno.env.get("CLINIC_ALERT_PHONE"); // Assuming agency owner uses this env var
@@ -311,9 +321,16 @@ Deno.serve(async (req) => {
       status: "new",
     };
 
-    const { error: leadErr } = await supabase
-      .from("leads")
-      .upsert(lead, { onConflict: "call_id" });
+    // `call_id` is the idempotency key. With a NULL call_id, ON CONFLICT can never
+    // match (in Postgres NULL is distinct from NULL), so a Vapi webhook retry would
+    // silently create duplicate leads. Still store it — losing a lead is worse than
+    // a duplicate — but make the degraded case visible in the logs.
+    if (!callId) {
+      console.warn("vapi-webhook: end-of-call-report with no call.id — lead stored without dedupe key");
+    }
+    const { error: leadErr } = callId
+      ? await supabase.from("leads").upsert(lead, { onConflict: "call_id" })
+      : await supabase.from("leads").insert(lead);
     if (leadErr) errors.push(`leads: ${leadErr.message}`);
 
     // --- 2) Enterprise profile (full qualification record) -----------------

@@ -4,11 +4,7 @@
     "messages": [
       {
         "type": "request-start",
-        "content": "Un momento, déjame revisar la agenda..."
-      },
-      {
-        "type": "request-complete",
-        "content": "Perfecto, ya revisé."
+        "content": "Un momento, por favor..."
       },
       {
         "type": "request-failed",
@@ -17,7 +13,7 @@
     ],
     "function": {
       "name": "checkCalendarAvailability",
-      "description": "Call this tool when the user asks for available appointment times. Do NOT call this if the user hasn't explicitly asked for an appointment or a time to come in. This tool requires no arguments. It will return the next available slots.",
+      "description": "Call this ONLY if the patient explicitly asks what times are available. There is no live calendar connection, so this does NOT return real open slots — it returns an instruction to ask the patient which day and rough time they prefer. Never state or imply that a specific time is available.",
       "parameters": {
         "type": "object",
         "properties": {}
@@ -33,11 +29,7 @@
     "messages": [
       {
         "type": "request-start",
-        "content": "Excelente, estoy agendando tu cita ahora mismo..."
-      },
-      {
-        "type": "request-complete",
-        "content": "¡Listo! Tu cita ha sido confirmada."
+        "content": "Perfecto, déjame registrar tu solicitud..."
       },
       {
         "type": "request-failed",
@@ -46,7 +38,7 @@
     ],
     "function": {
       "name": "bookAppointment",
-      "description": "Call this tool to finalize and book the appointment AFTER the user has agreed to a specific time slot.",
+      "description": "Record the patient's REQUESTED appointment time and contact details after they state which day and time they prefer. This logs a request for the clinic's team to confirm — it does NOT book or confirm anything. Never tell the patient the appointment is booked, confirmed, or guaranteed.",
       "parameters": {
         "type": "object",
         "properties": {
@@ -60,7 +52,7 @@
           },
           "appointment_date_time": {
             "type": "string",
-            "description": "The agreed upon appointment date and time in ISO 8601 format (e.g. 2026-06-20T10:00:00Z)."
+            "description": "The patient's requested appointment date and time in ISO 8601 format (e.g. 2026-06-20T10:00:00Z). Required — if the patient has not given a specific day and time, ask before calling this tool."
           }
         },
         "required": ["patient_name", "phone_number", "appointment_date_time"]

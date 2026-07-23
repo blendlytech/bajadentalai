@@ -1,4 +1,17 @@
 -- Supabase Schema for Baja Dental AI — Enterprise CRM tier
+--
+-- ⛔ SUPERSEDED — DO NOT RUN THIS FILE. See ../supabase/migrations/ (canonical)
+--    and this directory's README.md.
+--
+--    DANGER: the CREATE POLICY at the bottom grants `authenticated` USING(true)
+--    WITH CHECK(true). Postgres ORs permissive policies together, so running this
+--    against the live DB re-adds blanket access ALONGSIDE the per-clinic policy —
+--    letting ANY signed-in user read EVERY clinic's rows. This table holds
+--    health-adjacent PII (pain points, transcripts, recording URLs).
+--    The `CREATE TABLE IF NOT EXISTS` guard does NOT protect the policy.
+--    Live equivalent: migrations 20260615224801 + 20260723033022 + 20260723060504.
+--
+-- (original header follows)
 -- Stores the richer qualification profile captured by the Vapi assistant.
 -- Run this in the Supabase SQL editor.
 --

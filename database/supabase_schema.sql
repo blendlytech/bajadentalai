@@ -1,4 +1,17 @@
 -- Supabase Schema for Baja Dental AI CRM
+--
+-- ⚠️ SUPERSEDED / DO NOT APPLY. Kept for historical reference only.
+-- The canonical schema history now lives in `supabase/migrations/`.
+--
+-- This file DRIFTED from production and no longer describes the live `leads`
+-- table. Verified against project gldxvazsoqxyfuxeursn on 2026-07-22:
+--   * live `procedure_interest` / `language_spoken` are real ENUM types
+--     (procedure_interest_enum / language_enum), NOT the TEXT CHECK shown below
+--   * live `created_at` defaults to now(), not timezone('utc', now())
+--   * live `call_id` is NULLABLE (unique), not NOT NULL
+--   * live also has `clinic_name` and `notes` columns, missing here
+--   * live `clinic_id` FK has no ON DELETE CASCADE
+-- See supabase/migrations/README.md.
 
 -- Base leads table (receives standard inbound calls)
 CREATE TABLE IF NOT EXISTS public.leads (

@@ -1,4 +1,16 @@
 -- Supabase Schema for Baja Dental AI — B2B Agency Leads
+--
+-- ⛔ SUPERSEDED — DO NOT RUN THIS FILE. See ../supabase/migrations/ (canonical)
+--    and this directory's README.md.
+--
+--    DANGER: the CREATE POLICY at the bottom re-opens the exact hole that
+--    migration 20260723055430 closed — it lets ANY signed-in user (including
+--    clinic staff, once they have accounts) read and write the founder's B2B
+--    pipeline. The `CREATE TABLE IF NOT EXISTS` guard does NOT protect the policy.
+--    Live state: table per the baseline migration, with NO policy
+--    (service-role writes only).
+--
+-- (original header follows)
 -- Stores leads of clinic owners inquiring about the AI Receptionist.
 
 CREATE TABLE IF NOT EXISTS public.agency_leads (

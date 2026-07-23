@@ -375,9 +375,18 @@ s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
 
+# ALL THREE FUNCTIONS MUST KEEP verify_jwt = false.
+#   * vapi-webhook     — Vapi POSTs the end-of-call-report unauthenticated.
+#   * reminder-dispatch — invoked by pg_cron via pg_net; authenticates itself
+#                         with its own CRON_SECRET, not a Supabase JWT.
+#   * web-lead         — posted to by the public marketing-site contact form.
+# All three are verify_jwt=false on the live project. If these values drift back
+# to true, a `supabase functions deploy` will make every call 401 and silently
+# kill lead ingestion, the reminder loop, and the web contact form.
+
 [functions.vapi-webhook]
 enabled = true
-verify_jwt = true
+verify_jwt = false
 import_map = "./functions/vapi-webhook/deno.json"
 # Uncomment to specify a custom file path to the entrypoint.
 # Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
@@ -385,3 +394,15 @@ entrypoint = "./functions/vapi-webhook/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/vapi-webhook/*.html" ]
+
+[functions.reminder-dispatch]
+enabled = true
+verify_jwt = false
+import_map = "./functions/reminder-dispatch/deno.json"
+entrypoint = "./functions/reminder-dispatch/index.ts"
+
+[functions.web-lead]
+enabled = true
+verify_jwt = false
+import_map = "./functions/web-lead/deno.json"
+entrypoint = "./functions/web-lead/index.ts"

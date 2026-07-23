@@ -11,6 +11,219 @@ backlog in §3.**
 
 ## 0. Latest checkpoint — running log (newest first)
 
+### 2026-07-22 (latest+1) — Edge Function deep dive: 8 real bugs found & fixed in repo
+
+⚠️ **THESE FIXES ARE NOT DEPLOYED.** Live is still `vapi-webhook` v7 / `reminder-dispatch`
+v1 — i.e. **the bugs below are live right now.** Redeploy both (keep
+`verify_jwt=false`; pass `import_map_path: "deno.json"` if using MCP) before selling.
+
+**Booking was broken end-to-end. The three worst:**
+
+1. **Every AI-booked appointment was invisible to the clinic.** The `bookAppointment`
+   branch read `payload.call`, but Vapi nests the call under `message` (which is why
+   `msg.toolCalls` two lines above worked). So `clinic_id` **and** `call_id` were
+   always `null`. With `clinic_id` NULL the per-clinic RLS policy
+   (`clinic_id IN (...)`) can never match → **the clinic could never see the booking**,
+   and `reminder-dispatch` couldn't attribute it. Fixed + regression test.
+2. **The AI invented appointment slots.** `checkCalendarAvailability` returned the
+   hard-coded string *"Available slots: Tomorrow at 10:00 AM and 2:00 PM."* to every
+   caller, always. There is no calendar integration. Now returns an explicit
+   `AVAILABILITY_UNKNOWN` instruction telling the model to ask the patient's
+   preference and never imply a slot is open.
+3. **Patients were told their appointment was confirmed when it wasn't.**
+   `vapi_config/tools_schema.json` set a Vapi `request-complete` message
+   *"¡Listo! Tu cita ha sido confirmada."* — Vapi speaks that automatically on tool
+   success, silently overriding the persona rule at `system_prompt.txt:40` ("NEVER
+   tell the patient they are officially booked or confirmed"). Removed the
+   `request-complete` messages so the persona phrases it truthfully and bilingually;
+   rewrote both tool descriptions to say "request", not "book".
+
+**Also fixed:** `appointment_date_time` missing/unparseable silently booked the
+appointment at *the moment of the call* (`?? new Date()`), now rejected; an unhandled
+tool name returned no result for its `toolCallId` (stalls the assistant mid-call), now
+always answered; `leads` upserted `onConflict:"call_id"` with a possibly-NULL
+`call_id` (NULL never conflicts → duplicate leads on Vapi retry), now guarded;
+`agency_leads.call_id` is NOT NULL but a null was insertable → insert throws and the
+B2B lead is lost, now guarded so the SMS alert still fires; the reminder branch
+computed `reminder_status = "cancelled"`, which the CHECK constraint rejects (it was
+overwritten before use, but any reorder would have silently dropped call outcomes).
+
+**Security:** `reminder-dispatch`'s `CRON_SECRET` gate was **optional** — unset meant
+*no auth at all* on an endpoint that places real outbound calls (cost + patient
+harassment vector). Now **fails closed** with 503 until the secret is set.
+
+**Tests were fake.** The old `index.test.ts` re-implemented the logic inline
+("simulating the logic block from index.ts") and never imported the handler — it
+passed even when `index.ts` was wrong. Pure logic extracted to
+`supabase/functions/vapi-webhook/logic.ts`; **11 real tests** now import and exercise
+it, including a regression test for bug 1 and a property test that
+`reminderStatusFor` can never return a value the CHECK constraint rejects.
+All three functions `deno check` clean.
+
+**NOT fixed — needs your decision, blocks a truthful sale:**
+
+- **No real calendar integration.** Booking is honestly a *request* now, but the B2B
+  pitch (`b2b_system_prompt.txt`) sells "agendar citas 24/7". Either connect a real
+  calendar or make sure the pitch says "capture and confirm requests".
+- **Emergency alerts are inert.** `CLINIC_ALERT_PHONE`/`TELNYX_*` are unset, so an
+  `emergency_flag` call currently produces only a `console.warn`. CLAUDE.md requires a
+  human handoff. Set the secrets before taking live patient calls.
+- **`web-lead` has no rate limiting** (the header comment claims "basic rate cues";
+  there are none). A public endpoint — consider Turnstile or a per-IP cap.
+
+### 2026-07-22 (latest) — Migration history reconciled + live security hardening
+
+Closed the gap this doc flagged at the bottom of the 2026-07-22 reminder-loop entry:
+the repo had **no `supabase/migrations/` directory at all**, so nothing in git
+reproduced the live schema.
+
+- **Live tracking table was already complete** for 6 migrations
+  (`add_source_to_leads`, `create_enterprise_leads`, `tenant_isolation`,
+  `appointments`, `appointments_reminders`, `web_leads`) — they'd been applied via
+  MCP `apply_migration`, which records them. The DB side needed no repair; only the
+  repo files were missing.
+- **Mirrored those 6 byte-for-byte** from `supabase_migrations.schema_migrations`
+  and **verified by MD5** (trailing-newline normalised) — all six match exactly.
+  Left unmodified (no added headers) so the diff stays re-runnable.
+  *(Counts in this bullet are as-of that moment. Two further migrations were applied
+  later in the session — see below — so the directory ends at **9 files: the
+  baseline plus 8 mirrored**.)*
+- **Added `20260609000000_baseline_leads_agency.sql`** — reconstructed from live
+  introspection for the objects that predate tracking: `leads` + the enum types
+  `procedure_interest_enum`/`language_enum`, `agency_leads`, and the live-only
+  `service_role_all` policy on `leads`. Without it a fresh push fails (the
+  `add_source` migration ALTERs a table that wouldn't exist).
+- Replay of baseline + the tracked migrations reproduces live **exactly —
+  empirically verified, zero differences.** The chain was replayed into a throwaway
+  schema on the live instance and diffed against `public` across columns (name,
+  ordinal, type, nullability, default), indexes, constraints, policies (name, cmd,
+  roles, USING, WITH CHECK) and RLS flags; the scratch schema was then dropped
+  (0 objects left). Procedure is documented in `supabase/migrations/README.md`
+  → "Verifying the replay" so it's repeatable. No Docker/psql on this box and a
+  Supabase branch bills, so this was the free equivalent of `supabase db reset`.
+  It validates the resulting *shape*, not Supabase's migration runner itself.
+
+  Scope correction (caught on a later re-check of my own claim): that automated diff
+  did **not** cover comments, grants, or database-level objects. Checked by hand
+  instead — comments match (2 of them, both from migrations); table grants are
+  uniform Supabase defaults needing no migration; but the event trigger
+  **`ensure_rls`** (→ `public.rls_auto_enable()`) is live and **deliberately not in
+  the migrations** (needs elevated privileges, and isn't load-bearing since every
+  migration enables RLS explicitly). A fresh rebuild won't have it. Documented in
+  `supabase/migrations/README.md` → "Live objects deliberately outside this history".
+
+  ⚠️ Worth internalising: `anon` and `authenticated` hold **full table grants**
+  (`arwdDxtm`) on all seven tables — that's the Supabase default. **RLS is the only
+  thing keeping them out.** Never add a table here without a policy.
+
+**Review caught a defect in the first cut:** the baseline **omitted the two `leads`
+indexes** (`leads_created_at_idx`, `leads_clinic_name_idx`) — they exist live but are
+created by no tracked migration, so mirroring the tracking table alone missed them.
+Fixed. Lesson for anyone extending this: diff `pg_indexes` + `pg_constraint` against
+live, don't trust `schema_migrations` to be complete.
+
+**Also fixed this session (real problems, not cosmetics):**
+
+1. **`supabase/config.toml` would have broken production on the next CLI deploy.**
+   It declared `verify_jwt = true` for `vapi-webhook` (live is `false`) and omitted
+   `reminder-dispatch` and `web-lead` entirely. A `supabase functions deploy` would
+   have 401'd every call — silently killing lead ingestion, the reminder loop, and
+   the web contact form. All three now explicitly `verify_jwt = false`, matching live.
+2. **`agency_leads` was readable/writable by any signed-in user**
+   (`FOR ALL TO authenticated USING(true) WITH CHECK(true)`). Once clinic staff get
+   accounts, that exposes the founder's B2B pipeline to customers. Only `vapi-webhook`
+   touches the table, via the service-role key (bypasses RLS), so the policy was
+   dropped — same posture as `web_leads`.
+3. **`public.rls_auto_enable()`** was a `SECURITY DEFINER` function executable by
+   `anon`/`authenticated` via `/rest/v1/rpc/`. `EXECUTE` revoked; it's an event-trigger
+   function, so its real job is unaffected.
+
+Items 2–3 of that list were applied live as tracked migration `20260723055430_harden_agency_leads_and_rls_fn`
+and mirrored into the repo. **These changed the production database** (schema/grants
+only — no data touched, and `service_role` kept `EXECUTE` throughout, so ingestion was
+never interrupted). Copy-paste rollback SQL for both is in
+`supabase/migrations/README.md` → "Rolling back the hardening migration".
+
+**Security advisors: 4 WARN → 1 WARN.** (An earlier draft of this entry said
+"zero WARN, was 3" — both numbers were wrong; corrected here.) Fixed: the permissive
+`agency_leads` policy and both `SECURITY DEFINER` RPC exposures. The 1 remaining WARN
+is `pg_net` in the `public` schema, deliberately accepted (see below). 3 INFO remain
+(`rls_enabled_no_policy` on `agency_leads`, `clinic_staff`, `web_leads`) — all
+intentional service-role-only tables.
+
+**Second audit pass — more real findings, all fixed:**
+
+1. **Tenant-isolation read path was unindexed and re-evaluating auth per row.**
+   All four per-clinic RLS policies filter on `clinic_id`, but **no `clinic_id`
+   column had a covering index** (4× advisor `0001_unindexed_foreign_keys`), and each
+   policy called bare `auth.uid()`, which Postgres re-evaluates **for every row**
+   (4× WARN `0003_auth_rls_initplan`). Fixed in tracked migration
+   `20260723060504_tenant_rls_performance`: added `clinic_id` indexes on `leads`,
+   `enterprise_leads`, `appointments`, `clinic_staff`, and rewrote all four policies
+   to `(select auth.uid())` so it's hoisted to an InitPlan. Identical semantics.
+   **Performance advisors: 4 WARN → 0.**
+2. **`database/*.sql` contained two live security landmines.**
+   `enterprise_leads_schema.sql` and `agency_leads_schema.sql` each
+   `CREATE POLICY ... USING(true) WITH CHECK(true)` for `authenticated`. Postgres ORs
+   permissive policies, so running either against live would add blanket access
+   *next to* the per-clinic policy and **silently defeat multi-tenancy** — on
+   `enterprise_leads` that's the health-PII table. Their `CREATE TABLE IF NOT EXISTS`
+   headers make them look re-runnable; the guard covers the table, not the policy.
+   Added `database/README.md` + ⛔ in-file headers on both.
+3. **`supabase/seed.sql` was missing** while `config.toml` had `[db.seed]
+   enabled = true` with `sql_paths = ["./seed.sql"]` pointing at it. (Not verified to
+   hard-fail `db reset` — the CLI may just warn and skip — so this is removing an
+   ambiguity in the fresh-project rebuild, not fixing a proven breakage.) Created,
+   with the clinic-onboarding insert template commented out: seeding a placeholder
+   clinic would attach real inbound leads to a fake tenant.
+
+Replay verification was **re-run after these changes — still zero differences.**
+
+**Deliberately NOT fixed (both justified):**
+
+- `pg_net` sits in the `public` schema (advisor WARN `0014_extension_in_public`). The
+  `reminder-dispatch-20min` cron job calls `net.http_post`; moving the extension risks
+  breaking the reminder loop for a lint-level warning. Revisit only with a tested
+  cron rebuild.
+- `unused_index` INFO on every **non-constraint** index (PK/unique indexes aren't
+  flagged). All tables hold **zero rows**, so nothing has been used *yet*. Do not drop
+  indexes on this signal until there's real traffic to judge against.
+
+Non-finding worth recording so nobody re-chases it: `list_tables` reported
+`web_leads` as having 1 row, but that's a stale planner estimate (`reltuples`) —
+`select count(*)` returns **0**. The earlier "test rows deleted" note was accurate.
+
+✅ **`supabase db push` footgun — FOUND, then FIXED (not just documented).**
+
+The hazard: the baseline originally recreated the two pre-tenancy permissive policies
+(on `leads` and `agency_leads`) for historical faithfulness. The migrations that drop
+them were *already recorded as applied*, but the baseline was *not* — so `db push`
+against live would have applied only the baseline, recreated both permissive policies,
+and had nothing left to drop them. That **silently re-opens cross-tenant lead reads
+and re-exposes the B2B pipeline.**
+
+Fixed two independent ways:
+
+1. **The baseline no longer creates any permissive policy.** The later migrations drop
+   them with `DROP POLICY IF EXISTS`, so omitting them is end-state identical on a
+   fresh replay (re-verified: zero diff) while making the file incapable of weakening
+   RLS anywhere. The only policy it still creates is the `service_role` one.
+2. **The baseline is now registered** in `supabase_migrations.schema_migrations`, so
+   `db push` skips it.
+
+Fix 1 is load-bearing — even if the tracking row were lost, the file can no longer
+cause a regression. All **nine** files now hash-match the tracking table, so repo and
+DB are fully consistent, and `supabase db push` is a safe no-op against live.
+
+> Invariant to preserve if anyone edits the baseline: it must create **no policy
+> granting anything to `anon` or `authenticated`.**
+
+Also: **`database/supabase_schema.sql` marked SUPERSEDED / DO NOT APPLY** — it had
+drifted from production (TEXT CHECK vs real enums, UTC `created_at` default, NOT NULL
+`call_id`, missing `clinic_name`/`notes`). `supabase/migrations/` is now canonical.
+Full notes in `supabase/migrations/README.md`. pg_cron/pg_net + the reminder job stay
+out of migrations on purpose (the job command embeds `CRON_SECRET`).
+
 ### 2026-07-22 (later) — Factura decision LOCKED (US-only); docs aligned; persona re-pushed live; reminder assistant created
 
 Direction decision after a long factura/entity deliberation + web research:
@@ -126,14 +339,13 @@ Edge Functions → Manage secrets, or
 Follow-ups (not blocking): `clinic_staff` has RLS enabled but **no policy** — a
 future client-side staff dashboard will read nothing until you add `... FOR SELECT USING (user_id = auth.uid())`;
 service-role edge functions bypass RLS so ingestion/dispatch are unaffected.
-Pre-existing advisor warnings (not from this work): `agency_leads` permissive
+~~Pre-existing advisor warnings (not from this work): `agency_leads` permissive
 `USING(true)` policy; `public.rls_auto_enable()` is `SECURITY DEFINER` callable
-by anon/authenticated.
+by anon/authenticated.~~ **Both FIXED** — see the 2026-07-22 (latest) entry above.
 
-> The repo's `supabase/migrations` history is **not** updated to match these
-> ad-hoc live migrations (they were applied straight to the DB from the
-> `database/*.sql` files). Reconcile if/when you adopt the `supabase db`
-> migration workflow.
+> ~~The repo's `supabase/migrations` history is **not** updated to match these
+> ad-hoc live migrations.~~ **RESOLVED** in the 2026-07-22 (latest) entry above —
+> `supabase/migrations/` now exists and reproduces the live schema.
 
 ---
 
@@ -170,7 +382,8 @@ pg_cron → `reminder-dispatch` (Deno) → reads `appointments` → places Vapi 
 | Vapi assistant | "Dental_Demo" / "Sofía", id in `.env` `VAPI_ASSISTANT_ID`; model `gpt-4o-mini`; voice ElevenLabs; knowledge base attached; `analysisPlan.structuredDataPlan` = enterprise schema; `server.url` → the Edge Function |
 | Persona prompt | `vapi_config/system_prompt.txt` (this IS what's live on the assistant) |
 | Enterprise capture schema | `vapi_config/enterprise_structured_data_schema.json` |
-| DB schemas | `database/enterprise_leads_schema.sql` (current). NOTE `database/supabase_schema.sql` is STALE vs the live `leads` table. |
+| Schema history | **`supabase/migrations/`** — canonical; reproduces live. See its `README.md` (incl. the baseline footgun). |
+| DB schemas | `database/*.sql` = historical scratch files. `database/supabase_schema.sql` is marked **SUPERSEDED / DO NOT APPLY** (drifted from live). |
 | Git remote | `origin` = github.com/nourish2cure2-code/Dental_AI_Receptionist, branch `main` |
 
 ---

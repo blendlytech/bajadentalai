@@ -95,9 +95,23 @@ Deno.serve(async (req) => {
     return new Response("Method Not Allowed", { status: 405, headers: CORS });
   }
 
-  // Optional shared-secret gate (the pg_cron job sends x-cron-secret).
+  // Shared-secret gate — FAIL CLOSED. This endpoint places real outbound phone
+  // calls that cost money and reach patients, so an unauthenticated caller must
+  // never be able to trigger it. Previously the check was skipped entirely when
+  // CRON_SECRET was unset, which left the endpoint open to anyone with the URL.
   const cronSecret = Deno.env.get("CRON_SECRET");
-  if (cronSecret && req.headers.get("x-cron-secret") !== cronSecret) {
+  if (!cronSecret) {
+    console.error(
+      "reminder-dispatch REFUSED: CRON_SECRET is not set on this function. " +
+        "Set it (it must match the x-cron-secret header sent by the pg_cron job) " +
+        "or the reminder loop stays disabled.",
+    );
+    return new Response(
+      JSON.stringify({ ok: false, error: "cron_secret_not_configured" }),
+      { status: 503, headers: { ...CORS, "Content-Type": "application/json" } },
+    );
+  }
+  if (req.headers.get("x-cron-secret") !== cronSecret) {
     return new Response(JSON.stringify({ ok: false, error: "unauthorized" }), {
       status: 401,
       headers: { ...CORS, "Content-Type": "application/json" },
