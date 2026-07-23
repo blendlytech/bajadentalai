@@ -11,6 +11,68 @@ backlog in §3.**
 
 ## 0. Latest checkpoint — running log (newest first)
 
+### 2026-07-23 (latest) — Everything repo-only is now LIVE; Vapi was worse than documented
+
+The repo had been ahead of production in three places for two sessions. All three
+are closed. **`vapi-webhook` v8, `reminder-dispatch` v2** (were v7/v1), verified by
+smoke test — `reminder-dispatch` now returns `503 cron_secret_not_configured`,
+which is the fail-closed gate that only exists in the new build.
+
+**The `requested` vs `confirmed` trap is fixed** (flagged in the entry below).
+Migration `20260723080122_appointments_requested_status` — applied live and
+mirrored in the repo: `status` CHECK now accepts `'requested'`, `DEFAULT` moved
+`'confirmed'` → `'requested'`, and the column is `NOT NULL` (a NULL status would
+sit outside every filter). The table was **empty (0 rows)**, so there was no
+backfill ambiguity. `bookAppointment` now writes `status: 'requested'` explicitly
+rather than leaning on the default, and `reminder-dispatch`'s `status='confirmed'`
+filter is commented as load-bearing. **Reminders can no longer call a patient
+about an appointment no human confirmed.**
+
+**Vapi was in worse shape than any doc claimed.** Fetching the live account
+turned up three things nothing had recorded:
+
+1. **No tools existed in the Vapi account at all** — not detached, *never
+   created*. `system_prompt.txt:39` orders Sofía to call `bookAppointment`, so
+   she was being told to invoke a tool she did not have. The booking path in the
+   webhook was unreachable in production. Both tools created from
+   `tools_schema.json` and attached.
+2. **The live KB was still the pre-purge file** (7124 b vs the repo's 5752 b) —
+   i.e. "entirely painless", "identical to those used in the US", Beverly Hills
+   comparisons were all still retrievable on every patient call. Purged KB
+   uploaded (`39946922-…`) and the assistant repointed. ⚠️ The old file
+   `ea0b6854-56b2-4686-b8ec-851d59391d5d` is **still in the Vapi account** — not
+   deleted, since that is irreversible. Delete it so it cannot be reattached.
+3. **The B2B assistant was fully disconnected**: no `server.url`, no
+   `serverMessages`, no `structuredDataPlan`, no `campaign_type` metadata, and
+   the old 2908-char overclaiming prompt. The webhook's entire `b2b_agency`
+   branch could never fire — **every B2B lead was being dropped silently.** All
+   four wired; prompt now byte-identical to `b2b_system_prompt.txt`.
+
+The live persona had been serving `board-certified`, `VIP`, `shuttle` and
+"experiencing pain" right up until this push. Both assistants now match the repo
+byte-for-byte (verified by comparison, not by trusting the write).
+
+**`vapi_config/push_assistants.js` added** so this is never a manual step again —
+idempotent (tools looked up by name, KB deduped by name+size). It documents two
+traps found the hard way: **`PATCH /assistant` REPLACES the whole `model` object
+rather than merging** — a partial `{model:{knowledgeBase:…}}` patch wiped the
+system prompt and tool attachments mid-session (caught and restored) — and Vapi
+returns `bytes` as a **string**, so a `===` size compare silently re-uploads the
+KB every run.
+
+Also fixed: the staff SMS in `vapi-webhook` still told the human closer to "walk
+them through the **VIP shuttle** and clinic safety" — the same claim the persona
+purge removed, surviving one layer down in the brief the closer reads from.
+
+**Still blocked on the owner (unchanged, all launch-gated):**
+
+- **No phone numbers are registered in Vapi at all.** This is the single blocker
+  for both directions: nothing routes inbound to Sofía, and
+  `VAPI_OUTBOUND_PHONE_NUMBER_ID` cannot be set, so reminders stay dark.
+- Secrets still unset: `CRON_SECRET` (value is in memory), `CLINIC_ALERT_PHONE`,
+  `TELNYX_*` → emergency + hot-lead SMS remain inert, reminder loop 503s.
+- Key rotation (Tier 1) still outstanding.
+
 ### 2026-07-23 — B2B pitch tightened to what the product actually does today
 
 Closes the "**The B2B pitch now overclaims**" flag raised in the entry below. Chose

@@ -144,6 +144,9 @@ Deno.serve(async (req) => {
     const windowEnd = new Date(now + REMIND_LEAD_MAX_HOURS * 3600_000).toISOString();
 
     // Due & not yet reminded (matches idx_appointments_reminder_due).
+    // `status = 'confirmed'` is load-bearing, not cosmetic: the AI can only write
+    // 'requested' (see the bookAppointment branch in vapi-webhook). Widening this
+    // filter would place reminder calls about appointments no human ever confirmed.
     const { data: appts, error: qErr } = await supabase
       .from("appointments")
       .select("id, patient_name, phone_number, appointment_time, clinic_id, clinics(name)")

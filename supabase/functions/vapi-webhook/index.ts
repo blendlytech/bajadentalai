@@ -116,6 +116,10 @@ Deno.serve(async (req) => {
             patient_name: args.patient_name ?? "Unknown",
             phone_number: args.phone_number ?? "Unknown",
             appointment_time: when.toISOString(),
+            // Explicit, not relying on the column default: the AI can only ever
+            // record a REQUEST. Only a human at the clinic promotes it to
+            // 'confirmed', which is what makes it eligible for a reminder call.
+            status: "requested",
           });
 
           if (error) {
@@ -377,7 +381,11 @@ Deno.serve(async (req) => {
       const proc = structured.procedure_interest ?? "an unknown procedure";
       const text = emergency
         ? `MEDICAL PRIORITY: ${name} (${phone ?? "no number"}) reported acute symptoms on the AI call. Have a clinician call back for care now — this is NOT a sales follow-up.`
-        : `Hot lead: ${name} wants ${proc} (${structured.financial_status ?? "budget unknown"}, ${structured.urgency_timeline ?? "timeline unknown"}). They're anxious about the border — call ${phone ?? "them"} and walk them through the VIP shuttle and clinic safety.`;
+        // Do not name services or safety assurances here: this text is the brief
+        // the closer works from, and the persona is barred from promising
+        // transport/shuttles or characterizing area safety unless that exact
+        // claim is in the clinic's own KB. Same rule applies to the human.
+        : `Hot lead: ${name} wants ${proc} (${structured.financial_status ?? "budget unknown"}, ${structured.urgency_timeline ?? "timeline unknown"}). They raised concerns about crossing the border — call ${phone ?? "them"} and answer their questions with what your clinic actually offers.`;
       try {
         await sendTelnyxSms(alertTo, text);
       } catch (smsErr) {
