@@ -1,4 +1,6 @@
-# Dental AI Receptionist MX 🦷🤖
+# Baja Dental AI 🦷🤖
+
+> **Live:** [www.bajadentalai.com](https://www.bajadentalai.com) · **Repo:** `blendlytech/bajadentalai` · **Deploy:** see [`DEPLOY.md`](DEPLOY.md)
 
 A high-converting, deeply localized AI Receptionist designed specifically for premium dental clinics in Mexicali (Zona Médica) and Los Algodones ("Molar City").
 
