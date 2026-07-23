@@ -1,3 +1,5 @@
+# Dental Implant & All-on-4 Clinics Market Research
+
 ## Objective
 
 This report maps high-value dental implant and All-on-4 providers in **Los Algodones** and **Zona Médica, Mexicali**, and translates their public web presence into a scraping-oriented view: which pages to target, what pricing and procedures are available, and where staff names are exposed.
@@ -5,6 +7,7 @@ This report maps high-value dental implant and All-on-4 providers in **Los Algod
 ## Market overview
 
 Los Algodones (“Molar City”) is one of the densest dental tourism hubs globally, with many clinics publishing detailed English-language price lists for implants, crowns, and full-arch treatments, often 50–80% cheaper than U.S. pricing.  All-on-4 packages in Los Algodones commonly range roughly **8,000–14,000 USD per arch**, depending on implant brand and prosthetic material.[^1][^2][^3][^4][^5]
+
 Zona Médica in Mexicali is a compact medical district a few minutes from the border where multi-specialty clinics (including dental) market to patients from California, Arizona, and Nevada with implant prices often **around 700–1,000 USD per implant** and full-arch All-on-4 treatments typically **8,000–10,000 USD+ per arch**.  Aggregator sites (Bookimed, Dental Departures, FlyHospital, DentaVacation) verify these ranges and provide additional cross-checked pricing for Mexicali.[^6][^7][^8][^9][^10][^11]
 
 ***

@@ -27,7 +27,7 @@ npx wrangler pages deploy bajadental_site --project-name=baja-dental-ai --branch
 
 After the command finishes, Wrangler will output a message similar to this:
 
-```
+```text
 ✨ Deployment complete! Take a peek over at https://<id>.baja-dental-ai.pages.dev
 ```
 

@@ -4,7 +4,7 @@ Use this runbook every time you close a new dental clinic. This guarantees that 
 
 ---
 
-### Step 1: Database & Tenant Provisioning
+## Step 1: Database & Tenant Provisioning
 
 Before touching Vapi or Telnyx, you must provision the tenant in Supabase to generate their unique `clinic_id`.
 
@@ -27,7 +27,7 @@ Before touching Vapi or Telnyx, you must provision the tenant in Supabase to gen
 
 ---
 
-### Step 2: Telephony Provisioning (Telnyx)
+## Step 2: Telephony Provisioning (Telnyx)
 
 1. Log in to the [Telnyx Portal](https://portal.telnyx.com/).
 2. Go to **Numbers** -> **Search & Buy** and purchase a local US number (e.g., 760 area code for Calexico/Baja routing).
@@ -37,7 +37,7 @@ Before touching Vapi or Telnyx, you must provision the tenant in Supabase to gen
 
 ---
 
-### Step 3: Assistant Provisioning (Vapi)
+## Step 3: Assistant Provisioning (Vapi)
 
 1. **Prepare the Knowledge Base:**
    * Open `docs/dental_tourism_knowledge_base.txt`.
@@ -65,7 +65,7 @@ Before touching Vapi or Telnyx, you must provision the tenant in Supabase to gen
 
 ---
 
-### Step 4: SIP Binding
+## Step 4: SIP Binding
 
 You must tell Vapi that the new Telnyx number belongs to this new Assistant.
 Run this curl command in your terminal (replacing the brackets with your actual values):
@@ -85,7 +85,7 @@ curl --request POST \
 
 ---
 
-### Step 5: Verification
+## Step 5: Verification
 
 1. Call the new Telnyx number.
 2. Ask a question specific to the customized Knowledge Base (e.g., "How much is an All-on-4?"). Verify it answers with the *clinic's* specific pricing.
@@ -94,7 +94,7 @@ curl --request POST \
 
 ---
 
-### Step 6: Enable AI voice appointment reminders (outbound)
+## Step 6: Enable AI voice appointment reminders (outbound)
 
 Reminders and confirmations are delivered by **outbound AI voice call (Vapi + Telnyx) — NOT WhatsApp.**
 

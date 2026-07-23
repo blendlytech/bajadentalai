@@ -1,3 +1,5 @@
+# Mexicali Dental AI (Bootstrap Demo)
+
 > ⚠️ **Historical / superseded** — this bootstrap "no-phone demo" context predates the current AI-voice architecture. The root `CLAUDE.md` → "Current Architecture (AUTHORITATIVE)" is the source of truth (single "Consultorio Completo" plan; reminders/win-backs by outbound Vapi voice call, not WhatsApp).
 
 PROJECT CONTEXT: MEXICALI DENTAL AI (BOOTSTRAP DEMO)
@@ -20,7 +22,7 @@ Frontend Core: Single-file HTML/JS or extremely lightweight Vite/React.
 
 Styling: Tailwind CSS (via CDN is acceptable for the prototype).
 
-Voice Engine Integration: vapi-web-sdk or via CDN <script src="https://unpkg.com/@vapi-ai/web/dist/vapi.bundle.js"></script>.
+Voice Engine Integration: vapi-web-sdk or via CDN script `https://unpkg.com/@vapi-ai/web/dist/vapi.bundle.js`.
 
 Backend (Future): Node.js / Express for calendar webhooks (only build when requested).
 
