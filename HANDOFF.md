@@ -71,6 +71,68 @@ All three functions `deno check` clean.
 - **`web-lead` has no rate limiting** (the header comment claims "basic rate cues";
   there are none). A public endpoint — consider Turnstile or a per-IP cap.
 
+**Marketing-site pass (same session):**
+
+- ✅ Contact form ↔ `web-lead` contract **verified field-by-field** (`name`,
+  `clinic_name`, `whatsapp`, `email`, `plan_interest`, `website` honeypot) — they
+  match. `web_leads.message` is simply unused; the form has no message field.
+- ✅ **Fixed a pricing-disclosure gap.** The site showed `$8,900 MXN` (banner and the
+  MXN toggle) while `terminos.html` says prices are "displayed and charged in USD"
+  at `$499`, and `main.js` deliberately never converts between them. There was **no
+  FX/billing-currency disclaimer anywhere** (grep-confirmed), so a clinic toggling to
+  MXN could reasonably expect to pay pesos. Added a `billing_currency_note` line
+  (ES + EN) under the price: we bill in USD, MXN is indicative and moves with FX.
+  This also protects the LOCKED US-only/no-factura posture.
+**Medical-claim purge (same session) — this was worse than it looked:**
+
+The KB placeholders were only half the problem. `vapi_config/system_prompt.txt` — the
+persona **live on the assistant right now** — literally instructed Sofía to "Reassure
+them about your clinic's **board-certified specialists** and VIP border transportation."
+That is an unconditional order to assert a credential and a service for *every* clinic,
+true or not. A KB is a retrieval source; the system prompt is a command. Fixed:
+
+- Removed the board-certified / VIP-transport assertion; replaced with explicit bans on
+  stating any credential, certification, accreditation, training or safety standard —
+  and on promising transport, shuttles, fast-passes or warranties — unless that exact
+  claim is in **that clinic's** KB. Gaps go to a coordinator, never get filled in.
+- Removed the symptom probe. Discovery said `"Have you been experiencing pain?"`, which
+  solicits clinical detail as a sales lever and invites exactly the conversation the
+  guardrail forbids. Now non-clinical, and points at the emergency-handoff rule.
+- Stopped the assistant characterizing area safety, and removed the "VIP shuttle" from
+  the hand-off script (it contradicted the new rule two lines above).
+
+**`docs/dental_tourism_knowledge_base.txt` rewritten.** It carried hard claims *outside*
+the brackets that the AI would say verbatim to every caller: "identical to those used in
+the United States and Canada", "the Zona Médica is highly secure", "the exact same
+high-end brands used in Beverly Hills", "predatory malpractice insurance", US price
+comparisons as fact, "can easily last 15 to 20 years" — plus two straight guardrail
+violations, "the procedure is entirely painless" (root canals) and "a very common,
+painless procedure" (bone grafts). All removed; clinical questions now route to the
+dentist and unverified details to a coordinator. Placeholders no longer carry `e.g.`
+example claims at all, so there is nothing left for an LLM to paraphrase as fact.
+
+The fill instructions moved to a **separate** file, `docs/knowledge_base_onboarding.md`,
+which is NOT uploaded to Vapi — keep it that way, since anything in the KB can be spoken
+to a patient. ("OSHA" was doubly wrong, incidentally: it's a US *workplace* regulator
+that does not certify Mexican dental clinics.)
+
+⚠️ **Both are repo-only.** The live assistant still has the old persona and old KB.
+Re-push `system_prompt.txt`, `tools_schema.json`, and the KB before the next patient call.
+
+- ⚠️ ~~**KB placeholder leak risk (not fixed — onboarding process issue).**~~ **FIXED —
+  see above.** Original finding retained for context:
+  `docs/dental_tourism_knowledge_base.txt` is correctly templated
+  (`[CLINIC_NAME]`, `[CREDENTIALS, …]`) rather than asserting claims — but the
+  placeholders embed *plausible example claims* ("e.g., board-certified",
+  "e.g., OSHA-level sterilization", "e.g., a 5-year guarantee"). An LLM handed that
+  file can paraphrase the **example** to a patient as fact. For a medical product
+  that is a real liability. Either strip the `e.g.` examples or make filling every
+  placeholder a hard gate in onboarding.
+- ⚠️ **The B2B pitch now overclaims.** `b2b_system_prompt.txt` sells "agendar citas
+  24/7" and the site sells automated booking, but booking is honestly a *request*
+  until a human confirms (there is no calendar integration). Align the pitch or build
+  the integration — do not sell the calendar.
+
 ### 2026-07-22 (latest) — Migration history reconciled + live security hardening
 
 Closed the gap this doc flagged at the bottom of the 2026-07-22 reminder-loop entry:
