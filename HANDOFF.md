@@ -11,6 +11,43 @@ backlog in §3.**
 
 ## 0. Latest checkpoint — running log (newest first)
 
+### 2026-07-22 (later) — Factura decision LOCKED (US-only); docs aligned; persona re-pushed live; reminder assistant created
+
+Direction decision after a long factura/entity deliberation + web research:
+**Baja Dental AI sells as a full US-based seller — USD, no factura**, permanently
+unless real drop-in demand later forces a bolt-on. A deductible Mexican CFDI always
+needs a Mexican-RFC seller of record (no reverse-charge); global MoRs aren't confirmed
+to issue Mexican CFDIs and are the wrong product fit; the foreign-resident regime yields
+a voucher not a full CFDI. Factura is handled as a **sales objection** (ROI-reframe
+first, then a discount ladder $499→~$449→~$399-425→~$350-flagship as last resort), never
+spun as "for the clinic's benefit." Full rationale in Claude memory `factura-no-factura-decision.md`.
+
+Done this session:
+- **Docs aligned to a US-sole-proprietor / no-factura posture** (resolves the flagged
+  "biggest hole"): `terminos.html` + `aviso-de-privacidad.html` no longer declare a
+  Mexican PFAE — now "sole proprietor established in the USA"; added an explicit
+  "no CFDI/factura, receipts only" clause to Terms §2. Invoices: removed the blank-CLABE
+  **SPEI** option, seller address → "Estados Unidos de América", and the ES invoice
+  retitled **FACTURA → NOTA DE COBRO** (it was contradicting the new no-factura Terms).
+- **Persona re-pushed LIVE** to the inbound assistant "Dental_Demo" (`01ff55d9-…`):
+  system prompt now = repo `vapi_config/system_prompt.txt` (5076 chars, with the
+  "never tell a patient they're officially booked/confirmed" fix). knowledgeBase
+  (`ea0b6854-…`), model (gpt-4o-mini), and firstMessage all verified preserved.
+- **Reminder assistant created:** "Sofía – Recordatorios"
+  `VAPI_REMINDER_ASSISTANT_ID = 1b646ce5-6dba-4a9b-8e9e-d737c5d75329` (prompt =
+  `reminder_call_prompt.txt`, structuredData = `reminder_structured_data_schema.json`,
+  `server.url` → vapi-webhook). See Claude memory `supabase-live-state.md`.
+
+Remaining to fully finish (all owner-gated — see the closing summary for exact commands):
+1. **Register the outbound Vapi phone number** — the Vapi account has NO phone number
+   registered, so `VAPI_OUTBOUND_PHONE_NUMBER_ID` doesn't exist. Run
+   `vapi_config/telnyx_sip_setup.sh` (POST) + the manual Telnyx-portal SIP steps in it.
+2. **Set Edge Function secrets** (`VAPI_API_KEY`, `VAPI_REMINDER_ASSISTANT_ID` above,
+   `VAPI_OUTBOUND_PHONE_NUMBER_ID` from step 1, `CRON_SECRET` from memory, + optional
+   Telnyx SMS) — dashboard or `supabase secrets set`. Secrets are NOT in this file.
+3. **Deploy the site** (git push → Cloudflare Pages) so the doc/invoice fixes go live.
+4. **Rotate the exposed keys** (Vapi/Telnyx/Supabase/ElevenLabs) — still open from Tier 1.
+
 ### 2026-07-22 — Contact form now captures real leads (was a dead form losing every web lead)
 
 The marketing-site contact form (`bajadental_site/contacto.html`) previously
