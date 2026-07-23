@@ -11,6 +11,59 @@ backlog in §3.**
 
 ## 0. Latest checkpoint — running log (newest first)
 
+### 2026-07-23 — B2B pitch tightened to what the product actually does today
+
+Closes the "**The B2B pitch now overclaims**" flag raised in the entry below. Chose
+**align the pitch**, not build the calendar.
+
+Ground truth was re-derived from the code, not the docs — `vapi-webhook/index.ts`,
+`reminder-dispatch/index.ts`, `system_prompt.txt`, the migrations, and `.env`:
+
+| Claim | Reality |
+| :-- | :-- |
+| 24/7 bilingual inbound answering | ✅ live |
+| Qualification + transcript + recording + per-clinic isolation | ✅ live |
+| Emergency stop → human handoff | ✅ live (in persona) |
+| Appointment **booking** | ❌ **request only** — `checkCalendarAvailability` returns `AVAILABILITY_UNKNOWN`; no calendar exists |
+| "drops the lead in your CRM" | ❌ no CRM integration, and no clinic-facing dashboard (`clinic_staff` RLS has no policy) |
+| "texts your closer instantly" on every lead | ⚠️ built but **inert** (`CLINIC_ALERT_PHONE` unset) **and** only fires on emergency-or-border-anxiety, never on every lead |
+| AI reminder calls | ⚠️ built + deployed, **not running** (no `VAPI_OUTBOUND_PHONE_NUMBER_ID`, `CRON_SECRET` unset → fails closed 503) |
+| "sub-800ms latency", "patients can't tell it's AI" | ❌ unmeasured / unsubstantiated |
+
+**`vapi_config/b2b_system_prompt.txt` rewritten.** The structural fix is that Mateo now
+has an explicit **capability ban list** — the same shape as the medical-claim bans in
+`system_prompt.txt`. That's why the pitch drifted: there was nothing telling the AE what
+it may not say. Claims are now sorted into **LIVE TODAY** / **ACTIVATED DURING SETUP**
+("we switch it on when we connect your number" — never "it's already running") /
+**ROADMAP** / **NEVER CLAIM**. Dropped: CRM, dashboard, WhatsApp, latency figures,
+"patients can't tell", ROI-as-fact, and "compliant"/certification claims (it now
+*describes* consent + isolation + no-medical-advice instead of asserting a seal).
+
+The calendar gap is reframed as the selling point rather than hidden: *"the AI doesn't
+touch your calendar, and that's deliberate — I'm not going to let an AI double-book your
+chair."* Capture fields in the close still match `b2b_structured_schema.json` exactly
+(`owner_name`, `clinic_name`, `phone_number`, `current_reception_pain`,
+`pilot_appointment` ∈ morning/afternoon/not_booked).
+
+**Marketing site (`bajadental_site/index.html`) — same overclaims, fixed in ES + EN**
+(inline copy *and* both i18n dicts): "agenda"/"books" → takes an appointment request;
+"Alerta SMS instantánea de **cada lead**" → SMS on **urgent** calls; "tu agenda empieza a
+llenarse sola" → "empiezas a recibir pacientes calificados"; website "para que te
+encuentren y agenden" → "y te llamen". Verified: I18N parses, **98 ES / 98 EN keys, zero
+parity gaps**. Left alone deliberately: "llenar la agenda" (hero) and "Agenda una llamada"
+(CTA) — outcome copy and an imperative, not capability claims.
+
+⚠️ **Not fixed — new finding, affects the reminder claim.** `appointments.status` is
+`DEFAULT 'confirmed'` (`20260723033033_appointments.sql:12`), and `reminder-dispatch`
+selects `status='confirmed'`. So an AI-captured *request* — which the patient was
+explicitly told is **not** confirmed — is indistinguishable from a clinic-confirmed
+appointment. Once the reminder secrets are set, reminder calls will go out on
+appointments no human ever confirmed. Fix before activating reminders: default new
+tool-inserted rows to a `requested` state and have the clinic promote them.
+
+⚠️ **Still repo-only.** `b2b_system_prompt.txt` is not pushed to the B2B Vapi assistant;
+the site change needs a deploy (push to `main` → Cloudflare Pages).
+
 ### 2026-07-22 (latest+1) — Edge Function deep dive: 8 real bugs found & fixed in repo
 
 ⚠️ **THESE FIXES ARE NOT DEPLOYED.** Live is still `vapi-webhook` v7 / `reminder-dispatch`
@@ -62,9 +115,10 @@ All three functions `deno check` clean.
 
 **NOT fixed — needs your decision, blocks a truthful sale:**
 
-- **No real calendar integration.** Booking is honestly a *request* now, but the B2B
-  pitch (`b2b_system_prompt.txt`) sells "agendar citas 24/7". Either connect a real
-  calendar or make sure the pitch says "capture and confirm requests".
+- ~~**No real calendar integration.**~~ **Pitch side RESOLVED 2026-07-23** (see top
+  entry): the pitch now says "capture the request, your team confirms". There is still
+  no calendar integration — that's now a deliberate, disclosed product boundary rather
+  than a gap between the pitch and the build.
 - **Emergency alerts are inert.** `CLINIC_ALERT_PHONE`/`TELNYX_*` are unset, so an
   `emergency_flag` call currently produces only a `console.warn`. CLAUDE.md requires a
   human handoff. Set the secrets before taking live patient calls.
@@ -128,10 +182,9 @@ Re-push `system_prompt.txt`, `tools_schema.json`, and the KB before the next pat
   file can paraphrase the **example** to a patient as fact. For a medical product
   that is a real liability. Either strip the `e.g.` examples or make filling every
   placeholder a hard gate in onboarding.
-- ⚠️ **The B2B pitch now overclaims.** `b2b_system_prompt.txt` sells "agendar citas
-  24/7" and the site sells automated booking, but booking is honestly a *request*
-  until a human confirms (there is no calendar integration). Align the pitch or build
-  the integration — do not sell the calendar.
+- ⚠️ ~~**The B2B pitch now overclaims.**~~ **RESOLVED 2026-07-23 — see the top entry.**
+  Pitch aligned (not the integration built): `b2b_system_prompt.txt` and the site now
+  sell an appointment *request*, and the AE has an explicit capability ban list.
 
 ### 2026-07-22 (latest) — Migration history reconciled + live security hardening
 
