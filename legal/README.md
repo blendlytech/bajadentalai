@@ -5,8 +5,9 @@ paper — the on-screen yellow instruction boxes are `@media print` hidden, so t
 appear on the signed copy.
 
 > **These are operating drafts, not legal advice.** A lawyer should review them before
-> they are used with a real clinic. Two clauses in particular need a professional eye —
-> see [Open questions](#open-questions-for-the-lawyer) below.
+> they are used with a real clinic. Four risks are structural and no clause fully removes
+> them — see the [Risk register](#risk-register--read-this-part) below, which is the most
+> important part of this file.
 
 ## The documents
 
@@ -76,19 +77,86 @@ Clause 2.8 (reminder calls) is deliberately worded as **"activated during
 implementation"** rather than already running: the code is deployed but inert until
 `VAPI_OUTBOUND_PHONE_NUMBER_ID` and `CRON_SECRET` are set. Do not restate it as live.
 
-## Open questions for the lawyer
+## Risk register — read this part
 
-1. **Governing law (clause 12).** The contract submits to Mexican law and Mexicali courts,
-   mirroring clause 12 of the published `terminos.html`, while the seller is a US sole
-   proprietor with no Mexican establishment. That combination is coherent only if it is
-   deliberate. Whatever is decided, `terminos.html`, `aviso-de-privacidad.html` and this
-   contract must be changed **together** — they currently agree, and that is worth
-   preserving.
-2. **Sensitive data.** Annex A clause 2 treats spontaneously-volunteered symptom mentions
-   as potentially sensitive under art. 3(VI) LFPDPPP. The system never solicits clinical
-   information, but transcripts can capture it. Confirm whether the clinic's own privacy
-   notice needs express consent language for this, and whether the US transfer disclosure
-   in Annex A clause 6 is sufficient as drafted.
+A second review pass (2026-07-23) found gaps the first draft missed. The contract now
+addresses them, but **four risks are structural and no contract clause fully removes
+them.** They are ranked by what could actually cost the most.
+
+### 1. TCPA — outbound AI reminder calls to US mobile phones ⚠️ highest financial risk
+
+The reminder loop places **artificial-voice calls**, and the patients are largely
+Americans on US cell numbers. Under the US Telephone Consumer Protection Act that requires
+the recipient's **prior express consent**, with statutory damages of **$500–$1,500 per
+call** and a well-developed class-action bar. The FCC has confirmed AI-generated voices are
+"artificial" for TCPA purposes. This is a US federal claim against a **US person** — the
+Mexicali forum clause does not shield it, and neither does the clinic being Mexican.
+
+Contract now: clause 7.5 makes the clinic warrant it holds consent and notify revocations
+within 24h; clause 10 has the clinic indemnify for TCPA claims. **That shifts the risk on
+paper but does not stop a patient suing Mills directly.** Before the reminder loop is
+switched on, get counsel on whether any healthcare-treatment exemption applies, and require
+proof of consent capture rather than a bare warranty.
+
+### 2. Sole proprietorship = unlimited personal liability ⚠️ structural
+
+There is no liability shield. A judgment reaches personal assets — house, savings, vehicle.
+Every cap and indemnity in the contract is only as good as the counterparty's willingness
+and ability to pay. **The single highest-value legal step available is forming an entity**
+(LLC or equivalent) and moving the contracts into it. Clause 16 already permits assigning
+this agreement to an entity Mills owns, on written notice, specifically so existing
+contracts can migrate without re-signing. Pair it with **E&O / tech-liability insurance**;
+insurance is what actually pays claims when a cap fails.
+
+### 3. Permanent establishment — Mexican tax exposure ⚠️ contradicts the no-factura posture
+
+A dependent agent who **habitually concludes contracts** in Mexico for a foreign resident
+can create a *establecimiento permanente*, dragging the business into Mexican tax
+obligations — the opposite of the US-only/no-CFDI model the whole packet is built on. The
+first draft of the rep letter authorized exactly that pattern.
+
+Mitigated: the rep may now only **transmit** a signed offer; the contract is not formed
+until Mills countersigns (contract clause 23, rep letter clauses 2 and 3 bis). Confirm with
+a Mexican tax advisor before scaling, especially if in-person visits become routine.
+
+### 4. Governing law — the seller litigates abroad
+
+The contract submits to Mexican law and Mexicali courts, mirroring `terminos.html` clause
+12, while the seller is a US sole proprietor. That means litigating in Spanish, under
+Mexican law, without Mexican counsel. It is also what a Mexican clinic will actually sign,
+and a US judgment would be hard to enforce against a Mexican clinic anyway — so this may
+be the right trade. It is now a deliberate one, with a 30-day good-faith negotiation step
+first (clause 20). **`terminos.html`, `aviso-de-privacidad.html` and this contract must
+change together** — they currently agree, which is worth preserving.
+
+### Also fixed in this pass
+
+- **Liability cap was at risk of being void in full.** Under art. 2106 of the Código Civil
+  Federal a waiver of liability for *dolo* is a nullity. A flat cap with no carve-out can
+  be struck down as a whole. Clause 9.6 now carves out *dolo*/gross negligence **and**
+  states that the carve-out's invalidity does not take the rest of the cap with it.
+- **No indemnification existed at all** — the largest gap in the first draft. Clause 10 now
+  covers false clinic-supplied information, missing patient consent, clinical acts and
+  omissions (including an ignored emergency handoff), and data-controller breaches.
+- **LFPDPPP citations were to a repealed statute.** The 2010 law was abrogated by the new
+  LFPDPPP published 20 March 2025 (in force 21 March 2025); **INAI no longer exists**, its
+  functions having passed to the Secretaría Anticorrupción y Buen Gobierno. The new law
+  also **widened the range of regulated parties**, so the *encargado* may carry direct
+  statutory duties. Annex A is updated and now flags that article numbers must be verified
+  against the current text before signature.
+- **Missing boilerplate that actually matters:** severability and survival (so one bad
+  clause cannot sink the contract), force majeure, assignment, notices, independent
+  contractors, entire agreement — the last of which kills "but your rep told me…" claims.
+- **Emergency-detection failure was unallocated.** Clause 9.3 now states plainly that the
+  assistant may miss or misread an emergency, that the clinic keeps its duty of care, and
+  that it must maintain an alternative route to a human.
+- **Recording consent.** The clinic may not ask for the disclosure to be disabled —
+  California and other states require all-party consent, and that greeting is the defense.
+- **Data retention could destroy evidence.** Annex A auto-deleted 30 days after
+  termination; it now honors a written litigation-hold instruction.
+- **Phone number ownership on exit** was undefined and is a predictable dispute (clause 14).
+- **Insurance** — clause 11 makes the clinic state its malpractice cover, or expressly
+  declare it has none.
 
 ## Reprinting and versioning
 
