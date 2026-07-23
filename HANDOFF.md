@@ -23,6 +23,7 @@ first, then a discount ladder $499→~$449→~$399-425→~$350-flagship as last 
 spun as "for the clinic's benefit." Full rationale in Claude memory `factura-no-factura-decision.md`.
 
 Done this session:
+
 - **Docs aligned to a US-sole-proprietor / no-factura posture** (resolves the flagged
   "biggest hole"): `terminos.html` + `aviso-de-privacidad.html` no longer declare a
   Mexican PFAE — now "sole proprietor established in the USA"; added an explicit
@@ -44,6 +45,7 @@ Cloudflare Pages, so the doc/invoice fixes + the founder-slot **company logo** a
 favicon — was swapped to `images/bajadentalai_logo.webp` shown as a contained badge.)
 
 Remaining — DEFERRED to launch (owner-gated; user confirmed no action needed until then):
+
 1. **Register the outbound Vapi phone number** — the Vapi account has NO phone number
    registered, so `VAPI_OUTBOUND_PHONE_NUMBER_ID` doesn't exist. Run
    `vapi_config/telnyx_sip_setup.sh` (POST) + the manual Telnyx-portal SIP steps in it.
