@@ -49,16 +49,32 @@ turned up three things nothing had recorded:
    four wired; prompt now byte-identical to `b2b_system_prompt.txt`.
 
 The live persona had been serving `board-certified`, `VIP`, `shuttle` and
-"experiencing pain" right up until this push. Both assistants now match the repo
-byte-for-byte (verified by comparison, not by trusting the write).
+"experiencing pain" right up until this push. **All three** assistants (Sofía
+inbound, Mateo B2B, Sofía–Recordatorios) now match the repo — verified by
+re-fetching and comparing, not by trusting the write. 11/11 checks pass.
 
 **`vapi_config/push_assistants.js` added** so this is never a manual step again —
-idempotent (tools looked up by name, KB deduped by name+size). It documents two
-traps found the hard way: **`PATCH /assistant` REPLACES the whole `model` object
-rather than merging** — a partial `{model:{knowledgeBase:…}}` patch wiped the
-system prompt and tool attachments mid-session (caught and restored) — and Vapi
-returns `bytes` as a **string**, so a `===` size compare silently re-uploads the
-KB every run.
+idempotent (tools looked up by name, KB deduped by name+size), and it covers all
+three assistants so none can drift unnoticed. It documents two traps found the
+hard way: **`PATCH /assistant` REPLACES the whole `model` object rather than
+merging** — a partial `{model:{knowledgeBase:…}}` patch wiped the system prompt
+and tool attachments mid-session (caught by the verify step and restored) — and
+Vapi returns `bytes` as a **string**, so a `===` size compare silently re-uploads
+the KB every run.
+
+The new `'requested'` state was verified against the live DB, not just deployed:
+a bogus status is rejected by the CHECK, an omitted status defaults to
+`'requested'`, and a NULL status is rejected by NOT NULL (probe rows cleaned up,
+table back to 0).
+
+Two notes for whoever extends this. **Migrations:** the repo file must stay
+byte-identical to `schema_migrations` — I first shipped this one with an
+explanatory header, which silently breaks the MD5 check `supabase/migrations/README.md`
+tells you to re-run. Header stripped, rationale moved into that README's
+provenance table; MD5 now matches (`12ffaf84…`, 471 b). **Comparing Vapi config:**
+Vapi reorders JSON object keys on storage, so compare structured-data schemas
+with an order-insensitive deep-equal — a `JSON.stringify` compare reports false
+drift.
 
 Also fixed: the staff SMS in `vapi-webhook` still told the human closer to "walk
 them through the **VIP shuttle** and clinic safety" — the same claim the persona

@@ -13,12 +13,14 @@
 // `toolIds`. Always spread the live model and modify fields on the copy, which
 // is what this script does. Never hand-roll a partial model PATCH.
 //
-// What it pushes:
+// What it pushes — ALL THREE assistants, so none of them can quietly drift:
 //   tools     <- vapi_config/tools_schema.json         (created if absent)
 //   KB file   <- docs/dental_tourism_knowledge_base.txt (uploaded if changed)
 //   Sofía     <- vapi_config/system_prompt.txt + tools + KB + webhook
 //   Mateo/B2B <- vapi_config/b2b_system_prompt.txt + webhook + campaign_type
 //                metadata + vapi_config/b2b_structured_schema.json
+//   Recordat. <- vapi_config/reminder_call_prompt.txt + webhook +
+//                vapi_config/reminder_structured_data_schema.json
 //
 // The B2B assistant's `metadata.campaign_type` and `server.url` are load-bearing:
 // without both, vapi-webhook's `b2b_agency` branch never fires and every B2B
@@ -31,6 +33,7 @@ const REPO = path.resolve(__dirname, "..");
 const WEBHOOK = "https://gldxvazsoqxyfuxeursn.supabase.co/functions/v1/vapi-webhook";
 const DEMO_ID = "01ff55d9-1977-4987-abcc-8ee8d4c2690f"; // "Dental_Demo" (Sofía, inbound)
 const B2B_ID = "fd7c0e0a-3ca1-47b7-b738-6481b647005f"; // "Baja Dental B2B Assistant" (Mateo)
+const REMINDER_ID = "1b646ce5-6dba-4a9b-8e9e-d737c5d75329"; // "Sofía – Recordatorios" (outbound)
 const KB_PATH = "docs/dental_tourism_knowledge_base.txt";
 
 function vapiKey() {
@@ -139,6 +142,29 @@ async function uploadKb() {
     },
   });
   console.log(`Mateo  (${B2B_ID}): prompt + webhook + campaign_type + schema pushed`);
+
+  // --- Sofía – Recordatorios (outbound reminder assistant) -----------------
+  // No tools and no KB by design: this assistant only confirms/reschedules an
+  // existing appointment. reminder-dispatch passes appointment_id in metadata,
+  // and the webhook reads structuredData.reminder_outcome off the report.
+  const rem = await api("GET", `/assistant/${REMINDER_ID}`);
+  const remModel = { ...rem.model };
+  delete remModel.tools;
+  remModel.messages = [{ role: "system", content: read("vapi_config/reminder_call_prompt.txt") }];
+
+  await api("PATCH", `/assistant/${REMINDER_ID}`, {
+    model: remModel,
+    server: { url: WEBHOOK },
+    serverMessages: ["end-of-call-report"],
+    analysisPlan: {
+      ...(rem.analysisPlan || {}),
+      structuredDataPlan: {
+        enabled: true,
+        schema: readJson("vapi_config/reminder_structured_data_schema.json"),
+      },
+    },
+  });
+  console.log(`Sofía–Recordatorios (${REMINDER_ID}): prompt + webhook + schema pushed`);
 })().catch((e) => {
   console.error("FAILED:", e.message);
   process.exit(1);

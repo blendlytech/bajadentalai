@@ -19,12 +19,19 @@ Live project ref: `gldxvazsoqxyfuxeursn`.
 | `20260723035559_web_leads.sql` | Mirrored byte-for-byte |
 | `20260723055430_harden_agency_leads_and_rls_fn.sql` | Applied 2026-07-22 via MCP, then mirrored byte-for-byte |
 | `20260723060504_tenant_rls_performance.sql` | Applied 2026-07-22 via MCP, then mirrored byte-for-byte |
+| `20260723080122_appointments_requested_status.sql` | Applied 2026-07-23 via MCP, then mirrored byte-for-byte. Adds the `'requested'` appointment state: the AI can only ever record a *request*, and only a human at the clinic promotes it to `'confirmed'` — which is what makes a row eligible for an outbound reminder call. Before it, `status` defaulted to `'confirmed'`, so a request the patient was told was unconfirmed was indistinguishable from a real booking. |
 
-All **nine** files were verified by MD5 against
-`supabase_migrations.schema_migrations` (trailing-newline normalised) — all nine match
-exactly, so repo and tracking table are fully consistent. The eight mirrored ones are
+All **ten** files were verified by MD5 against
+`supabase_migrations.schema_migrations` (trailing-newline normalised) — all ten match
+exactly, so repo and tracking table are fully consistent. The nine mirrored ones are
 intentionally **unmodified** (no added header comments), so you can re-run that diff
 at any time.
+
+> If you add a migration, keep that property: apply it, then mirror the stored
+> statement back into the file verbatim. Explanatory prose belongs in the
+> provenance table above, **not** in a header comment — a header makes the file
+> diverge from the tracking table and silently breaks the MD5 check for whoever
+> runs it next. (Learned by doing exactly that on 2026-07-23.)
 
 Replaying the full chain reproduces the live schema **exactly** — verified
 empirically, not by inspection. See [Verifying the replay](#verifying-the-replay) for
