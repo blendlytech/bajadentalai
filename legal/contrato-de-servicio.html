@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrato de Servicio — Baja Dental AI</title>
+<style>
+  :root { --ink:#0F0F0F; --muted:#555; --rule:#c9c9c9; --accent:#0077A3; }
+  * { box-sizing:border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color:var(--ink);
+         max-width: 820px; margin: 0 auto; padding: 32px 28px 64px; line-height:1.5;
+         font-size: 12.5px; background:#fff; }
+  h1 { font-size: 21px; margin:0 0 2px; letter-spacing:-0.2px; }
+  h2 { font-size: 14.5px; margin: 26px 0 8px; padding-bottom:4px;
+       border-bottom:1.5px solid var(--ink); text-transform:uppercase; letter-spacing:0.4px; }
+  h3 { font-size: 12.5px; margin: 16px 0 4px; }
+  p, li { margin: 0 0 8px; }
+  ol.clauses { padding-left: 20px; }
+  ol.clauses > li { margin-bottom: 10px; }
+  .sub { color:var(--muted); font-size:11.5px; margin:0 0 18px; }
+  .doc-head { display:flex; justify-content:space-between; align-items:flex-start;
+              border-bottom:2.5px solid var(--ink); padding-bottom:12px; margin-bottom:6px; }
+  .folio { text-align:right; font-family: "Courier New", monospace; font-size:11.5px; }
+  .folio strong { font-size:14px; }
+  /* fill-in fields */
+  .fill { display:inline-block; border-bottom:1px solid var(--ink);
+          min-width:170px; height:1.05em; vertical-align:baseline; }
+  .fill.sm { min-width:88px; } .fill.lg { min-width:100%; } .fill.md { min-width:260px; }
+  table.form { width:100%; border-collapse:collapse; margin:10px 0 4px; }
+  table.form td { padding:7px 6px 7px 0; vertical-align:bottom; }
+  table.form td.lbl { width:31%; color:var(--muted); font-size:11.5px; }
+  .box { border:1.5px solid var(--ink); padding:12px 14px; margin:12px 0; }
+  .box.warn { border-width:2px; background:#fbfbfb; }
+  .box h3 { margin-top:0; }
+  .checkline { margin:7px 0; }
+  .chk { display:inline-block; width:12px; height:12px; border:1.5px solid var(--ink);
+         margin-right:7px; vertical-align:-1px; }
+  .sig { display:flex; gap:34px; margin-top:34px; page-break-inside:avoid; }
+  .sig > div { flex:1; }
+  .sig .line { border-top:1px solid var(--ink); margin-top:56px; padding-top:5px;
+               font-size:11px; color:var(--muted); }
+  .initials { text-align:right; font-size:10.5px; color:var(--muted); margin-top:18px; }
+  .lang-divider { margin-top:44px; border-top:3px double var(--ink); padding-top:20px; }
+  .note { font-size:11px; color:var(--muted); font-style:italic; }
+  .no-print { background:#FFF8E1; border:1.5px solid #E6A700; padding:12px 14px;
+              margin-bottom:24px; font-family: system-ui, sans-serif; font-size:12px; }
+  @media print {
+    body { padding:0 8mm; font-size:10.5pt; max-width:none; }
+    .no-print { display:none; }
+    h2 { page-break-after:avoid; }
+    .sig, .box { page-break-inside:avoid; }
+    .lang-divider { page-break-before:always; border-top:none; padding-top:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <strong>Antes de imprimir / Before printing.</strong> Este es un borrador operativo, no
+  asesoría legal — debe ser revisado por un abogado antes de usarse con un cliente real.
+  Revise en particular la <strong>cláusula 12 (ley aplicable)</strong>: refleja la
+  cláusula 12 de <code>terminos.html</code> (ley mexicana, tribunales de Mexicali), la
+  cual convive con un vendedor constituido en EE. UU. Ambos documentos deben cambiar
+  juntos. Rellene los campos marcados con línea antes de firmar.
+</div>
+
+<div class="doc-head">
+  <div>
+    <h1>Contrato de Prestación de Servicios</h1>
+    <p class="sub">Baja Dental AI — Recepcionista de Voz con IA · Plan «Consultorio Completo»</p>
+  </div>
+  <div class="folio">
+    Folio<br><strong>CT-<span class="fill sm"></span></strong><br>
+    Fecha: <span class="fill sm"></span>
+  </div>
+</div>
+
+<h2>1. Partes</h2>
+<p><strong>El Proveedor:</strong> «Baja Dental AI», nombre comercial (DBA) bajo el cual
+opera <strong>Ronald Clay Mills</strong>, empresario individual (<em>sole proprietor</em>)
+establecido en los Estados Unidos de América. Contacto: hola@bajadentalai.com.</p>
+<p><strong>El Cliente:</strong> la clínica dental identificada a continuación.</p>
+
+<table class="form">
+  <tr><td class="lbl">Razón social / nombre comercial</td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Representante legal (nombre y cargo)</td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Domicilio de la clínica</td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Teléfono principal del consultorio</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Correo electrónico</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Teléfono para alertas urgentes (SMS)</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Contacto clínico para urgencias</td><td><span class="fill md"></span></td></tr>
+</table>
+<p class="note">El «teléfono para alertas urgentes» es el número al que el sistema enviará
+un SMS cuando una llamada se marque como urgente. El «contacto clínico para urgencias» es
+la persona que devolverá esas llamadas.</p>
+
+<h2>2. Objeto — qué incluye el servicio</h2>
+<p>El Proveedor configurará y operará para el Cliente un asistente telefónico de
+inteligencia artificial («el Servicio»), con los siguientes componentes:</p>
+<ol class="clauses">
+  <li><strong>Recepcionista de voz con IA, 24/7, bilingüe</strong> (español e inglés),
+      que contesta las llamadas entrantes al número asignado al Cliente.</li>
+  <li><strong>Captura de solicitudes de cita.</strong> El asistente recaba el día y hora
+      que el paciente prefiere, junto con su nombre y teléfono, y los registra como una
+      <strong>solicitud</strong>.</li>
+  <li><strong>Registro de cada llamada:</strong> transcripción, grabación de audio y los
+      datos de calificación del paciente, accesibles para el Cliente a solicitud.</li>
+  <li><strong>Protocolo de urgencias.</strong> Si el paciente refiere dolor, sangrado,
+      inflamación, infección, fiebre o traumatismo, el asistente interrumpe el flujo
+      comercial y deriva a una persona.</li>
+  <li><strong>Alerta por SMS</strong> al número indicado en la cláusula 1, una vez
+      configurado, en dos supuestos: (a) llamadas marcadas como urgentes conforme al
+      numeral 4 anterior, y (b) llamadas en las que el paciente manifieste inquietud por
+      el cruce fronterizo.</li>
+  <li><strong>Aislamiento de datos por clínica:</strong> la información del Cliente se
+      almacena de forma lógicamente separada de la de cualquier otra clínica.</li>
+  <li><strong>Sitio web</strong> de una página para la clínica.</li>
+  <li><strong>Llamadas de recordatorio y confirmación por IA</strong> previas a la cita.
+      Esta función <strong>se activa durante la implementación</strong>, una vez
+      conectado el número telefónico del Cliente; no está operando desde la firma.</li>
+</ol>
+
+<div class="box warn">
+  <h3>3. Qué NO hace el Servicio (léase antes de firmar)</h3>
+  <p>El Cliente reconoce expresamente que, a la fecha de este contrato, el Servicio
+  <strong>no</strong> realiza lo siguiente. Esta lista prevalece sobre cualquier
+  material publicitario o declaración verbal:</p>
+  <ol class="clauses">
+    <li><strong>No agenda ni confirma citas.</strong> El asistente no tiene acceso a la
+        agenda del Cliente y no se sincroniza con ningún calendario. Registra una
+        <em>solicitud</em>; la confirmación la realiza siempre una persona del Cliente.
+        El asistente está instruido para decir al paciente, expresamente, que su cita no
+        está confirmada.</li>
+    <li><strong>No da asesoría médica ni odontológica.</strong> No diagnostica, no
+        interpreta síntomas, no recomienda tratamientos, no indica medicamentos y no
+        anticipa cómo se sentirá un procedimiento.</li>
+    <li><strong>No afirma credenciales, certificaciones ni garantías</strong> que el
+        Cliente no haya proporcionado por escrito (véase cláusula 7).</li>
+    <li><strong>No se integra con ningún CRM ni expediente clínico</strong>, ni entrega
+        un panel de control («dashboard») para el Cliente.</li>
+    <li><strong>No envía mensajes por WhatsApp.</strong> Los recordatorios y
+        confirmaciones se realizan por llamada de voz.</li>
+    <li><strong>No notifica por SMS cada llamada ni cada solicitud de cita</strong>,
+        únicamente los dos supuestos previstos en la cláusula 2.5.</li>
+    <li><strong>No sustituye a una persona.</strong> El Cliente conserva íntegramente la
+        relación clínica con sus pacientes y toda decisión clínica.</li>
+  </ol>
+  <p class="checkline"><span class="chk"></span> El Cliente ha leído y comprende esta
+  cláusula 3. &nbsp;&nbsp; Iniciales del Cliente: <span class="fill sm"></span></p>
+</div>
+
+<h2>4. Precio y forma de pago</h2>
+<p>Todos los precios se expresan y se cobran en <strong>dólares de los Estados Unidos
+(USD)</strong>.</p>
+<table class="form">
+  <tr><td class="lbl">Cuota única de implementación</td><td>$499.00 USD &nbsp; <span class="chk"></span> aplicada &nbsp; <span class="chk"></span> exenta con código <strong>FUNDADOR</strong></td></tr>
+  <tr><td class="lbl">Cuota mensual recurrente</td><td>$499.00 USD</td></tr>
+  <tr><td class="lbl">Opción anual (si se elige)</td><td><span class="chk"></span> Sí — se cobra por adelantado el equivalente a diez (10) meses</td></tr>
+  <tr><td class="lbl">Minutos de voz incluidos</td><td>800 minutos por mes</td></tr>
+  <tr><td class="lbl">Excedente de minutos</td><td>$0.22 USD por minuto adicional</td></tr>
+  <tr><td class="lbl">Método de pago acordado</td><td><span class="chk"></span> Zelle &nbsp; <span class="chk"></span> Efectivo (USD) &nbsp; <span class="chk"></span> Otro: <span class="fill sm"></span></td></tr>
+  <tr><td class="lbl">Fecha de inicio del servicio</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Día de corte mensual</td><td><span class="fill sm"></span> de cada mes</td></tr>
+</table>
+<p>El código promocional <strong>FUNDADOR</strong> aplica exclusivamente a la cuota única
+de implementación y no reduce ni exime la cuota recurrente.</p>
+
+<div class="box">
+  <h3>5. Sin factura fiscal mexicana (CFDI)</h3>
+  <p>El Proveedor es un negocio establecido en los Estados Unidos, cobra en USD y
+  <strong>no emite comprobantes fiscales mexicanos (CFDI / factura), ni cuenta con RFC
+  mexicano</strong>. Por cada pago recibido, el Proveedor entrega un
+  <strong>recibo de pago numerado</strong>.</p>
+  <p>El Cliente acepta esta condición y reconoce que la deducibilidad de este gasto ante
+  autoridades fiscales mexicanas es un asunto que debe consultar con su propio contador.
+  El Proveedor no ha ofrecido ninguna afirmación al respecto.</p>
+  <p class="checkline"><span class="chk"></span> El Cliente comprende que
+  <strong>no recibirá factura</strong>. &nbsp;&nbsp; Iniciales: <span class="fill sm"></span></p>
+</div>
+
+<h2>6. Vigencia, renovación y cancelación</h2>
+<ol class="clauses">
+  <li>El contrato inicia en la fecha señalada en la cláusula 4 y se renueva
+      automáticamente al inicio de cada periodo.</li>
+  <li>El Cliente puede cancelar en cualquier momento mediante correo a
+      hola@bajadentalai.com. La cancelación surte efecto <strong>al final del periodo de
+      facturación en curso</strong>; el Servicio permanece activo hasta esa fecha.</li>
+  <li>La cuota de implementación no es reembolsable una vez iniciada la configuración.
+      Los reembolsos se rigen por la Política de Reembolsos publicada en
+      bajadentalai.com/reembolsos.html.</li>
+  <li>El Proveedor puede suspender el Servicio por falta de pago transcurridos diez (10)
+      días naturales desde la fecha de corte, previo aviso por correo electrónico.</li>
+</ol>
+
+<h2>7. Obligaciones del Cliente</h2>
+<ol class="clauses">
+  <li><strong>Información veraz.</strong> El Cliente entregará, mediante el
+      <em>Cuestionario de Alta</em>, la información que el asistente podrá comunicar a
+      los pacientes (protocolos de esterilización, credenciales del equipo clínico,
+      marcas de materiales, rangos de precios, garantías, transporte, formas de pago).
+      El Cliente <strong>declara que dicha información es veraz y comprobable</strong> y
+      es el único responsable de su exactitud. El asistente no afirmará nada que el
+      Cliente no haya proporcionado.</li>
+  <li><strong>Confirmación de solicitudes.</strong> El Cliente revisará y confirmará las
+      solicitudes de cita generadas por el Servicio. El Proveedor no responde por citas
+      no confirmadas por el Cliente.</li>
+  <li><strong>Atención de urgencias.</strong> El Cliente mantendrá vigente el contacto
+      clínico de la cláusula 1 y atenderá las derivaciones por urgencia.</li>
+  <li><strong>Aviso de grabación.</strong> El Cliente conoce y acepta que las llamadas se
+      graban y que el asistente informa de ello al inicio de cada llamada.</li>
+  <li><strong>Uso lícito.</strong> El Cliente no usará el Servicio para contactar personas
+      que hayan manifestado su oposición, ni para fines distintos a los aquí previstos.</li>
+</ol>
+
+<h2>8. Datos personales</h2>
+<p>Respecto de los datos personales de los pacientes, el <strong>Cliente actúa como
+responsable</strong> y el <strong>Proveedor como encargado</strong>, en términos de la Ley
+Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP). Las
+condiciones aplicables constan en el <strong>Anexo A — Tratamiento de Datos
+Personales</strong>, que forma parte integrante de este contrato y debe firmarse junto
+con él.</p>
+
+<h2>9. Garantías, exclusiones y límite de responsabilidad</h2>
+<ol class="clauses">
+  <li>El Servicio se presta «tal cual», con la diligencia técnica razonable. El Proveedor
+      no garantiza un volumen de pacientes, de citas, de ingresos ni un resultado
+      comercial determinado, y no ha realizado ninguna promesa de retorno de inversión.</li>
+  <li>El Servicio depende de proveedores de telefonía e inteligencia artificial de
+      terceros. El Proveedor no responde por interrupciones atribuibles a dichos
+      terceros, a fallas de la red telefónica o a causas de fuerza mayor.</li>
+  <li><strong>El Servicio no es un dispositivo médico</strong> ni un sistema de
+      triage clínico. Toda decisión clínica corresponde exclusivamente al Cliente y a sus
+      profesionales.</li>
+  <li>La responsabilidad total del Proveedor, por cualquier concepto, no excederá el
+      monto efectivamente pagado por el Cliente durante los tres (3) meses anteriores al
+      hecho que la origine.</li>
+</ol>
+
+<h2>10. Confidencialidad</h2>
+<p>Cada parte mantendrá en confidencialidad la información no pública de la otra a la que
+acceda con motivo de este contrato, y no la divulgará sin consentimiento previo por
+escrito, salvo requerimiento de autoridad competente.</p>
+
+<h2>11. Propiedad intelectual</h2>
+<p>El sistema, los prompts, la configuración y el software del Servicio son propiedad del
+Proveedor. El Cliente conserva la titularidad de los datos de sus pacientes y de su
+marca. El Proveedor podrá mencionar al Cliente como referencia comercial únicamente con
+autorización previa por escrito.</p>
+
+<h2>12. Ley aplicable y jurisdicción</h2>
+<p>Este contrato se rige por las leyes de los Estados Unidos Mexicanos y del Estado de
+Baja California. Para su interpretación y cumplimiento, las partes se someten a los
+tribunales competentes de <strong>Mexicali, Baja California</strong>, renunciando a
+cualquier otro fuero que pudiera corresponderles.</p>
+<p class="note">Esta cláusula refleja la cláusula 12 de los Términos y Condiciones
+publicados. Si dichos Términos se modifican, este contrato debe modificarse en el mismo
+sentido.</p>
+
+<h2>13. Documentos que integran el contrato</h2>
+<p>Forman parte de este contrato: (i) el <strong>Anexo A — Tratamiento de Datos
+Personales</strong>; (ii) el <strong>Cuestionario de Alta</strong> firmado por el Cliente;
+(iii) los <strong>Términos y Condiciones</strong> y el <strong>Aviso de Privacidad</strong>
+publicados en bajadentalai.com. En caso de contradicción, prevalece el texto de este
+contrato y sus anexos.</p>
+
+<div class="sig">
+  <div>
+    <div class="line">Por el Cliente — nombre, cargo y firma</div>
+  </div>
+  <div>
+    <div class="line">Por Baja Dental AI — Ronald Clay Mills</div>
+  </div>
+</div>
+<p class="initials">Página ___ de ___ · Iniciales Cliente ______ · Iniciales Proveedor ______</p>
+
+<!-- ==================== ENGLISH ==================== -->
+<div class="lang-divider">
+<div class="doc-head">
+  <div>
+    <h1>Services Agreement</h1>
+    <p class="sub">Baja Dental AI — AI Voice Receptionist · "Consultorio Completo" plan</p>
+  </div>
+  <div class="folio">
+    File No.<br><strong>CT-<span class="fill sm"></span></strong><br>
+    Date: <span class="fill sm"></span>
+  </div>
+</div>
+
+<p class="note">English courtesy translation. The Spanish text above is the operative
+version; in case of any discrepancy, the Spanish text prevails.</p>
+
+<h2>1. Parties</h2>
+<p><strong>Provider:</strong> "Baja Dental AI", a trade name (DBA) under which
+<strong>Ronald Clay Mills</strong> operates as a sole proprietor established in the United
+States of America. Contact: hola@bajadentalai.com.</p>
+<p><strong>Client:</strong> the dental clinic identified in the Spanish section above.</p>
+
+<h2>2. Scope — what the Service includes</h2>
+<ol class="clauses">
+  <li><strong>24/7 bilingual AI voice receptionist</strong> (Spanish and English)
+      answering inbound calls to the Client's assigned number.</li>
+  <li><strong>Appointment request capture</strong> — the assistant records the patient's
+      preferred day and time, name and phone number as a <strong>request</strong>.</li>
+  <li><strong>Per-call record:</strong> transcript, audio recording and patient
+      qualification data, available to the Client on request.</li>
+  <li><strong>Emergency protocol.</strong> If a caller reports pain, bleeding, swelling,
+      infection, fever or trauma, the assistant stops the commercial flow and hands off
+      to a human.</li>
+  <li><strong>SMS alert</strong> to the number given in clause 1, once configured, in two
+      cases: (a) calls flagged urgent under item 4 above, and (b) calls where the patient
+      raises concern about crossing the border.</li>
+  <li><strong>Per-clinic data isolation.</strong></li>
+  <li><strong>One-page website</strong> for the clinic.</li>
+  <li><strong>AI reminder and confirmation calls</strong> ahead of appointments. This
+      feature is <strong>switched on during implementation</strong>, once the Client's
+      phone number is connected; it is not running as of signature.</li>
+</ol>
+
+<div class="box warn">
+  <h3>3. What the Service does NOT do (read before signing)</h3>
+  <p>The Client expressly acknowledges that, as of the date of this agreement, the
+  Service does <strong>not</strong> do the following. This list prevails over any
+  marketing material or verbal statement:</p>
+  <ol class="clauses">
+    <li><strong>It does not book or confirm appointments.</strong> The assistant has no
+        access to the Client's calendar and does not sync with any calendar. It records a
+        <em>request</em>; confirmation is always performed by a person at the Client. The
+        assistant is instructed to tell the patient explicitly that the appointment is
+        not confirmed.</li>
+    <li><strong>It does not give medical or dental advice</strong> — no diagnosis, no
+        interpretation of symptoms, no treatment recommendations, no medication, no
+        prediction of how a procedure will feel.</li>
+    <li><strong>It does not assert credentials, certifications or warranties</strong> the
+        Client has not supplied in writing (see clause 7).</li>
+    <li><strong>It does not integrate with any CRM or clinical record system</strong>, and
+        does not provide the Client with a dashboard.</li>
+    <li><strong>It does not send WhatsApp messages.</strong> Reminders and confirmations
+        are placed as voice calls.</li>
+    <li><strong>It does not send an SMS for every call or every appointment
+        request</strong> — only the two cases set out in clause 2.5.</li>
+    <li><strong>It does not replace a human.</strong> The Client retains the entire
+        clinical relationship with its patients and all clinical decisions.</li>
+  </ol>
+</div>
+
+<h2>4. Fees and payment</h2>
+<p>All amounts are stated and charged in <strong>US dollars (USD)</strong>: a one-time
+implementation fee of <strong>$499.00</strong> (waivable with the <strong>FUNDADOR</strong>
+code), a recurring monthly fee of <strong>$499.00</strong>, an optional annual term
+prepaid at the equivalent of ten (10) months, <strong>800 voice minutes</strong> included
+per month and <strong>$0.22 per additional minute</strong>. The FUNDADOR code applies only
+to the implementation fee and never reduces the recurring fee.</p>
+
+<h2>5. No Mexican tax invoice (CFDI)</h2>
+<p>The Provider is a business established in the United States, bills in USD and
+<strong>does not issue Mexican tax receipts (CFDI / factura) and holds no Mexican
+RFC</strong>. A <strong>numbered payment receipt</strong> is issued for every payment. The
+Client accepts this and acknowledges that the deductibility of this expense before Mexican
+tax authorities is a matter for its own accountant; the Provider has made no
+representation about it.</p>
+
+<h2>6. Term, renewal and cancellation</h2>
+<p>The agreement starts on the date given in clause 4 and renews automatically each
+period. The Client may cancel at any time by emailing hola@bajadentalai.com; cancellation
+takes effect <strong>at the end of the current billing period</strong>. The implementation
+fee is non-refundable once configuration has begun. The Provider may suspend the Service
+for non-payment ten (10) calendar days after the due date, with prior email notice.</p>
+
+<h2>7. Client obligations</h2>
+<p>The Client shall supply, via the <strong>Onboarding Questionnaire</strong>, the
+information the assistant may communicate to patients (sterilization protocols, clinical
+team credentials, material brands, price ranges, warranties, transport, payment methods),
+and <strong>represents that such information is true and verifiable</strong>, being solely
+responsible for its accuracy. The assistant will state nothing the Client has not
+supplied. The Client shall also review and confirm appointment requests, keep the
+emergency contact current and attend emergency handoffs, accepts that calls are recorded
+and that the assistant discloses this, and shall use the Service lawfully.</p>
+
+<h2>8. Personal data</h2>
+<p>With respect to patient personal data, the <strong>Client acts as data controller
+(<em>responsable</em>)</strong> and the <strong>Provider as data processor
+(<em>encargado</em>)</strong> under Mexico's Federal Law on Protection of Personal Data
+Held by Private Parties (LFPDPPP). Applicable terms are set out in <strong>Annex A —
+Personal Data Processing</strong>, which forms an integral part of this agreement.</p>
+
+<h2>9. Warranties, exclusions and limitation of liability</h2>
+<p>The Service is provided "as is" with reasonable technical diligence. The Provider does
+not guarantee any volume of patients, appointments or revenue, and has made no
+return-on-investment promise. The Service depends on third-party telephony and AI
+providers and the Provider is not liable for interruptions attributable to them, to the
+telephone network or to force majeure. <strong>The Service is not a medical device</strong>
+nor a clinical triage system; all clinical decisions rest solely with the Client and its
+professionals. The Provider's total liability shall not exceed the amount actually paid by
+the Client in the three (3) months preceding the triggering event.</p>
+
+<h2>10–11. Confidentiality and intellectual property</h2>
+<p>Each party shall keep the other's non-public information confidential. The system,
+prompts, configuration and software are the Provider's property; the Client retains
+ownership of its patient data and brand. The Provider may name the Client as a commercial
+reference only with prior written authorization.</p>
+
+<h2>12. Governing law and jurisdiction</h2>
+<p>This agreement is governed by the laws of the United Mexican States and the State of
+Baja California, and the parties submit to the competent courts of <strong>Mexicali, Baja
+California</strong>, waiving any other jurisdiction. This mirrors clause 12 of the
+published Terms &amp; Conditions; if those Terms change, this agreement must change with
+them.</p>
+
+<h2>13. Documents forming the agreement</h2>
+<p>The following form part of this agreement: (i) <strong>Annex A — Personal Data
+Processing</strong>; (ii) the signed <strong>Onboarding Questionnaire</strong>; (iii) the
+<strong>Terms &amp; Conditions</strong> and <strong>Privacy Notice</strong> published at
+bajadentalai.com. In case of conflict, this agreement and its annexes prevail.</p>
+
+<div class="sig">
+  <div><div class="line">For the Client — name, title and signature</div></div>
+  <div><div class="line">For Baja Dental AI — Ronald Clay Mills</div></div>
+</div>
+</div>
+
+</body>
+</html>

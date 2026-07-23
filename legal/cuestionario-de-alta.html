@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario de Alta — Baja Dental AI</title>
+<style>
+  :root { --ink:#0F0F0F; --muted:#555; --tok:#0077A3; }
+  * { box-sizing:border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color:var(--ink);
+         max-width:840px; margin:0 auto; padding:30px 28px 56px; background:#fff;
+         font-size:12.5px; line-height:1.45; }
+  h1 { font-size:20px; margin:0 0 2px; }
+  h2 { font-size:13.5px; margin:24px 0 6px; padding-bottom:4px;
+       border-bottom:1.5px solid var(--ink); text-transform:uppercase; letter-spacing:0.4px; }
+  p, li { margin:0 0 8px; }
+  .sub { color:var(--muted); font-size:11.5px; margin:0 0 14px; }
+  .doc-head { border-bottom:2.5px solid var(--ink); padding-bottom:12px; margin-bottom:8px;
+              display:flex; justify-content:space-between; align-items:flex-start; }
+  .folio { text-align:right; font-family:"Courier New",monospace; font-size:11.5px; }
+  .q { margin:0 0 14px; padding-left:2px; }
+  .q .ask { font-weight:bold; }
+  .q .why { color:var(--muted); font-size:11px; font-style:italic; margin:1px 0 5px; }
+  .tok { font-family:"Courier New",monospace; font-size:9.5px; color:var(--tok);
+         border:1px solid var(--tok); padding:0 4px; border-radius:2px; margin-left:5px;
+         letter-spacing:0.2px; white-space:nowrap; }
+  .ln { border-bottom:1px solid #444; height:1.35em; margin:3px 0; }
+  .ln.half { width:48%; display:inline-block; }
+  .ln.third { width:31%; display:inline-block; }
+  .fill { display:inline-block; border-bottom:1px solid var(--ink); min-width:150px;
+          height:1.05em; } .fill.sm { min-width:80px; } .fill.lg { min-width:100%; }
+  .fill.md { min-width:240px; }
+  table.form { width:100%; border-collapse:collapse; margin:6px 0; }
+  table.form td { padding:6px 6px 6px 0; vertical-align:bottom; }
+  table.form td.lbl { width:32%; color:var(--muted); font-size:11.5px; }
+  .box { border:1.5px solid var(--ink); padding:12px 14px; margin:12px 0; }
+  .box.warn { border-width:2px; background:#fbfbfb; }
+  .box h3 { margin:0 0 6px; font-size:12.5px; }
+  .chk { display:inline-block; width:11px; height:11px; border:1.4px solid var(--ink);
+         margin-right:6px; vertical-align:-1px; }
+  .none { color:var(--muted); font-size:11px; margin-top:3px; }
+  .sig { display:flex; gap:34px; margin-top:26px; page-break-inside:avoid; }
+  .sig > div { flex:1; }
+  .sig .line { border-top:1px solid var(--ink); margin-top:52px; padding-top:5px;
+               font-size:11px; color:var(--muted); }
+  .no-print { background:#FFF8E1; border:1.5px solid #E6A700; padding:12px 14px;
+              margin-bottom:22px; font-family:system-ui,sans-serif; font-size:12px; }
+  .legend { background:#f4f9fb; border:1px solid #bcd; padding:9px 12px; font-size:11px;
+            margin-bottom:14px; }
+  @media print {
+    body { padding:0 8mm; font-size:10.5pt; max-width:none; }
+    .no-print { display:none; }
+    h2 { page-break-after:avoid; } .box, .sig { page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <strong>Para quien opera el alta.</strong> Cada campo marcado con una etiqueta azul
+  corresponde <em>exactamente</em> a un marcador de
+  <code>docs/dental_tourism_knowledge_base.txt</code>. Copie la respuesta literal de la
+  clínica al marcador del mismo nombre. <strong>Un marcador sin respuesta se queda como
+  está</strong>: la asistente dirá que un coordinador confirmará el dato. Nunca lo
+  rellene con un ejemplo, una suposición ni el dato de otra clínica.
+</div>
+
+<div class="doc-head">
+  <div>
+    <h1>Cuestionario de Alta de la Clínica</h1>
+    <p class="sub">Información que la asistente de IA podrá comunicar a los pacientes ·
+      Anexo al Contrato de Prestación de Servicios</p>
+  </div>
+  <div class="folio">Contrato folio<br><strong>CT-<span class="fill sm"></span></strong><br>
+    Fecha: <span class="fill sm"></span></div>
+</div>
+
+<div class="box warn">
+  <h3>Léase antes de responder</h3>
+  <p>La asistente <strong>solo puede decir a los pacientes lo que usted escriba aquí</strong>.
+  Lo que quede en blanco, no lo dirá: responderá que un coordinador de la clínica confirmará
+  ese dato.</p>
+  <p>Por eso le pedimos que <strong>no exagere ni redondee hacia arriba</strong>. Cada
+  afirmación de este documento será repetida por teléfono, palabra por palabra, a
+  pacientes que pueden viajar desde otro país basándose en ella. Si un dato varía por
+  caso, dígalo como rango o escriba «lo confirma el dentista».</p>
+  <p class="none"><strong>No escriba aquí:</strong> diagnósticos, recomendaciones de
+  tratamiento, afirmaciones de que un procedimiento no duele o es seguro, ni garantías de
+  resultados. La asistente tiene prohibido decir eso aunque usted lo escriba.</p>
+</div>
+
+<h2>Sección 1 — Datos de la clínica</h2>
+<table class="form">
+  <tr><td class="lbl">Nombre comercial, tal como quiere que la asistente lo pronuncie
+      <span class="tok">CLINIC_NAME</span></td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Dirección y zona (p. ej. «Zona Médica, a X minutos de la garita»)
+      <span class="tok">CLINIC_ADDRESS_AND_AREA</span></td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Horario de atención</td><td><span class="fill lg"></span></td></tr>
+  <tr><td class="lbl">Idiomas del personal que devuelve llamadas</td>
+      <td><span class="chk"></span>Español &nbsp; <span class="chk"></span>Inglés &nbsp;
+          <span class="chk"></span>Ambos</td></tr>
+</table>
+
+<h2>Sección 2 — Operación de las llamadas</h2>
+<table class="form">
+  <tr><td class="lbl">Teléfono para alertas de llamadas urgentes (SMS)</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Persona que atiende las urgencias (nombre y puesto)</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">¿Quién confirma las solicitudes de cita?</td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Correo para recibir los registros de llamada</td><td><span class="fill md"></span></td></tr>
+</table>
+<p class="none">Recuerde: la asistente <strong>captura solicitudes</strong>, no agenda ni
+confirma. Alguien de la clínica debe confirmar cada solicitud con el paciente.</p>
+
+<h2>Sección 3 — Esterilización, instalaciones y equipo clínico</h2>
+
+<div class="q">
+  <div class="ask">1. ¿Qué protocolo de esterilización y control de infecciones sigue la clínica?
+    <span class="tok">STERILIZATION_PROTOCOL</span></div>
+  <div class="why">Escriba lo que realmente hace y pueda demostrar (p. ej. tipo de autoclave,
+    frecuencia de pruebas biológicas, material de un solo uso). No use siglas de organismos
+    que no lo certifiquen.</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<div class="q">
+  <div class="ask">2. ¿Con qué instalaciones y equipo cuenta?
+    <span class="tok">FACILITY_DETAILS</span></div>
+  <div class="why">P. ej. número de consultorios, tomógrafo/CBCT, laboratorio propio, quirófano.</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<div class="q">
+  <div class="ask">3. Formación y credenciales del equipo clínico
+    <span class="tok">CREDENTIALS</span></div>
+  <div class="why"><strong>Solo lo comprobable y por escrito.</strong> Indique título,
+    institución, especialidad y cédula profesional. Si un dato no puede documentarse, no lo
+    escriba: la asistente tiene prohibido afirmar credenciales que usted no proporcione.</div>
+  <div class="ln"></div><div class="ln"></div>
+  <div class="none"><span class="chk"></span> Adjunto copia de cédulas / constancias
+    &nbsp;&nbsp; <span class="chk"></span> Las enviaré por correo antes de la activación</div>
+</div>
+
+<div class="q">
+  <div class="ask">4. Marcas de implantes y materiales que utiliza
+    <span class="tok">IMPLANT_BRANDS_AND_MATERIALS</span></div>
+  <div class="why">Marca y línea concretas (p. ej. «implantes Straumann; zirconia Prettau»).
+    Si varía según el caso, escríbalo así.</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<h2>Sección 4 — Precios (rangos)</h2>
+<p class="none">Indique <strong>rangos</strong> y la moneda. La asistente aclarará siempre
+que la cotización final la da el dentista tras la valoración. Si prefiere no publicar un
+precio, escriba «lo cotiza el dentista».</p>
+
+<div class="q">
+  <div class="ask">5. All-on-4 / All-on-6, por arcada
+    <span class="tok">ALL_ON_4_PRICE_RANGE</span></div>
+  <div class="ln"></div>
+</div>
+<div class="q">
+  <div class="ask">6. Carillas de porcelana y coronas de zirconia
+    <span class="tok">VENEER_CROWN_PRICE_RANGE</span></div>
+  <div class="ln"></div>
+</div>
+<div class="q">
+  <div class="ask">7. Opciones de carillas y su precio (incluida la resina/composite)
+    <span class="tok">VENEER_OPTIONS_AND_PRICING</span></div>
+  <div class="ln"></div>
+</div>
+<div class="q">
+  <div class="ask">8. Endodoncia (tratamiento de conductos)
+    <span class="tok">ROOT_CANAL_PRICE_RANGE</span></div>
+  <div class="ln"></div>
+</div>
+<div class="q">
+  <div class="ask">9. Ortodoncia: ¿qué ofrece?
+    <span class="tok">ORTHO_SERVICES</span>
+    &nbsp;y ¿a qué precio? <span class="tok">ORTHO_PRICE_RANGE</span></div>
+  <div class="why">P. ej. Invisalign, alineadores de otra marca, brackets. Si no ofrece
+    ortodoncia, escriba «no se ofrece».</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<h2>Sección 5 — Tiempos del All-on-4</h2>
+<p class="none">Tiempos típicos, no promesas. La asistente dirá que el dentista fija el
+plazo real de cada paciente.</p>
+<table class="form">
+  <tr><td class="lbl">Fase 1 (cirugía): días de estancia
+      <span class="tok">ALL_ON_4_PHASE_1_DAYS</span></td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Cicatrización en casa: meses
+      <span class="tok">ALL_ON_4_HEALING_MONTHS</span></td><td><span class="fill md"></span></td></tr>
+  <tr><td class="lbl">Fase 2 (definitivos): días de estancia
+      <span class="tok">ALL_ON_4_PHASE_2_DAYS</span></td><td><span class="fill md"></span></td></tr>
+</table>
+
+<h2>Sección 6 — Garantías, traslados y pagos</h2>
+
+<div class="q">
+  <div class="ask">10. ¿Qué garantía por escrito ofrece y qué cubre?
+    <span class="tok">WARRANTY_TERMS</span></div>
+  <div class="why">Plazo, qué incluye y qué la invalida. Si no ofrece garantía escrita,
+    dígalo: es preferible a que la asistente insinúe una que no existe.</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<div class="q">
+  <div class="ask">11. ¿Ofrece transporte, traslado desde la garita o acompañamiento?
+    <span class="tok">TRANSPORTATION_SERVICES</span></div>
+  <div class="why"><strong>Solo si realmente lo presta.</strong> Indique desde dónde, con qué
+    horario y si tiene costo. Si no lo ofrece, escriba «no se ofrece»: la asistente tiene
+    prohibido prometer traslados no listados aquí.</div>
+  <div class="ln"></div><div class="ln"></div>
+</div>
+
+<div class="q">
+  <div class="ask">12. Formas de pago que acepta la clínica
+    <span class="tok">PAYMENT_METHODS</span></div>
+  <div class="why">Efectivo, tarjetas, transferencia, financiamiento. <em>Son las formas de
+    pago de la clínica a sus pacientes</em>, no las del servicio de Baja Dental AI.</div>
+  <div class="ln"></div>
+</div>
+
+<div class="box">
+  <h3>Seguros dentales de EE. UU.</h3>
+  <p>La asistente informará que las clínicas mexicanas no facturan directamente a
+  aseguradoras estadounidenses y que el reembolso depende del plan de cada paciente.</p>
+  <p class="none"><span class="chk"></span> La clínica puede entregar una factura
+  desglosada con códigos dentales para que el paciente la presente a su aseguradora.</p>
+</div>
+
+<div class="box warn">
+  <h3>Declaración de veracidad</h3>
+  <p>La clínica declara que la información contenida en este cuestionario es
+  <strong>veraz, actual y comprobable</strong>, y reconoce que será comunicada
+  verbalmente a pacientes por el asistente de IA. La clínica es la única responsable de su
+  exactitud, conforme a la cláusula 7 del Contrato de Prestación de Servicios, y se obliga
+  a notificar por escrito cualquier cambio.</p>
+  <p class="none">Actualizaciones posteriores: escriba a hola@bajadentalai.com. Los cambios
+  se reflejan en la base de conocimiento en un plazo de 5 días hábiles.</p>
+</div>
+
+<div class="sig">
+  <div><div class="line">Por la Clínica — nombre, cargo y firma</div></div>
+  <div><div class="line">Recibido por Baja Dental AI — nombre y firma</div></div>
+</div>
+
+<p class="none" style="margin-top:18px; border-top:1px solid #ccc; padding-top:8px;">
+  <strong>Uso interno.</strong> Marcadores respondidos: ____ de 18 ·
+  Sin responder (quedan en «lo confirma un coordinador»): ______________________ ·
+  Cargado a la base de conocimiento el ____________ por ____________</p>
+
+</body>
+</html>

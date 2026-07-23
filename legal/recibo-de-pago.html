@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recibo de Pago — Baja Dental AI</title>
+<style>
+  :root { --ink:#0F0F0F; --muted:#555; --accent:#0077A3; }
+  * { box-sizing:border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color:var(--ink);
+         max-width:820px; margin:0 auto; padding:24px 28px 48px; background:#fff;
+         font-size:12.5px; line-height:1.45; }
+  .stub { border:2px solid var(--ink); padding:18px 20px; margin-bottom:18px; }
+  .stub + .stub { border-top-style:dashed; }
+  .cut { text-align:center; color:var(--muted); font-size:10.5px; letter-spacing:2px;
+         margin:0 0 12px; }
+  .head { display:flex; justify-content:space-between; align-items:flex-start;
+          border-bottom:1.5px solid var(--ink); padding-bottom:10px; margin-bottom:12px; }
+  .brand { font-size:16px; font-weight:bold; letter-spacing:-0.2px; }
+  .brand small { display:block; font-weight:normal; font-size:10.5px; color:var(--muted);
+                 letter-spacing:0; margin-top:2px; }
+  .folio { text-align:right; font-family:"Courier New",monospace; }
+  .folio .n { font-size:17px; font-weight:bold; }
+  .folio small { color:var(--muted); font-size:10px; }
+  .copy-tag { display:inline-block; border:1.5px solid var(--ink); padding:2px 9px;
+              font-family:system-ui,sans-serif; font-size:9.5px; letter-spacing:1.2px;
+              text-transform:uppercase; margin-bottom:8px; }
+  table.f { width:100%; border-collapse:collapse; }
+  table.f td { padding:6px 6px 6px 0; vertical-align:bottom; }
+  table.f td.lbl { width:27%; color:var(--muted); font-size:11px; }
+  .fill { display:inline-block; border-bottom:1px solid var(--ink); min-width:150px;
+          height:1.05em; }
+  .fill.lg { min-width:100%; } .fill.sm { min-width:80px; } .fill.md { min-width:230px; }
+  .amount { border:1.5px solid var(--ink); padding:8px 12px; display:inline-block;
+            font-size:17px; font-family:"Courier New",monospace; min-width:190px; }
+  .chk { display:inline-block; width:11px; height:11px; border:1.4px solid var(--ink);
+         margin-right:6px; vertical-align:-1px; }
+  .concept { margin:10px 0 4px; font-size:11.5px; }
+  .fiscal { border:1.5px solid var(--ink); background:#fafafa; padding:9px 12px;
+            margin-top:12px; font-size:10.5px; line-height:1.4; }
+  .sig { display:flex; gap:30px; margin-top:22px; }
+  .sig > div { flex:1; }
+  .sig .line { border-top:1px solid var(--ink); margin-top:40px; padding-top:4px;
+               font-size:10.5px; color:var(--muted); }
+  .no-print { background:#FFF8E1; border:1.5px solid #E6A700; padding:12px 14px;
+              margin-bottom:20px; font-family:system-ui,sans-serif; font-size:12px; }
+  @media print {
+    body { padding:0 6mm; max-width:none; font-size:10.5pt; }
+    .no-print { display:none; }
+    .stub { page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <strong>Uso.</strong> Un recibo por cada pago recibido. Imprima la hoja completa: contiene
+  el <em>original para el Cliente</em> y la <em>copia para el Proveedor</em> con el mismo
+  folio. Numere de forma consecutiva y sin saltos (RC-0001, RC-0002…) y registre cada
+  folio; es el único comprobante que el Cliente recibirá, ya que no se emite CFDI.
+</div>
+
+<!-- ============ ORIGINAL ============ -->
+<div class="stub">
+  <span class="copy-tag">Original — Cliente</span>
+  <div class="head">
+    <div class="brand">Baja Dental AI
+      <small>Nombre comercial (DBA) de Ronald Clay Mills · Empresario individual establecido en EE. UU.<br>
+      hola@bajadentalai.com</small>
+    </div>
+    <div class="folio">
+      <small>RECIBO DE PAGO N.º</small><br>
+      <span class="n">RC-<span class="fill sm"></span></span><br>
+      <small>Fecha: </small><span class="fill sm"></span>
+    </div>
+  </div>
+
+  <table class="f">
+    <tr><td class="lbl">Recibí de</td><td><span class="fill lg"></span></td></tr>
+    <tr><td class="lbl">Contrato folio</td><td>CT-<span class="fill md"></span></td></tr>
+    <tr><td class="lbl">Cantidad con letra</td><td><span class="fill" style="min-width:78%"></span> dólares USD</td></tr>
+  </table>
+
+  <table class="f">
+    <tr>
+      <td class="lbl">Cantidad</td>
+      <td><span class="amount">USD $ <span class="fill sm"></span></span></td>
+      <td class="lbl" style="width:20%">Método</td>
+      <td><span class="chk"></span>Efectivo &nbsp; <span class="chk"></span>Zelle</td>
+    </tr>
+  </table>
+
+  <div class="concept">
+    <strong>Por concepto de:</strong><br>
+    <span class="chk"></span> Cuota única de implementación &nbsp;&nbsp;
+    <span class="chk"></span> Cuota mensual &nbsp;&nbsp;
+    <span class="chk"></span> Cuota anual (10 meses) &nbsp;&nbsp;
+    <span class="chk"></span> Excedente de minutos<br>
+    <span style="color:var(--muted)">Periodo cubierto:</span>
+    del <span class="fill sm"></span> al <span class="fill sm"></span>
+  </div>
+
+  <div class="fiscal">
+    <strong>Aviso fiscal.</strong> Baja Dental AI es un negocio establecido en los Estados
+    Unidos de América, cobra en dólares estadounidenses y <strong>no emite comprobantes
+    fiscales mexicanos (CFDI / factura); no cuenta con RFC mexicano</strong>. Este recibo
+    es el único comprobante de pago que se expide. La deducibilidad de este gasto debe
+    consultarse con el contador del Cliente.
+  </div>
+
+  <div class="sig">
+    <div><div class="line">Recibió por Baja Dental AI — nombre y firma</div></div>
+    <div><div class="line">Entregó por el Cliente — nombre y firma</div></div>
+  </div>
+</div>
+
+<p class="cut">— — — — — — — — — — — —  corte aquí  — — — — — — — — — — — —</p>
+
+<!-- ============ COPIA ============ -->
+<div class="stub">
+  <span class="copy-tag">Copia — Proveedor</span>
+  <div class="head">
+    <div class="brand">Baja Dental AI
+      <small>Nombre comercial (DBA) de Ronald Clay Mills · Empresario individual establecido en EE. UU.<br>
+      hola@bajadentalai.com</small>
+    </div>
+    <div class="folio">
+      <small>RECIBO DE PAGO N.º</small><br>
+      <span class="n">RC-<span class="fill sm"></span></span><br>
+      <small>Fecha: </small><span class="fill sm"></span>
+    </div>
+  </div>
+
+  <table class="f">
+    <tr><td class="lbl">Recibí de</td><td><span class="fill lg"></span></td></tr>
+    <tr><td class="lbl">Contrato folio</td><td>CT-<span class="fill md"></span></td></tr>
+    <tr><td class="lbl">Cantidad con letra</td><td><span class="fill" style="min-width:78%"></span> dólares USD</td></tr>
+  </table>
+
+  <table class="f">
+    <tr>
+      <td class="lbl">Cantidad</td>
+      <td><span class="amount">USD $ <span class="fill sm"></span></span></td>
+      <td class="lbl" style="width:20%">Método</td>
+      <td><span class="chk"></span>Efectivo &nbsp; <span class="chk"></span>Zelle</td>
+    </tr>
+  </table>
+
+  <div class="concept">
+    <strong>Por concepto de:</strong><br>
+    <span class="chk"></span> Cuota única de implementación &nbsp;&nbsp;
+    <span class="chk"></span> Cuota mensual &nbsp;&nbsp;
+    <span class="chk"></span> Cuota anual (10 meses) &nbsp;&nbsp;
+    <span class="chk"></span> Excedente de minutos<br>
+    <span style="color:var(--muted)">Periodo cubierto:</span>
+    del <span class="fill sm"></span> al <span class="fill sm"></span>
+  </div>
+
+  <div class="sig">
+    <div><div class="line">Recibió por Baja Dental AI — nombre y firma</div></div>
+    <div><div class="line">Entregó por el Cliente — nombre y firma</div></div>
+  </div>
+</div>
+
+</body>
+</html>

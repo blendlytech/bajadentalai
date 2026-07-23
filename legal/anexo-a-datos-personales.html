@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anexo A — Tratamiento de Datos Personales · Baja Dental AI</title>
+<style>
+  :root { --ink:#0F0F0F; --muted:#555; }
+  * { box-sizing:border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color:var(--ink);
+         max-width: 820px; margin:0 auto; padding:32px 28px 64px; line-height:1.5;
+         font-size:12.5px; background:#fff; }
+  h1 { font-size:20px; margin:0 0 2px; }
+  h2 { font-size:14px; margin:24px 0 8px; padding-bottom:4px;
+       border-bottom:1.5px solid var(--ink); text-transform:uppercase; letter-spacing:0.4px; }
+  h3 { font-size:12.5px; margin:14px 0 4px; }
+  p, li { margin:0 0 8px; }
+  ol.clauses { padding-left:20px; } ol.clauses > li { margin-bottom:9px; }
+  .sub { color:var(--muted); font-size:11.5px; margin:0 0 16px; }
+  .doc-head { border-bottom:2.5px solid var(--ink); padding-bottom:12px; margin-bottom:8px;
+              display:flex; justify-content:space-between; align-items:flex-start; }
+  .folio { text-align:right; font-family:"Courier New",monospace; font-size:11.5px; }
+  .fill { display:inline-block; border-bottom:1px solid var(--ink); min-width:170px;
+          height:1.05em; } .fill.sm { min-width:88px; } .fill.lg { min-width:100%; }
+  table.data { width:100%; border-collapse:collapse; margin:10px 0 14px; font-size:11.5px; }
+  table.data th, table.data td { border:1px solid #999; padding:6px 8px; text-align:left;
+                                 vertical-align:top; }
+  table.data th { background:#f0f0f0; font-size:11px; text-transform:uppercase;
+                  letter-spacing:0.3px; }
+  .box { border:1.5px solid var(--ink); padding:12px 14px; margin:12px 0; }
+  .sig { display:flex; gap:34px; margin-top:34px; page-break-inside:avoid; }
+  .sig > div { flex:1; }
+  .sig .line { border-top:1px solid var(--ink); margin-top:56px; padding-top:5px;
+               font-size:11px; color:var(--muted); }
+  .note { font-size:11px; color:var(--muted); font-style:italic; }
+  .lang-divider { margin-top:44px; border-top:3px double var(--ink); padding-top:20px; }
+  .no-print { background:#FFF8E1; border:1.5px solid #E6A700; padding:12px 14px;
+              margin-bottom:24px; font-family:system-ui,sans-serif; font-size:12px; }
+  @media print {
+    body { padding:0 8mm; font-size:10.5pt; max-width:none; }
+    .no-print { display:none; }
+    h2 { page-break-after:avoid; } .sig, .box, table.data { page-break-inside:avoid; }
+    .lang-divider { page-break-before:always; border-top:none; padding-top:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <strong>Borrador operativo — no es asesoría legal.</strong> Debe revisarlo un abogado
+  antes de usarlo. Este anexo se firma <em>junto con</em> el contrato de servicio y no
+  tiene efecto por separado.
+</div>
+
+<div class="doc-head">
+  <div>
+    <h1>Anexo A — Tratamiento de Datos Personales</h1>
+    <p class="sub">Convenio responsable–encargado (LFPDPPP) · Anexo al Contrato de Prestación de Servicios</p>
+  </div>
+  <div class="folio">Anexo del folio<br><strong>CT-<span class="fill sm"></span></strong></div>
+</div>
+
+<p>Este Anexo forma parte integrante del Contrato de Prestación de Servicios celebrado
+entre <strong>Baja Dental AI</strong> (DBA de Ronald Clay Mills, empresario individual
+establecido en los Estados Unidos de América) y la clínica identificada en dicho contrato,
+y regula el tratamiento de datos personales conforme a la <strong>Ley Federal de
+Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)</strong>, su
+Reglamento y los Lineamientos del Aviso de Privacidad.</p>
+
+<h2>1. Roles de las partes</h2>
+<ol class="clauses">
+  <li>La <strong>Clínica es el responsable</strong>: decide sobre la finalidad y los
+      medios del tratamiento de los datos personales de sus pacientes, y es quien emite
+      el aviso de privacidad a los titulares.</li>
+  <li><strong>Baja Dental AI es el encargado</strong>: trata los datos personales
+      únicamente <strong>por cuenta y bajo instrucciones de la Clínica</strong>, con la
+      única finalidad de prestar el Servicio.</li>
+  <li>El encargado <strong>no</strong> utilizará los datos para finalidades propias, no
+      los comercializará y no los cederá a terceros distintos de los subencargados
+      listados en la cláusula 6.</li>
+</ol>
+
+<h2>2. Datos tratados</h2>
+<table class="data">
+  <tr><th>Categoría</th><th>Datos concretos</th><th>Origen</th></tr>
+  <tr>
+    <td>Identificación y contacto</td>
+    <td>Nombre del paciente, número telefónico</td>
+    <td>Declarados por el propio paciente durante la llamada</td>
+  </tr>
+  <tr>
+    <td>Contenido de la llamada</td>
+    <td>Grabación de audio y transcripción íntegra</td>
+    <td>Generados por el sistema durante la llamada</td>
+  </tr>
+  <tr>
+    <td>Datos de la solicitud</td>
+    <td>Día y hora solicitados, procedimiento de interés, idioma, origen del viaje</td>
+    <td>Declarados por el paciente</td>
+  </tr>
+  <tr>
+    <td>Datos sensibles (posibles)</td>
+    <td>Referencias que el paciente haga espontáneamente a dolor, sangrado, inflamación,
+        infección u otra condición — registradas como <em>marca de urgencia</em> para
+        derivar a una persona</td>
+    <td>Declarados espontáneamente por el paciente</td>
+  </tr>
+</table>
+<div class="box">
+  <p><strong>Datos sensibles.</strong> El Servicio <strong>no solicita</strong>
+  información clínica: el asistente tiene prohibido preguntar por síntomas, diagnosticar
+  o interpretar padecimientos. No obstante, un paciente puede mencionarlos por iniciativa
+  propia y quedar registrados en la transcripción. Al tratarse de datos que pueden
+  considerarse <strong>sensibles</strong> conforme al artículo 3, fracción VI de la
+  LFPDPPP, las partes acuerdan tratarlos con las medidas reforzadas de la cláusula 4 y
+  limitarlos a la finalidad de derivación a una persona.</p>
+</div>
+
+<h2>3. Finalidades autorizadas</h2>
+<p>Únicamente: (i) atender la llamada y capturar la solicitud de cita; (ii) poner el
+registro de la llamada a disposición de la Clínica; (iii) alertar al personal de la
+Clínica ante una llamada urgente; (iv) realizar llamadas de recordatorio y confirmación
+de citas; y (v) el soporte técnico necesario para lo anterior. Cualquier otra finalidad
+requiere instrucción previa y por escrito de la Clínica.</p>
+
+<h2>4. Medidas de seguridad</h2>
+<ol class="clauses">
+  <li>Cifrado en tránsito (TLS) hacia y desde los servicios de almacenamiento y voz.</li>
+  <li><strong>Aislamiento lógico por clínica</strong> mediante políticas de seguridad a
+      nivel de registro en la base de datos, de modo que los datos de una clínica no
+      resulten accesibles a otra.</li>
+  <li>Acceso restringido a las credenciales de administración, en poder exclusivo del
+      encargado.</li>
+  <li>Aviso de grabación al inicio de cada llamada, en español e inglés, como base para
+      la recolección.</li>
+  <li>Prohibición, configurada en el propio asistente, de emitir diagnósticos, consejos
+      clínicos o afirmaciones sobre credenciales no proporcionadas por la Clínica.</li>
+</ol>
+
+<h2>5. Conservación y devolución</h2>
+<p>Los datos se conservan mientras esté vigente el Contrato. Terminado éste, la Clínica
+podrá solicitar por escrito, dentro de los <strong>treinta (30) días naturales</strong>
+siguientes, la entrega de sus datos en formato estructurado. Transcurrido ese plazo, el
+encargado procederá a su <strong>supresión</strong>, salvo obligación legal de
+conservación. La supresión se confirmará por escrito a solicitud de la Clínica.</p>
+
+<h2>6. Subencargados</h2>
+<p>La Clínica autoriza a los siguientes subencargados, necesarios para la prestación
+técnica del Servicio:</p>
+<table class="data">
+  <tr><th>Subencargado</th><th>Función</th><th>Ubicación del tratamiento</th></tr>
+  <tr><td>Supabase</td><td>Base de datos y funciones de servidor</td><td>Estados Unidos</td></tr>
+  <tr><td>Vapi</td><td>Motor de voz e inteligencia artificial conversacional</td><td>Estados Unidos</td></tr>
+  <tr><td>Telnyx</td><td>Telefonía y mensajería SMS</td><td>Estados Unidos</td></tr>
+</table>
+<p><strong>Transferencia internacional.</strong> La Clínica reconoce y acepta que el
+tratamiento ocurre en servidores ubicados en los <strong>Estados Unidos de América</strong>.
+Conforme al artículo 37, fracción V de la LFPDPPP, esta transferencia es necesaria para el
+cumplimiento del contrato celebrado en interés del titular. La Clínica se obliga a
+reflejar esta transferencia en su propio aviso de privacidad. El encargado notificará por
+escrito, con al menos treinta (30) días de anticipación, la incorporación o sustitución de
+cualquier subencargado.</p>
+
+<h2>7. Derechos ARCO y colaboración</h2>
+<p>Las solicitudes de <strong>Acceso, Rectificación, Cancelación u Oposición</strong> las
+recibe y resuelve la <strong>Clínica</strong>, por ser el responsable. El encargado se
+obliga a asistirla y a ejecutar la instrucción correspondiente (localizar, corregir o
+suprimir los registros) dentro de los <strong>cinco (5) días hábiles</strong> siguientes a
+recibir la solicitud por escrito.</p>
+
+<h2>8. Vulneraciones de seguridad</h2>
+<p>El encargado notificará a la Clínica cualquier vulneración de seguridad que afecte de
+forma significativa los derechos patrimoniales o morales de los titulares
+<strong>sin dilación indebida y, a más tardar, dentro de las setenta y dos (72) horas</strong>
+siguientes a su conocimiento, indicando la naturaleza del incidente, los datos
+comprometidos, las acciones correctivas adoptadas y las recomendaciones para el titular.
+Corresponde a la Clínica, como responsable, notificar a los titulares afectados.</p>
+
+<h2>9. Confidencialidad y subsistencia</h2>
+<p>La obligación de confidencialidad del encargado y de su personal subsiste aun después
+de terminada la relación con la Clínica.</p>
+
+<div class="sig">
+  <div><div class="line">Por la Clínica (responsable) — nombre, cargo y firma</div></div>
+  <div><div class="line">Por Baja Dental AI (encargado) — Ronald Clay Mills</div></div>
+</div>
+
+<!-- ==================== ENGLISH ==================== -->
+<div class="lang-divider">
+<div class="doc-head">
+  <div>
+    <h1>Annex A — Personal Data Processing</h1>
+    <p class="sub">Controller–processor agreement (LFPDPPP) · Annex to the Services Agreement</p>
+  </div>
+</div>
+<p class="note">English courtesy translation. The Spanish text above is the operative
+version; in case of discrepancy, the Spanish text prevails.</p>
+
+<h2>1. Roles</h2>
+<p>The <strong>Clinic is the data controller (<em>responsable</em>)</strong>: it determines
+the purposes and means of processing its patients' personal data and issues the privacy
+notice to data subjects. <strong>Baja Dental AI is the data processor
+(<em>encargado</em>)</strong>: it processes personal data solely on the Clinic's behalf and
+instructions, for the sole purpose of providing the Service. The processor will not use
+the data for its own purposes, will not sell it and will not disclose it to third parties
+other than the sub-processors listed in clause 6.</p>
+
+<h2>2. Data processed</h2>
+<p>Patient name and phone number; the audio recording and full transcript of the call;
+requested day and time, procedure of interest, language and travel origin. <strong>Possible
+sensitive data:</strong> the Service <strong>does not solicit</strong> clinical
+information — the assistant is prohibited from asking about symptoms, diagnosing or
+interpreting conditions — but a patient may volunteer references to pain, bleeding,
+swelling or infection, which are captured in the transcript and recorded as an
+<em>emergency flag</em> for handoff to a human. As such data may qualify as
+<strong>sensitive</strong> under article 3(VI) LFPDPPP, the parties agree to apply the
+reinforced measures in clause 4 and to limit it to the handoff purpose.</p>
+
+<h2>3. Authorized purposes</h2>
+<p>Only: (i) answering the call and capturing the appointment request; (ii) making the
+call record available to the Clinic; (iii) alerting Clinic staff to an urgent call;
+(iv) placing appointment reminder and confirmation calls; and (v) technical support for
+the foregoing. Any other purpose requires the Clinic's prior written instruction.</p>
+
+<h2>4. Security measures</h2>
+<p>Encryption in transit (TLS); <strong>per-clinic logical isolation</strong> enforced by
+row-level security policies in the database; restricted access to administrative
+credentials held solely by the processor; a recording disclosure at the start of every
+call in Spanish and English; and an assistant-level prohibition on issuing diagnoses,
+clinical advice, or claims about credentials the Clinic has not supplied.</p>
+
+<h2>5. Retention and return</h2>
+<p>Data is retained for the term of the Agreement. On termination the Clinic may request,
+in writing within <strong>thirty (30) calendar days</strong>, delivery of its data in a
+structured format. After that period the processor will <strong>delete</strong> the data
+save where legally required to retain it, confirming deletion in writing on request.</p>
+
+<h2>6. Sub-processors and international transfer</h2>
+<p>The Clinic authorizes <strong>Supabase</strong> (database and server functions),
+<strong>Vapi</strong> (voice and conversational AI) and <strong>Telnyx</strong> (telephony
+and SMS), all processing in the <strong>United States</strong>. The Clinic acknowledges
+this international transfer, which under article 37(V) LFPDPPP is necessary for
+performance of a contract concluded in the data subject's interest, and undertakes to
+reflect it in its own privacy notice. The processor will give at least thirty (30) days'
+prior written notice of any new or replacement sub-processor.</p>
+
+<h2>7. Data subject rights (ARCO)</h2>
+<p>Access, Rectification, Cancellation and Objection requests are received and decided by
+the <strong>Clinic</strong> as controller. The processor shall assist and carry out the
+corresponding instruction within <strong>five (5) business days</strong> of a written
+request.</p>
+
+<h2>8. Security breaches</h2>
+<p>The processor shall notify the Clinic of any security breach materially affecting data
+subjects' rights <strong>without undue delay and no later than seventy-two (72)
+hours</strong> after becoming aware of it, stating the nature of the incident, the data
+affected, corrective action taken and recommendations for data subjects. The Clinic, as
+controller, is responsible for notifying affected data subjects.</p>
+
+<h2>9. Confidentiality</h2>
+<p>The processor's and its personnel's confidentiality obligation survives termination.</p>
+
+<div class="sig">
+  <div><div class="line">For the Clinic (controller) — name, title and signature</div></div>
+  <div><div class="line">For Baja Dental AI (processor) — Ronald Clay Mills</div></div>
+</div>
+</div>
+
+</body>
+</html>

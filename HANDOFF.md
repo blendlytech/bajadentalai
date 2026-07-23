@@ -11,6 +11,57 @@ backlog in §3.**
 
 ## 0. Latest checkpoint — running log (newest first)
 
+### 2026-07-23 (latest) — Sales packet drafted: contract, LFPDPPP annex, receipt, rep authorization, intake
+
+Closes "**No contract exists**" — confirmed by search, not memory: there were zero
+contract/agreement/convenio/receipt files in the repo. The only sale artifact was
+`invoice-es.html` with `INV-2026-001` hardcoded for every clinic. New directory
+**`legal/`**, print-ready HTML (screen-only instruction boxes are `@media print` hidden):
+
+| File | Purpose |
+| :-- | :-- |
+| `contrato-de-servicio.html` | Services Agreement / order form, ES operative + EN courtesy |
+| `anexo-a-datos-personales.html` | Annex A — LFPDPPP controller–processor (clinic = *responsable*, us = *encargado*) |
+| `cuestionario-de-alta.html` | Onboarding questionnaire — fills the KB |
+| `recibo-de-pago.html` | Numbered receipt, original + provider copy on one sheet |
+| `carta-autorizacion-representante.html` | Authorizes a non-owner rep to sign and collect cash |
+
+Signing order: contract → Annex A → receipt (if paying) → questionnaire.
+
+**The design decision worth keeping: clause 3 is a "what this does NOT do" list**, and the
+Client initials it. Every denial was verified against the code rather than the marketing
+copy — no calendar/booking (`AVAILABILITY_UNKNOWN` + `status:'requested'`), no medical
+advice, no credential claims the clinic didn't supply, no CRM/dashboard, no WhatsApp, and
+SMS on urgent-or-border-concern calls only. That last one **caught a drafting error in my
+own first pass**: I wrote "urgent only", but the code fires on
+`emergency || anxious`, so clause 2.5 now states both cases and 3.6 cross-references it.
+Clause 2.8 words reminder calls as "activated during implementation", never as running.
+
+**The questionnaire is the technical unlock.** Each field is tagged with the exact
+placeholder from `docs/dental_tourism_knowledge_base.txt`; **18/18 verified covered**
+(re-check command is in `legal/README.md`). Without it the purged KB answers almost
+nothing, since every unfilled placeholder routes to "a coordinator will confirm". It also
+carries the veracity declaration that makes contract clause 7 enforceable.
+
+Commercial terms taken from `terminos.html`, not invented: $499 setup (FUNDADOR waives) +
+$499/mo, annual = 10 months prepaid, **800 minutes included, $0.22/min overage**, Zelle or
+cash USD, cancel by email effective end of period. No-CFDI notice appears in the contract
+**and printed on the receipt** — that is where a contador looks.
+
+⚠️ **Two items need the lawyer, both flagged in `legal/README.md`:**
+
+1. **Governing law.** The contract mirrors `terminos.html` clause 12 (Mexican law,
+   Mexicali courts) while the seller is a US sole proprietor. Memory recorded this
+   contradiction as resolved; **it is only half-resolved** — the entity language was
+   fixed to "US sole proprietor" everywhere, but the *jurisdiction* clause still points
+   at Mexico. `terminos.html`, `aviso-de-privacidad.html` and the contract currently
+   agree with each other, so they must be changed together or not at all.
+2. **Sensitive data.** Annex A treats volunteered symptom mentions as potentially
+   sensitive under art. 3(VI) LFPDPPP (the system never solicits them, but transcripts
+   capture them). Confirm the consent language and the US-transfer disclosure.
+
+These are drafts for review, not legal advice — stated on every document.
+
 ### 2026-07-23 (latest) — Everything repo-only is now LIVE; Vapi was worse than documented
 
 The repo had been ahead of production in three places for two sessions. All three
